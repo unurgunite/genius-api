@@ -5,12 +5,13 @@ require "json"
 require_relative "errors"
 
 module Genius
-  # module Auth is used to authenticate user with his token
+  # module Auth is used to authenticate users with their token
   # @example
   #     Genius::Auth.login="yuiaYqbncErCVwItjQxFspNWUZLhGpXrPbkvgbgHSEKJRAlToamzMfdOeDB"
   module Auth
     class << self
       attr_writer :token
+
       include Genius::Errors
 
       # +Genius::Auth.login=(token)+         -> true ot false
@@ -28,13 +29,12 @@ module Genius
         puts "Exception type: #{e.exception_type}"
       end
 
-      # +Genius::Auth.is_authorized?+        -> true or false
+      # +Genius::Auth.authorized?+           -> true or false
       # @return [Boolean]
-      # module to check if user in current session was authorized
-      def is_authorized?
-        Genius::Errors.error_handle(self.token)
-        raise TokenMissing if self.token.nil?
-        !!self.token
+      # +authorized?+ method checks if user in current session is authorized
+      def authorized?(method_name = nil)
+        Genius::Errors.error_handle(token, method_name: method_name)
+        !!token
       end
 
       private
