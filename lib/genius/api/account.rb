@@ -36,7 +36,8 @@ module Genius # :nodoc:
       #        "response"=>
       #         {"user"=>
       #          {"about_me"=>{"dom"=>{"tag"=>"root"}},
-      #           ...}}}}
+      #           ...
+      #          }}
       #
       # But not every output values would be able to be prettified. For e.g.,
       # @example
