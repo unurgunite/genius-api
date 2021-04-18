@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "nokogiri/html"
+
 # Genius base module to handle library-based errors
 module Genius
   # Module +Genius::Errors+ includes custom exception classes and methods to handle all errors during
@@ -79,7 +81,33 @@ module Genius
         @msg = if method_name.nil?
                  msg
                else
-                 "#{msg} or #{method_name}(token)"
+                 "#{msg} or type #{method_name}(token)"
+               end
+        @exception_type = exception_type
+      end
+    end
+
+    # <b>EXPERIMENTAL EXCEPTION</b>
+    #
+    # A +GeniusDown+ object handles a rare exception which appears when https://api.genius.com or
+    # Genius related services are under maintenance. It uses Nokogiri under the hood. Unlike from other
+    # exceptions, it is inherited from +JSON::ParserError+ class, while others - from StandardError class
+    class GeniusDown < JSON::ParserError
+      attr_reader :msg, :exception_type, :response
+
+      # @param [String (frozen)] msg Exception message
+      # @param [String (frozen)] exception_type Exception type
+      # @param [nil or String] response Response to parse from request to https://api.genius.com
+      # @return [String (frozen)]
+      def initialize(msg: "Be patient! Genius is down. Try again in several minutes", exception_type: "genius_api_error",
+                     response: nil)
+        super(message)
+        @msg = if response.nil?
+                 msg
+               else
+                 document = Nokogiri::HTML(response)
+                 data = document.search('li').map(&:text).join("\n")
+                 "#{msg}. Possible info:\n #{data}"
                end
         @exception_type = exception_type
       end
