@@ -4,8 +4,9 @@ require "httparty"
 require "json"
 require_relative "errors"
 
-module Genius
-  # module Auth is used to authenticate users with their token
+module Genius # :nodoc:
+  # +Genius::Auth+ module is used to authenticate users with their token. It provides initialization
+  # of token instance variable
   # @example
   #     Genius::Auth.login="yuiaYqbncErCVwItjQxFspNWUZLhGpXrPbkvgbgHSEKJRAlToamzMfdOeDB"
   module Auth
@@ -15,10 +16,11 @@ module Genius
       include Genius::Errors
 
       # +Genius::Auth.login=(token)+         -> true ot false
-      # @param [String] token
+      # @param [String] token Token to access https://api.genius.com.
       # @return [nil]
-      # +login=+ method is an extension for setter +token=+ and could handle errors during authentication.
-      # It means that you should never use +token=+ method
+      # +login=+ method is a some kind of an extension for a setter +token=+ and could handle possible
+      # exceptions during authentication. It means that you should never use +token=+ method unless
+      # you actually know that your credentials are valid (not recommended).
       # See Auth#is_authorized?
       def login=(token)
         Genius::Errors.error_handle(token)
@@ -30,6 +32,7 @@ module Genius
       end
 
       # +Genius::Auth.authorized?+           -> true or false
+      # @param [nil or String] method_name Optional param to pass method name where exception was raised.
       # @return [Boolean]
       # +authorized?+ method checks if user in current session is authorized
       def authorized?(method_name = nil)

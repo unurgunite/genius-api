@@ -2,9 +2,8 @@
 
 require "nokogiri"
 
-# Genius base module to handle library-based errors
-module Genius
-  # Module +Genius::Errors+ includes custom exception classes and methods to handle all errors during
+module Genius # :nodoc:
+  # +Genius::Errors+ module includes custom exception classes and methods to handle all errors during
   # requests to https://api.genius.com or during the work with library methods. All
   # exception classes, but +TokenMissing+ class, requires two fields - +msg+ and +exception_type+
   # (not +nil+ by default): +TokenMissing+ requires three fields - +msg+, +exception_type+,
@@ -54,8 +53,8 @@ module Genius
     class TokenError < StandardError
       attr_reader :msg, :exception_type
 
-      # @param [String (frozen)] msg Exception message
-      # @param [String (frozen)] exception_type Exception type
+      # @param [String (frozen)] msg Exception message.
+      # @param [String (frozen)] exception_type Exception type.
       # @return [String (frozen)]
       def initialize(msg: "Invalid token. The access token provided is expired, revoked, malformed or invalid for other reasons.", exception_type: "token_error")
         super(message)
@@ -74,9 +73,9 @@ module Genius
     class TokenMissing < StandardError
       attr_reader :msg, :exception_type, :method_name
 
-      # @param [String (frozen)] msg Exception message
-      # @param [String (frozen)] exception_type Exception type
-      # @param [nil or String] method_name Optional param to provide method name which can pass token and validate it
+      # @param [String (frozen)] msg Exception message.
+      # @param [String (frozen)] exception_type Exception type.
+      # @param [nil or String] method_name Optional param to provide method name which can pass token and validate it.
       # @return [String (frozen)]
       def initialize(msg: "Token is required for this method. Please, add token via `Genius::Auth.login=``token''` method and continue", exception_type: "token_missing", method_name: nil)
         super(message)
@@ -97,9 +96,9 @@ module Genius
     class GeniusDown < JSON::ParserError
       attr_reader :msg, :exception_type, :response
 
-      # @param [String (frozen)] msg Exception message
-      # @param [String (frozen)] exception_type Exception type
-      # @param [nil or String] response Response to parse from request to https://api.genius.com
+      # @param [String (frozen)] msg Exception message.
+      # @param [String (frozen)] exception_type Exception type.
+      # @param [nil or String] response Response to parse from request to https://api.genius.com.
       # @return [String (frozen)]
       def initialize(msg: "Be patient! Genius is down. Try again in several minutes", exception_type: "genius_api_error",
                      response: nil)
@@ -117,10 +116,10 @@ module Genius
 
     class << self
       # +Genius::Errors.check_status(token)+          -> true or false
-      # @param [String] token The token to access https://api.genius.com.
+      # @param [String] token Token to access https://api.genius.com.
       # @return [Boolean]
       # This method was made to check token state. Token must be 64-sized string and could be validated only if
-      # response status equal 200. More description in {docs}[https://docs.genius.com/] and
+      # response status equals 200. More description in {docs}[https://docs.genius.com/] and
       # {api-clients page}[https://genius.com/api-clients] or in
       # {TokenError documentation}(Genius::Auth.TokenError)
       # See Auth#error_handle
@@ -135,8 +134,8 @@ module Genius
       end
 
       # +Genius::Errors.error_handle(token)+          -> true or false
-      # @param [String] token The token to access https://api.genius.com.
-      # @param [nil] method_name Optional param to pass name of the method
+      # @param [String] token Token to access https://api.genius.com.
+      # @param [nil or String] method_name Optional param to pass method name where exception was raised.
       # @return [Boolean]
       # @example
       #     begin
