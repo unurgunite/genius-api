@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "nokogiri/html"
+require "nokogiri"
 
 # Genius base module to handle library-based errors
 module Genius
@@ -56,6 +56,7 @@ module Genius
 
       # @param [String (frozen)] msg Exception message
       # @param [String (frozen)] exception_type Exception type
+      # @return [String (frozen)]
       def initialize(msg: "Invalid token. The access token provided is expired, revoked, malformed or invalid for other reasons.", exception_type: "token_error")
         super(message)
         @msg = msg
@@ -76,6 +77,7 @@ module Genius
       # @param [String (frozen)] msg Exception message
       # @param [String (frozen)] exception_type Exception type
       # @param [nil or String] method_name Optional param to provide method name which can pass token and validate it
+      # @return [String (frozen)]
       def initialize(msg: "Token is required for this method. Please, add token via `Genius::Auth.login=``token''` method and continue", exception_type: "token_missing", method_name: nil)
         super(message)
         @msg = if method_name.nil?
