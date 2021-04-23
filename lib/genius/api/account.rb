@@ -44,7 +44,7 @@ module Genius # :nodoc:
       #     Genius::Account.me(field: "interactions", prettify: true) #=> { "following" => false }
       def me(token = nil, field: nil, prettify: false)
         Genius::Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
-        response = HTTParty.get("https://api.genius.com/account?access_token=#{token || Genius::Auth.send(:token)}").body
+        response = HTTParty.get("https://api.genius.com/account?access_token=#{token || Genius::Auth.__send__(:token)}").body
         raise GeniusDown.new(response: response) unless JSON.parse(response).is_a? Hash
 
         account = JSON.parse(response)
