@@ -9,6 +9,7 @@ class Hash # :nodoc:
   # This method is an extension for Hash core class to search for a value of a key in N-nested
   # hash. It provides search for multiple values if key appears more than once. For e.g.:
   #
+  # *Examples:*
   #     musicians = { "Travis Scott" => { "28" => ["Highest in the Room", "Franchise"] },
   #                 "Adele" => { "19" => ["Day Dreamer", "Best for Last"] },
   #                 "Ed Sheeran" => { "28" => ["Shape of You", "Castle on the Hill"] } }
@@ -19,6 +20,7 @@ class Hash # :nodoc:
   # If values are identical, they will be returned in a single copy. You can disable this
   # feature with special param +uniq+, which is +true+ by default. For e.g.:
   #
+  # *Examples:*
   #     h = {"a" => "b", "c" => {"a" => "b"}}
   #     h.deep_find("a") #=> "b", instead ["b", "b"]
   def deep_find(key, uniq: true)

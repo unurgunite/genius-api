@@ -7,7 +7,8 @@ require_relative "errors"
 module Genius # :nodoc:
   # +Genius::Auth+ module is used to authenticate users with their token. It provides initialization
   # of token instance variable
-  # @example
+  #
+  # *Examples:*
   #     Genius::Auth.login="yuiaYqbncErCVwItjQxFspNWUZLhGpXrPbkvgbgHSEKJRAlToamzMfdOeDB"
   module Auth
     class << self

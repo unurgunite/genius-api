@@ -8,7 +8,8 @@ module Genius # :nodoc:
   # exception classes, but +TokenMissing+ class, requires two fields - +msg+ and +exception_type+
   # (not +nil+ by default): +TokenMissing+ requires three fields - +msg+, +exception_type+,
   # which are not +nil+, and +method_name+, which is +nil+ by default
-  # @example
+  #
+  # *Examples:*
   #
   #     module Genius
   #       module Foo
@@ -26,7 +27,8 @@ module Genius # :nodoc:
   #
   # Exception classes fields provide custom message and error types (+connection_error+,
   # +token_error+ or +auth_required+)
-  # @example
+  #
+  # *Examples:*
   #
   #     begin
   #       raise TokenError.new(msg: "Message", error_type: "Error type")
@@ -35,7 +37,8 @@ module Genius # :nodoc:
   #       puts e.exception_type #=> Error type
   #     end
   # There will be a standard output of each exception if there will be no params provided
-  # @example
+  #
+  # *Examples:*
   #
   #     begin
   #       raise TokenError
@@ -68,7 +71,8 @@ module Genius # :nodoc:
     # as scraping lyrics token is not required - scraping occurs through another api client. It throws error only when
     # user did not provide token via +Genius::Auth.login="token"+ method to get access to noted methods.
     # The best practice to store your token is storing within environment variables and access them via +ENV['TOKEN']+:
-    # @example
+    #
+    # *Examples:*
     #     Genius::Auth.login="#{ENV['TOKEN']}"
     class TokenMissing < StandardError
       attr_reader :msg, :exception_type, :method_name
@@ -137,7 +141,8 @@ module Genius # :nodoc:
       # @param [String] token Token to access https://api.genius.com.
       # @param [nil or String] method_name Optional param to pass method name where exception was raised.
       # @return [Boolean]
-      # @example
+      #
+      # *Examples:*
       #     begin
       #       Genius::Errors.error_handle(token)
       #     rescue Genius::Errors.TokenError => e
@@ -148,7 +153,8 @@ module Genius # :nodoc:
       # it is needed to validate token itself. +method_name+ param optional and it to passes
       # method name in error exception for dynamical error message, and because of unimportance this method is
       # +nil+ by default. If you are ready to pass method, it will look like this:
-      # @example
+      #
+      # *Examples:*
       #     begin
       #       Genius::Errors.error_handle(token, __method__) # __method__ macro returns method name, so it is nice
       #                                                      # to have dynamic variable value
