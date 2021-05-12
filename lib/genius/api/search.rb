@@ -7,9 +7,9 @@ module Genius # :nodoc:
       include Genius::Errors
 
       # +Genius::Search.search+     -> value
-      # @param [nil] token
-      # @param [nil] query
-      # @param [Object] search_by
+      # @param [String] token Token to access https://api.genius.com.
+      # @param [String] query Search query.
+      # @param [Object] search_by Optional parameter to search by key in output +JSON+.
       # @return [nil]
       # This method is a standard Genius API {method}[https://docs.genius.com/#search-h2] and it is
       # needed to send a request to the server and get information about artists, tracks and everything
@@ -23,17 +23,19 @@ module Genius # :nodoc:
       # data through returned +JSON+. It uses +deep_find+ extension under the hood.
       #
       # *Examples:*
-      #     Genius::Search.search(query: "Bones", search_by: "title") #=> ["Dirt", "HDMI", "RestInPeace", "Sodium", "CtrlAltDelete", "Sixteen", "WhereTheTreesMeetTheFreeway", "Corduroy", "DeadBoy", "WeDontBelieveYou"]
+      #     Genius::Search.search(query: "Bones", search_by: "title") #=> ["Dirt", "HDMI", "RestInPeace", "Sodium",
+      # "CtrlAltDelete", "Sixteen", "WhereTheTreesMeetTheFreeway", "Corduroy", "DeadBoy", "WeDontBelieveYou"]
       #
       # See Hash#deep_find
       def search(token: nil, query: nil, search_by: nil)
-        Genius::Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
+        Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
+        Errors.error_handle(token) unless token.nil?
         response = HTTParty.get("https://api.genius.com/search?q=#{query}&access_token=#{token || Genius::Auth.__send__(:token)}").body
         search = JSON.parse(response)
         if search_by
-          search.deep_find(search_by)
+          return search.deep_find(search_by)
         else
-          search
+          return search
         end
       rescue GeniusDown, TokenError, TokenMissing => e
         puts "Error description: #{e.msg}"

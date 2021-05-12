@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "nokogiri"
-
 module Genius # :nodoc:
   # +Genius::Errors+ module includes custom exception classes and methods to handle all errors during
   # requests to https://api.genius.com or during the work with library methods. All
@@ -156,8 +154,7 @@ module Genius # :nodoc:
       #
       # *Examples:*
       #     begin
-      #       Genius::Errors.error_handle(token, __method__) # __method__ macro returns method name, so it is nice
-      #                                                      # to have dynamic variable value
+      #       Genius::Errors.error_handle(token, __method__)
       #     rescue Genius::Errors.TokenMissing => e
       #       puts e.message
       #       puts e.exception_type
