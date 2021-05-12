@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require "httparty"
-require "json"
-require_relative "errors"
-
 module Genius # :nodoc:
   # +Genius::Auth+ module is used to authenticate users with their token. It provides initialization
   # of token instance variable
@@ -24,7 +20,7 @@ module Genius # :nodoc:
       # you actually know that your credentials are valid (not recommended).
       # See Auth#is_authorized?
       def login=(token)
-        Genius::Errors.error_handle(token)
+        Errors.error_handle(token)
         puts "Authorized!"
         self.token = token
       rescue TokenError => e
@@ -37,8 +33,12 @@ module Genius # :nodoc:
       # @return [Boolean]
       # +authorized?+ method checks if user in current session is authorized
       def authorized?(method_name = nil)
-        Genius::Errors.error_handle(token, method_name: method_name)
+        false unless Errors.error_handle(token, method_name: method_name)
         !!token
+      end
+
+      def logout
+        self.token = nil unless token.nil?
       end
 
       private
