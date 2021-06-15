@@ -2,6 +2,7 @@
 
 class Hash # :nodoc:
   # <b>EXPERIMENTAL FEATURE</b>
+  #
   # +hash.deep_find(key)+        -> value
   # @param [Object] key A key, which value should be found
   # @param [FalseClass] uniq A flag to make values unique in an array
