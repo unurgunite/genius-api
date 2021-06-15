@@ -6,6 +6,7 @@ require_relative "api/version"
 require_relative "api/authorization"
 require_relative "api/account"
 require_relative "api/search"
+require_relative "api/songs"
 
 module Genius
   module Api

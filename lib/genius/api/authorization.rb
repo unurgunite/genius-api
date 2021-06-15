@@ -37,7 +37,10 @@ module Genius # :nodoc:
         !!token
       end
 
-      def logout
+      # +Genius::Auth.logout!+               -> nil
+      # @return [nil]
+      # +logout!+ method modifies a +token+ object and revoke session by setting +nil+ to the +token+.
+      def logout!
         self.token = nil unless token.nil?
       end
 

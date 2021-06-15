@@ -90,7 +90,7 @@ module Genius # :nodoc:
       end
     end
 
-    # <b>EXPERIMENTAL EXCEPTION</b>
+    # <b>EXPERIMENTAL FEATURE</b>
     #
     # A +GeniusDown+ object handles a rare exception which appears when https://api.genius.com or
     # Genius related services are under maintenance. It uses Nokogiri under the hood. Unlike from other
