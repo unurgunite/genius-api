@@ -11,34 +11,63 @@ module Genius # :nodoc:
       # +Genius::Songs.songs+     -> value
       # @param [String] token Token to access https://api.genius.com.
       # @param [Integer] song_id Song id.
-      # @param [Boolean] lyrics Print lyrics.
-      # @param [FalseClass] annotations
-      # @return [nil]
+      # @return [String] the error message if +lyrics+ param is +true+
+      # @return [Hash] if +lyrics+ param is +false+
       # This method provides info about song by its id. It is not the same with +Genius::Search.search+ method,
       # because it modify a +JSON+ only for concrete song id, not for whole search database, which is returned
       # in +Genius::Search.search+
       #
-      # *Examples:*
+      # @example
       #
-      #     Genius::Songs.search_songs(song_id: 294649) #=> {""}
+      #     Genius::Songs.search_songs(song_id: 294649) #=> {"some_kind_of_hash"}
       #
-      def songs(token: nil, song_id: nil, lyrics: true, annotations: false)
+      def songs(token: nil, song_id: nil, combine: false)
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
+
         response = HTTParty.get("https://api.genius.com/songs/#{song_id}?access_token=#{token || Genius::Auth.__send__(:token)}").body
-        search = JSON.parse(response)
-        search
+        response = JSON.parse response
+        if combine
+          begin
+            output_html = Nokogiri::HTML(HTTParty.get("https://genius.com/songs/#{song_id}"))
+            raise PageNotFound if PageNotFound.page_not_found?(output_html)
+
+            unformed_json = output_html.css("script")[21].text.match %r{window\.__PRELOADED_STATE__\s=\sJSON.parse\('(?<json>(.+?))'\);}
+            raise LyricsNotFoundError if unformed_json.nil?
+
+            formatted_json = unformed_json[:json]
+            lyrics_json = JSON.parse(formatted_json.unescape)
+            response["lyrics"] = lyrics_json
+            return response
+          rescue LyricsNotFoundError
+            retry
+          rescue PageNotFound => e
+            puts "Error description: #{e.msg}"
+            puts "Exception type: #{e.exception_type}"
+            return
+          end
+        end
+        response
       rescue GeniusDown, TokenError, TokenMissing => e
         puts "Error description: #{e.msg}"
         puts "Exception type: #{e.exception_type}"
+        return
       end
 
       # :nodoc:
       # +Genius::Songs.get_lyrics+      -> hash
       # @param [Integer] song_id Song id.
       # @return [Hash]
+      # @return [String] if +song_id+ param is +nil+
       def get_lyrics(song_id)
-        Hash song_id
+        return "song_id should be not blank!" if song_id.nil?
+
+        response = HTTParty.get("https://genius.com/songs/#{song_id}")
+        document = Nokogiri::HTML(response)
+        lyrics_path = document.xpath("//*[@class='lyrics']")
+        lyrics_path.at_css('p').content
+      rescue NoMethodError
+        retry
       end
     end
   end
