@@ -110,7 +110,7 @@ module Genius # :nodoc:
                  msg
                else
                  document = Nokogiri::HTML(response)
-                 data = document.search('li').map(&:text).join("\n")
+                 data = document.search("li").map(&:text).join("\n")
                  "#{msg}. Possible info:\n #{data}"
                end
         @exception_type = exception_type
@@ -151,7 +151,7 @@ module Genius # :nodoc:
       # @return [FalseClass] if genius page is found
       # PageNotFound.page_not_found? method is used to be a predicate for handling 404 error
       def self.page_not_found?(html)
-        !!(html.text.match %r{Page not found})
+        !!html.text.match(/Page not found/)
       end
     end
 
