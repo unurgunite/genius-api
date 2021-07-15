@@ -23,8 +23,7 @@ module Genius # :nodoc:
       # data through returned +JSON+. It uses +deep_find+ extension under the hood.
       #
       # *Examples:*
-      #     Genius::Search.search(query: "Bones", search_by: "title") #=> ["Dirt", "HDMI", "RestInPeace", "Sodium",
-      # "CtrlAltDelete", "Sixteen", "WhereTheTreesMeetTheFreeway", "Corduroy", "DeadBoy", "WeDontBelieveYou"]
+      #     Genius::Search.search(query: "Bones", search_by: "title") #=> ["Dirt", "HDMI", "RestInPeace", "Sodium"]
       #
       # See Hash#deep_find
       def search(token: nil, query: nil, search_by: nil)
@@ -32,14 +31,11 @@ module Genius # :nodoc:
         Errors.error_handle(token) unless token.nil?
         response = HTTParty.get("https://api.genius.com/search?q=#{query}&access_token=#{token || Genius::Auth.__send__(:token)}").body
         search = JSON.parse(response)
-        if search_by
-          return search.deep_find(search_by)
-        else
-          return search
-        end
+        search_by ? search.deep_find(search_by) : search
       rescue GeniusDown, TokenError, TokenMissing => e
         puts "Error description: #{e.msg}"
         puts "Exception type: #{e.exception_type}"
+        return
       end
     end
   end

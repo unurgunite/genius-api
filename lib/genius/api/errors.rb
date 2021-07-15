@@ -70,7 +70,8 @@ module Genius # :nodoc:
     # user did not provide token via +Genius::Auth.login="token"+ method to get access to noted methods.
     # The best practice to store your token is storing within environment variables and access them via +ENV['TOKEN']+:
     #
-    # *Examples:*
+    # @example
+    #
     #     Genius::Auth.login="#{ENV['TOKEN']}"
     class TokenMissing < StandardError
       attr_reader :msg, :exception_type, :method_name
@@ -113,6 +114,44 @@ module Genius # :nodoc:
                  "#{msg}. Possible info:\n #{data}"
                end
         @exception_type = exception_type
+      end
+    end
+
+    # A +LyricsNotFoundError+ object handles an exception where JSON with lyrics is not found
+    class LyricsNotFoundError < StandardError
+      attr_reader :msg, :exception_type
+
+      # @param [String (frozen)] msg Exception message.
+      # @param [String (frozen)] exception_type Exception type.
+      # @return [String (frozen)]
+      def initialize(msg: "Lyrics not found in current session. Retrying...", exception_type: "invalid_lyrics")
+        super(message)
+        @msg = msg
+        @exception_type = exception_type
+      end
+    end
+
+    # A +PageNotFound+ object handles an exception where response payload is invalid and Genius itself or its related
+    # service returns not found
+    class PageNotFound < StandardError
+      attr_reader :msg, :exception_type
+
+      # @param [String (frozen)] msg Exception message.
+      # @param [String (frozen)] exception_type Exception type.
+      # @return [String (frozen)]
+      def initialize(msg: "Page not found. Try again with another response", exception_type: "page_not_found")
+        super(message)
+        @msg = msg
+        @exception_type = exception_type
+      end
+
+      # Genius::Errors::PageNotFound.page_not_found?  -> true or false
+      # @param [Object] html
+      # @return [TrueClass] if genius page is not found
+      # @return [FalseClass] if genius page is found
+      # PageNotFound.page_not_found? method is used to be a predicate for handling 404 error
+      def self.page_not_found?(html)
+        !!(html.text.match %r{Page not found})
       end
     end
 
