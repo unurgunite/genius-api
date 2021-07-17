@@ -6,7 +6,7 @@ class Hash # :nodoc:
   # +hash.deep_find(key)+        -> value
   # @param [Object] key A key, which value should be found
   # @param [FalseClass] uniq A flag to make values unique in an array
-  # @return [Object]
+  # @return [Object] output depends on key value
   # This method is an extension for Hash core class to search for a value of a key in N-nested
   # hash. It provides search for multiple values if key appears more than once. For e.g.:
   #
