@@ -160,9 +160,8 @@ module Genius # :nodoc:
       # @param [String] token Token to access https://api.genius.com.
       # @return [Boolean]
       # This method was made to check token state. Token must be 64-sized string and could be validated only if
-      # response status equals 200. More description in {docs}[https://docs.genius.com/] and
-      # {api-clients page}[https://genius.com/api-clients] or in
-      # {TokenError documentation}(Genius::Auth.TokenError)
+      # response status equals 200. More description in {docs}[https://docs.genius.com/]
+      # and {api-clients page}[https://genius.com/api-clients] or in {TokenError documentation}[Genius::Auth.TokenError]
       # See Auth#error_handle
       def check_status(token)
         raise TokenError unless token.size == 64
