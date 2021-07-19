@@ -14,7 +14,7 @@ module Genius # :nodoc:
       # This method is a standard Genius API {request}[https://docs.genius.com/#search-h2] to get
       # account info. Output +JSON+ is translated to Hash structure to make it easy to work with account fields.
       # You can also access to some fields of output hash with +field+ param, which is +nil+ by default. For e.g.,
-      # 
+      #
       # *Examples:*
       #     Genius::Account.me(field: "name") #=> "Foo Bar"
       #
