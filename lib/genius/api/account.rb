@@ -32,7 +32,7 @@ module Genius # :nodoc:
       #
       # There is a +prettify+ parameter to prettify output hash. It could be called also with +field+ param,
       # for e.g.:
-      # 
+      #
       #     Genius::Account.me(prettify: true) #=>
       #       {"meta"=>{"status"=>200},
       #        "response"=>
@@ -42,7 +42,7 @@ module Genius # :nodoc:
       #          }}
       #
       # But not every output values would be able to be prettified. For e.g.,
-      # 
+      #
       #     Genius::Account.me(field: "interactions", prettify: true) #=> { "following" => false }
       def me(token = nil, field: nil, prettify: false)
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
