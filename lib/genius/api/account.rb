@@ -14,7 +14,7 @@ module Genius # :nodoc:
       # This method is a standard Genius API {request}[https://docs.genius.com/#search-h2] to get
       # account info. Output +JSON+ is translated to Hash structure to make it easy to work with account fields.
       # You can also access to some fields of output hash with +field+ param, which is +nil+ by default. For e.g.,
-      # 
+      #
       # *Examples:*
       #     Genius::Account.me(field: "name") #=> "Foo Bar"
       #
@@ -32,7 +32,7 @@ module Genius # :nodoc:
       #
       # There is a +prettify+ parameter to prettify output hash. It could be called also with +field+ param,
       # for e.g.:
-      # 
+      #
       #     Genius::Account.me(prettify: true) #=>
       #       {"meta"=>{"status"=>200},
       #        "response"=>
@@ -42,7 +42,7 @@ module Genius # :nodoc:
       #          }}
       #
       # But not every output values would be able to be prettified. For e.g.,
-      # 
+      #
       #     Genius::Account.me(field: "interactions", prettify: true) #=> { "following" => false }
       def me(token = nil, field: nil, prettify: false)
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?

@@ -13,6 +13,7 @@ module Genius # :nodoc:
       # @param [Integer] song_id Song id.
       # @return [String] the error message if +lyrics+ param is +true+
       # @return [Hash] if +lyrics+ param is +false+
+      # @return [nil] if GeniusDown, TokenError, TokenMissing exception raised
       # This method provides info about song by its id. It is not the same with +Genius::Search.search+ method,
       # because it modify a +JSON+ only for concrete song id, not for whole search database, which is returned
       # in +Genius::Search.search+
@@ -32,7 +33,7 @@ module Genius # :nodoc:
             output_html = Nokogiri::HTML(HTTParty.get("https://genius.com/songs/#{song_id}"))
             raise PageNotFound if PageNotFound.page_not_found?(output_html)
 
-            unformed_json = output_html.css("script")[21].text.match %r{window\.__PRELOADED_STATE__\s=\sJSON.parse\('(?<json>(.+?))'\);}
+            unformed_json = output_html.css("script")[21].text.match(/window\.__PRELOADED_STATE__\s=\sJSON.parse\('(?<json>(.+?))'\);/)
             raise LyricsNotFoundError if unformed_json.nil?
 
             formatted_json = unformed_json[:json]
@@ -51,21 +52,21 @@ module Genius # :nodoc:
       rescue GeniusDown, TokenError, TokenMissing => e
         puts "Error description: #{e.msg}"
         puts "Exception type: #{e.exception_type}"
-        return
+        nil
       end
 
-      # :nodoc:
       # +Genius::Songs.get_lyrics+      -> hash
       # @param [Integer] song_id Song id.
       # @return [Hash]
       # @return [String] if +song_id+ param is +nil+
+      # +Genius::Songs.get_lyrics+ method is used for extracting lyrics in plain text format
       def get_lyrics(song_id)
         return "song_id should be not blank!" if song_id.nil?
 
         response = HTTParty.get("https://genius.com/songs/#{song_id}")
         document = Nokogiri::HTML(response)
         lyrics_path = document.xpath("//*[@class='lyrics']")
-        lyrics_path.at_css('p').content
+        lyrics_path.at_css("p").content
       rescue NoMethodError
         retry
       end
