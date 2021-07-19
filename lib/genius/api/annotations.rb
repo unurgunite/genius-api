@@ -23,6 +23,7 @@ module Genius
       # @option options [String] :canonical_url The href property of the <code>&lt;link rel="canonical"&gt;</code> tag on the page. Including it will help make sure newly created annotation appear on the correct page.
       # @option options [String] :og_url The content property of the <code>&lt;meta property="og:url"&gt;</code> tag on the page. Including it will help make sure newly created annotation appear on the correct page.
       # @option options [String] :title The title of the page.
+      # @raise [ArgumentError] if `action` got incorrect value.
       # @return [nil] if GeniusDown, TokenError, TokenMissing exceptions raised.
       # Genius::Annotations.annotations method
       # GET /annotations/:id
@@ -172,9 +173,9 @@ module Genius
       def annotations(id:, action: nil, token: nil, http_verb: "get", options: {})
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
-        raise ArgumentError, "only PUT accepts 'action' arg" if http_verb != "put" && !action.nil?
+        raise ArgumentError, "only PUT accepts `action` param" if http_verb != "put" && !action.nil?
 
-        # actions = %w[upvote downvote unvote]
+        actions = %w[upvote downvote unvote]
 
         case http_verb
         when "get"
@@ -183,11 +184,19 @@ module Genius
           HTTParty.post("#{ENDPOINT}/#{id}?access_token=#{token || Genius::Auth.__send__(:token)}",
                         body: post_payload(options: options))
         when "put"
-          # conditionals
+          case action
+          when nil
+            HTTParty.put("#{ENDPOINT}/#{id}/#{action}?access_token=#{token || Genius::Auth.__send__(:token)}",
+                         body: post_payload(options: options))
+          when "upvote", "downvote", "unvote"
+            HTTParty.put("#{ENDPOINT}/#{id}/#{action}?access_token=#{token || Genius::Auth.__send__(:token)}")
+          else
+            raise ArgumentError, "Invalid value for `action` param. Allowed values are: #{actions.join(", ")}"
+          end
         when "delete"
-          nil
+          HTTParty.delete("#{ENDPOINT}/#{id}?access_token=#{token || Genius::Auth.__send__(:token)}")
         else
-          "Something happened"
+          raise ArgumentError, "Something bad happened..."
         end
       rescue GeniusDown, TokenError, TokenMissing => e
         puts "Error description: #{e.msg}"
