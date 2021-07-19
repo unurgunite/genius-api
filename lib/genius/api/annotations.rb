@@ -7,16 +7,29 @@ module Genius
     include Genius::Errors
 
     class << self
+      ENDPOINT = "https://api.genius.com/annotations"
+
       # Genius::Annotations.annotations               -> true or false
-      # @param [Object] id
-      # @param [Object] action
-      # @param [nil] token
-      # @param [String (frozen)] http_verb
-      # @param [Hash] options
-      # @return [nil] if GeniusDown, TokenError, TokenMissing exceptions raised
+      # @param [Object] id Identification of annotations resource.
+      # @param [Object] action Action to do during PUT request. Possible actions: nil, upvote, downvote, unvote.
+      # @param [nil] token Token to access https://api.genius.com.
+      # @param [String (frozen)] http_verb HTTP verb for request. Possible verbs: get, post, put, delete.
+      # @param [Hash] options Options for PUT response.
+      # @option options [String] :markdown The text for the note, in {markdown}[https://help.github.com/articles/github-flavored-markdown/]
+      # @option options [String] :raw_annotatable_url The original URL of the page.
+      # @option options [String] :fragment The highlighted fragment.
+      # @option options [String] :before_html The HTML before the highlighted fragment (prefer up to 200 characters).
+      # @option options [String] :after_html The HTML after the highlighted fragment (prefer up to 200 characters).
+      # @option options [String] :canonical_url The href property of the <code>&lt;link rel="canonical"&gt;</code> tag on the page. Including it will help make sure newly created annotation appear on the correct page.
+      # @option options [String] :og_url The content property of the <code>&lt;meta property="og:url"&gt;</code> tag on the page. Including it will help make sure newly created annotation appear on the correct page.
+      # @option options [String] :title The title of the page.
+      # @return [nil] if GeniusDown, TokenError, TokenMissing exceptions raised.
       # Genius::Annotations.annotations method
       # GET /annotations/:id
       # Data for a specific annotation.
+      #
+      # @example Example usage
+      #     Genius::Annotations.annotations(id: 10225840)
       #
       # POST /annotations
       # Requires scope: create_annotation
@@ -46,7 +59,7 @@ module Genius
       #     }
       #
       # Example usage
-      #     Genius::Annotations.annotation(id:, http_verb: "post", markdown: "Foo **Bar**", "raw_annotatable_url": "https://example.com")
+      #     Genius::Annotations.annotation(id:, http_verb: "post", markdown: "Foo **Bar**", raw_annotatable_url: "https://example.com")
       # will reproduce JSON object via +Genius::Annotations.post_payload+ method. According to last example it will
       # return
       #     {
@@ -69,13 +82,14 @@ module Genius
       #         title: null
       #       }
       #     }
+      #
       # There is a full list of possible params:
       # <ul>
       # <li>annotation
       # <ul>
       # <li>body
       # <ul>
-      # <li>markdown – The text for the note, in
+      # <li>markdown - The text for the note, in
       # <a href="https://help.github.com/articles/github-flavored-markdown/">markdown</a>
       # <i>(Required)</i>
       # </li>
@@ -85,23 +99,23 @@ module Genius
       # </li>
       # <li>referent
       # <ul>
-      # <li>raw_annotatable_url – The original URL of the page <i>(Required)</i></li>
+      # <li>raw_annotatable_url - The original URL of the page <i>(Required)</i></li>
       # </ul>
       # <ul>
-      # <li>fragment – The highlighted fragment <i>(Required)</i></li>
+      # <li>fragment - The highlighted fragment <i>(Required)</i></li>
       # </ul>
       # <li>context_for_display
       # <ul>
-      # <li>before_html – The HTML before the highlighted fragment (prefer up to 200 characters)
+      # <li>before_html - The HTML before the highlighted fragment (prefer up to 200 characters)
       # </li>
       # </ul>
       # <ul>
-      # <li>after_html – The HTML after the highlighted fragment (prefer up to 200 characters)</li>
+      # <li>after_html - The HTML after the highlighted fragment (prefer up to 200 characters)</li>
       # </ul>
       # </li>
       # <li>web_page <i>At least one required</i>
       # <ul>
-      # <li>canonical_url – The href property of the
+      # <li>canonical_url - The href property of the
       # <code>
       # &lt;link rel="canonical"&gt;
       # </code>
@@ -109,19 +123,52 @@ module Genius
       # </li>
       # </ul>
       # <ul>
-      # <li>og_url – The content property of the <code>
+      # <li>og_url - The content property of the <code>
       # &lt;meta property="og:url"&gt;
       # </code> tag on the page. Including it will help make sure newly created annotation appear on the correct
       # page
       # </li>
       # </ul>
       # <ul>
-      # <li>title – The title of the page</li>
+      # <li>title - The title of the page</li>
       # </ul>
       # </li>
       # </ul>
-      ENDPOINT = "https://api.genius.com/annotations"
-
+      #
+      # PUT /annotations/:id
+      # Requires scope: manage_annotation
+      # Updates an annotation created by the authenticated user. Accepts the same parameters as POST /annotation above.
+      #
+      # @example Example usage
+      #     Genius::Annotations.annotations(id: 10225840, http_verb: "put")
+      #
+      # DELETE /annotations/:id
+      # Requires scope: manage_annotation
+      # Deletes an annotation created by the authenticated user.
+      #
+      # @example Example usage
+      #     Genius::Annotations.annotations(id: 10225840, http_verb: "delete")
+      #
+      # PUT /annotations/:id/upvote
+      # Requires scope: vote
+      # Votes positively for the annotation on behalf of the authenticated user.
+      #
+      # @example Example usage
+      #     Genius::Annotations.annotations(id: 10225840, http_verb: "put", action: "upvote")
+      #
+      # PUT /annotations/:id/downvote
+      # Requires scope: vote
+      # Votes negatively for the annotation on behalf of the authenticated user.
+      #
+      # @example Example usage
+      #     Genius::Annotations.annotations(id: 10225840, http_verb: "put", action: "vote")
+      #
+      # PUT /annotations/:id/unvote
+      # Requires scope: vote
+      # Removes the authenticated user's vote (up or down) for the annotation.
+      #
+      # @example Example usage
+      #     Genius::Annotations.annotations(id: 10225840, http_verb: "put", action: "vote")
       def annotations(id:, action: nil, token: nil, http_verb: "get", options: {})
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
