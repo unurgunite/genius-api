@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Genius
+module Genius # :nodoc:
   # An annotation is a piece of content about a part of a document. The document may be a song (hosted on Genius) or a
   # web page (hosted anywhere). The part of a document that an annotation is attached to is called a referent.
   module Annotations
