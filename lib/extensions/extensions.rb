@@ -4,6 +4,7 @@
 # during initialization and extension methods are visible from everywhere
 require_relative "deep_find"
 require_relative "unescape"
+require_relative "token_ext"
 
 require "json"
 require "nokogiri"
