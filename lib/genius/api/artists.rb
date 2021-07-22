@@ -45,11 +45,7 @@ module Genius # :nodoc:
           raise ArgumentError, "`per_page` or `page` can't be negative."
         end
 
-        params = ""
-        opt = %i[sort per_page page]
-        options.each_key do |k, v|
-          params.insert(params.length, "&#{k}=#{v}") if opt.include? k
-        end
+        params = options_helper(options, %i[sort per_page page])
 
         response = HTTParty.get("#{Api::RESOURCE}/artists/#{id}?access_token=#{token_ext(token)}#{params}").body
         JSON.parse(response)

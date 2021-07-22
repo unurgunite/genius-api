@@ -8,8 +8,8 @@ module Genius # :nodoc:
   module Referents
     class << self
       include Genius::Errors
-      ENDPOINT = "https://api.genius.com/referents"
-      # Genius::Referents.referents                   -> HTTParty::Response
+      ENDPOINT = "#{Api::RESOURCE}/referents"
+      # +Genius::Referents.referents+                 -> Hash
       # @param [Hash] options
       # @option [Integer] :created_by_id ID of a user to get referents for.
       # @option [String] :text_format Format for text bodies related to the document. One or more of +dom+, +plain+, and +html+, separated by commas (defaults to +dom+). See details of each option {here}[https://docs.genius.com/#response-format-h1].
@@ -28,13 +28,9 @@ module Genius # :nodoc:
           raise ArgumentError, "You may pass only one of song_id and web_page_id, not both!"
         end
 
-        params = ""
-        o = %i[created_by_id text_format per_page page]
-        options.each_key do |k, v|
-          params.insert(params.length, "&#{k}=#{v}") if o.include? k
-        end
+        params = options_helper(options, %i[created_by_id text_format per_page page])
 
-        response = HTTParty.get("#{ENDPOINT}?access_token=#{token || Genius::Auth.__send__(:token)}#{params}").body
+        response = HTTParty.get("#{ENDPOINT}?access_token=#{token_ext(token)}#{params}").body
         JSON.parse(response)
       end
     end
