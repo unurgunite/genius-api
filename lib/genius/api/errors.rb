@@ -45,7 +45,7 @@ module Genius # :nodoc:
   #       puts e.exception_type #=> token_error
   #     end
   module Errors
-    RESPONSE = "https://api.genius.com/account/?access_token"
+    ENDPOINT = "#{Api::RESOURCE}/account/?access_token"
     # A +TokenError+ object provides handling error during token validation
     # It throws error when +token+ is invalid - expired, revoked or something else. To generate new
     # token you should go to https://genius.com/signup_or_login and login, then you need to create new
