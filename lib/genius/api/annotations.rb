@@ -13,13 +13,16 @@ module Genius # :nodoc:
       # @param [String] token Token to access https://api.genius.com.
       # @param [String (frozen)] http_verb HTTP verb for request. Possible verbs: get, post, put, delete.
       # @param [Hash] options Options for PUT response.
-      # @option options [String] :markdown The text for the note, in {markdown}[https://help.github.com/articles/github-flavored-markdown/]
+      # @option options [String] :markdown The text for the note, in
+      #     {markdown}[https://help.github.com/articles/github-flavored-markdown/]
       # @option options [String] :raw_annotatable_url The original URL of the page.
       # @option options [String] :fragment The highlighted fragment.
       # @option options [String] :before_html The HTML before the highlighted fragment (prefer up to 200 characters).
       # @option options [String] :after_html The HTML after the highlighted fragment (prefer up to 200 characters).
-      # @option options [String] :canonical_url The href property of the <code>&lt;link rel="canonical"&gt;</code> tag on the page. Including it will help make sure newly created annotation appear on the correct page.
-      # @option options [String] :og_url The content property of the <code>&lt;meta property="og:url"&gt;</code> tag on the page. Including it will help make sure newly created annotation appear on the correct page.
+      # @option options [String] :canonical_url The href property of the <code>&lt;link rel="canonical"&gt;</code> tag
+      #     on the page. Including it will help make sure newly created annotation appear on the correct page.
+      # @option options [String] :og_url The content property of the <code>&lt;meta property="og:url"&gt;</code> tag on
+      #     the page. Including it will help make sure newly created annotation appear on the correct page.
       # @option options [String] :title The title of the page.
       # @raise [ArgumentError] if `action` got incorrect value.
       # @return [nil] if GeniusDown, TokenError, TokenMissing exceptions raised.
