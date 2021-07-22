@@ -32,7 +32,7 @@ module Genius # :nodoc:
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
 
-        response = HTTParty.get("https://api.genius.com/search?q=#{query}&access_token=#{token || Genius::Auth.__send__(:token)}").body
+        response = HTTParty.get("#{Api::RESOURCE}/search?q=#{query}&access_token=#{token_ext(token)}").body
         search = JSON.parse(response)
         search_by ? search.deep_find(search_by) : search
       rescue GeniusDown, TokenError, TokenMissing => e

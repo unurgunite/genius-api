@@ -20,13 +20,13 @@ module Genius # :nodoc:
       #
       # @example
       #
-      #     Genius::Songs.search_songs(song_id: 294649) #=> {"some_kind_of_hash"}
+      #     Genius::Songs.songs(song_id: 294649) #=> {"some_kind_of_hash"}
       #
       def songs(token: nil, song_id: nil, combine: false)
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
 
-        response = HTTParty.get("https://api.genius.com/songs/#{song_id}?access_token=#{token || Genius::Auth.__send__(:token)}").body
+        response = HTTParty.get("#{Api::RESOURCE}/songs/#{song_id}?access_token=#{token_ext(token)}").body
         response = JSON.parse response
         if combine
           begin

@@ -7,12 +7,10 @@ module Genius # :nodoc:
     include Genius::Errors
 
     class << self
-      ENDPOINT = "https://api.genius.com/annotations"
-
       # Genius::Annotations.annotations               -> true or false
       # @param [Object] id Identification of annotations resource.
       # @param [Object] action Action to do during PUT request. Possible actions: nil, upvote, downvote, unvote.
-      # @param [nil] token Token to access https://api.genius.com.
+      # @param [String] token Token to access https://api.genius.com.
       # @param [String (frozen)] http_verb HTTP verb for request. Possible verbs: get, post, put, delete.
       # @param [Hash] options Options for PUT response.
       # @option options [String] :markdown The text for the note, in {markdown}[https://help.github.com/articles/github-flavored-markdown/]
@@ -179,22 +177,22 @@ module Genius # :nodoc:
 
         case http_verb
         when "get"
-          HTTParty.get("#{ENDPOINT}/#{id}?access_token=#{token || Genius::Auth.__send__(:token)}")
+          HTTParty.get("#{Api::RESOURCE}/annotations/#{id}?access_token=#{token_ext(token)}")
         when "post"
-          HTTParty.post("#{ENDPOINT}/#{id}?access_token=#{token || Genius::Auth.__send__(:token)}",
+          HTTParty.post("#{Api::RESOURCE}/annotations/#{id}?access_token=#{token_ext(token)}",
                         body: post_payload(options: options))
         when "put"
           case action
           when nil
-            HTTParty.put("#{ENDPOINT}/#{id}/#{action}?access_token=#{token || Genius::Auth.__send__(:token)}",
+            HTTParty.put("#{Api::RESOURCE}/annotations/#{id}/#{action}?access_token=#{token_ext(token)}",
                          body: post_payload(options: options))
           when "upvote", "downvote", "unvote"
-            HTTParty.put("#{ENDPOINT}/#{id}/#{action}?access_token=#{token || Genius::Auth.__send__(:token)}")
+            HTTParty.put("#{Api::RESOURCE}/annotations/#{id}/#{action}?access_token=#{token_ext(token)}")
           else
             raise ArgumentError, "Invalid value for `action` param. Allowed values are: #{actions.join(", ")}"
           end
         when "delete"
-          HTTParty.delete("#{ENDPOINT}/#{id}?access_token=#{token || Genius::Auth.__send__(:token)}")
+          HTTParty.delete("#{Api::RESOURCE}/annotations/#{id}?access_token=#{token_ext(token)}")
         else
           raise ArgumentError, "Something bad happened..."
         end

@@ -13,5 +13,6 @@ require_relative "api/artists"
 
 module Genius
   module Api
+    RESOURCE = "https://api.genius.com"
   end
 end
