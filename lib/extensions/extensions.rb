@@ -5,6 +5,7 @@
 require_relative "deep_find"
 require_relative "unescape"
 require_relative "token_ext"
+require_relative "options_helper"
 
 require "json"
 require "nokogiri"
