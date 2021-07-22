@@ -11,7 +11,8 @@ module Genius # :nodoc:
       # An alias to {Genius::Account.account} +me+ method
       # @param [String] token Token to access https://api.genius.com.
       # @param [String] field Optional param to parse output hash tree.
-      # @return [nil]
+      # @return [Hash]
+      # @return [nil] if GeniusDown, TokenError, TokenMissing exception raised.
       # This method is a standard Genius API {request}[https://docs.genius.com/#search-h2] to get
       # account info. Output +JSON+ is translated to Hash structure to make it easy to work with account fields.
       # You can also access to some fields of output hash with +field+ param, which is +nil+ by default. For e.g.,
@@ -56,6 +57,7 @@ module Genius # :nodoc:
       rescue GeniusDown, TokenError, TokenMissing => e
         puts "Error description: #{e.msg}"
         puts "Exception type: #{e.exception_type}"
+        nil
       end
 
       alias me account
