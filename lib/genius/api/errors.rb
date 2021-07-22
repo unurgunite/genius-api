@@ -57,7 +57,9 @@ module Genius # :nodoc:
       # @param [String (frozen)] msg Exception message.
       # @param [String (frozen)] exception_type Exception type.
       # @return [String (frozen)]
-      def initialize(msg: "Invalid token. The access token provided is expired, revoked, malformed or invalid for other reasons.", exception_type: "token_error")
+      def initialize(msg: "Invalid token. The access token provided is expired, revoked, malformed or invalid for" \
+               "other reasons.", exception_type: "token_error")
+
         super(message)
         @msg = msg
         @exception_type = exception_type
@@ -80,7 +82,8 @@ module Genius # :nodoc:
       # @param [String (frozen)] exception_type Exception type.
       # @param [nil or String] method_name Optional param to provide method name which can pass token and validate it.
       # @return [String (frozen)]
-      def initialize(msg: "Token is required for this method. Please, add token via `Genius::Auth.login=``token''` method and continue", exception_type: "token_missing", method_name: nil)
+      def initialize(msg: "Token is required for this method. Please, add token via `Genius::Auth.login=``token''`" \
+              "method and continue", exception_type: "token_missing", method_name: nil)
         super(message)
         @msg = if method_name.nil?
                  msg
@@ -166,7 +169,7 @@ module Genius # :nodoc:
       def check_status(token)
         raise TokenError unless token.size == 64
 
-        response = HTTParty.get("#{RESPONSE}=#{token}").body
+        response = HTTParty.get("#{ENDPOINT}=#{token}").body
         raise TokenError unless JSON.parse(response).dig("meta", "status")
 
         status = JSON.parse(response).dig("meta", "status")
