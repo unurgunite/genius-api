@@ -6,34 +6,35 @@ module Genius # :nodoc:
     class << self
       include Genius::Errors
 
-      # +Genius::Account.me+        -> value
+      # +Genius::Account.account+        -> value
+      #
+      # An alias to {Genius::Account.account} +me+ method
       # @param [String] token Token to access https://api.genius.com.
       # @param [String] field Optional param to parse output hash tree.
-      # @param [Boolean] prettify Optional param to prettify output.
       # @return [nil]
       # This method is a standard Genius API {request}[https://docs.genius.com/#search-h2] to get
       # account info. Output +JSON+ is translated to Hash structure to make it easy to work with account fields.
       # You can also access to some fields of output hash with +field+ param, which is +nil+ by default. For e.g.,
       #
       # *Examples:*
-      #     Genius::Account.me(field: "name") #=> "Foo Bar"
+      #     Genius::Account.account(field: "name") #=> "Foo Bar"
       #
       # Due to the nesting of a hash there could be multiple keys with the same name, so method will
       # return an array of values, but if multiple values are the same, method will return
       # value only once, without storing it in array. For e.g.,
       #
       # *Examples:*
-      #     Genius::Account.me(field: "id") #=> [100033, 234411]
-      #     Genius::Account.me(field: "url") #=> "https://genius.com/"
+      #     Genius::Account.account(field: "id") #=> [100033, 234411]
+      #     Genius::Account.account(field: "url") #=> "https://genius.com/"
       #
       # *Examples:*
       #     Genius::Auth.login="yuiaYqbncErCVwItjQxFspNWUZLhGpXrPbkvgbgHSEKJRAlToamzMfdOeDB"
-      #     Genius::Account.me #=> {"meta"=>{"status"=>200}, "response"=>{"user"=>{...}}}
+      #     Genius::Account.account #=> {"meta"=>{"status"=>200}, "response"=>{"user"=>{...}}}
       #
       # There is a +prettify+ parameter to prettify output hash. It could be called also with +field+ param,
       # for e.g.:
       #
-      #     Genius::Account.me(prettify: true) #=>
+      #     Genius::Account.account(prettify: true) #=>
       #       {"meta"=>{"status"=>200},
       #        "response"=>
       #         {"user"=>
@@ -43,29 +44,21 @@ module Genius # :nodoc:
       #
       # But not every output values would be able to be prettified. For e.g.,
       #
-      #     Genius::Account.me(field: "interactions", prettify: true) #=> { "following" => false }
-      def me(token = nil, field: nil, prettify: false)
+      #     Genius::Account.account(field: "interactions", prettify: true) #=> { "following" => false }
+      def account(token = nil, field: nil)
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
-        response = HTTParty.get("https://api.genius.com/account?access_token=#{token || Genius::Auth.__send__(:token)}").body
+        response = HTTParty.get("https://api.genius.com/account?access_token=#{token_ext(token)}").body
         raise GeniusDown.new(response: response) unless JSON.parse(response).is_a? Hash
 
         account = JSON.parse(response)
-        if field && prettify
-          pp account.deep_find(field)
-        elsif prettify
-          pp account
-        elsif field
-          account.deep_find(field)
-        else
-          account
-        end
+        field ? account.deep_find(field) : account
       rescue GeniusDown, TokenError, TokenMissing => e
         puts "Error description: #{e.msg}"
         puts "Exception type: #{e.exception_type}"
       end
 
-      alias account me
+      alias me account
     end
   end
 end
