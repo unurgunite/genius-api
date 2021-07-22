@@ -17,7 +17,8 @@ module Genius # :nodoc:
       # @option [Integer] :song_id ID of a song to get referents for
       # @option [Integer] :per_page Number of results to return per request
       # @option [Integer] :page Paginated offset, (e.g., <code>per_page=5&page=3</code> returns songs 11-15)
-      # @return [HTTParty::Response]
+      # @raise [ArgumentError] if `id` is nil.
+      # @return [Hash]
       # Referents by content item or user responsible for an included annotation.
       # You may pass only one of song_id and web_page_id, not both.
       def referents(token: nil, options: {})
@@ -33,7 +34,8 @@ module Genius # :nodoc:
           params.insert(params.length, "&#{k}=#{v}") if o.include? k
         end
 
-        HTTParty.get("#{ENDPOINT}?access_token=#{token}#{params}")
+        response = HTTParty.get("#{ENDPOINT}?access_token=#{token || Genius::Auth.__send__(:token)}#{params}").body
+        JSON.parse(response)
       end
     end
   end
