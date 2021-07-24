@@ -10,7 +10,6 @@ module Genius # :nodoc:
       #
       # An alias to {Genius::Account.account} +me+ method
       # @param [String] token Token to access https://api.genius.com.
-      # @param [String] field Optional param to parse output hash tree.
       # @return [Hash]
       # @return [nil] if GeniusDown, TokenError, TokenMissing exception raised.
       # This method is a standard Genius API {request}[https://docs.genius.com/#search-h2] to get
@@ -46,18 +45,13 @@ module Genius # :nodoc:
       # But not every output values would be able to be prettified. For e.g.,
       #
       #     Genius::Account.account(field: "interactions", prettify: true) #=> { "following" => false }
-      def account(token = nil, field: nil)
+      def account(token: nil)
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
         response = HTTParty.get("https://api.genius.com/account?access_token=#{token_ext(token)}").body
         raise GeniusDown.new(response: response) unless JSON.parse(response).is_a? Hash
 
-        account = JSON.parse(response)
-        field ? account.deep_find(field) : account
-      rescue GeniusDown, TokenError, TokenMissing => e
-        puts "Error description: #{e.msg}"
-        puts "Exception type: #{e.exception_type}"
-        nil
+        JSON.parse(response)
       end
 
       alias me account
