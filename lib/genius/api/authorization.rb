@@ -12,7 +12,7 @@ module Genius # :nodoc:
 
       # +Genius::Auth.login=(token)+         -> true ot false
       # @param [String] token Token to access https://api.genius.com.
-      # @return [nil]
+      # @return [String]
       # +login=+ method is a some kind of an extension for a setter +token=+ and could handle possible
       # exceptions during authentication. It means that you should never use +token=+ method unless
       # you actually know that your credentials are valid (not recommended).
@@ -33,7 +33,7 @@ module Genius # :nodoc:
       end
 
       # +Genius::Auth.logout!+               -> nil
-      # @return [nil]
+      # @return [Object]
       # +logout!+ method modifies a +token+ object and revoke session by setting +nil+ to the +token+.
       def logout!
         self.token = nil unless token.nil?
