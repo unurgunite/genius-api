@@ -161,7 +161,17 @@ module Genius # :nodoc:
       end
     end
 
+    # +Genius::Errors::DynamicRescue+                 -> value
+    # +Genius::Errors::DynamicRescue+ module is used to call dynamically exceptions to each method in module or class,
+    # defined in +Genius::Errors+ scope
     module DynamicRescue # :nodoc:
+      # @param [Object] meths List of methods to redefine.
+      # @param [Object] klass Class name of structure - module/class/etc.
+      # @param [Object] exception Exception class.
+      # @param [Proc] handler Body of rescue block.
+      # @return [Object]
+      # +Genius::Errors::DynamicRescue.rescue_from+ is a helper method which, according to reflection, redefine singleton
+      # method for specified module, adding to it exception handler for DRY pattern.
       def self.rescue_from(meths, klass, exception, &handler)
         meths.each do |meth|
           # store the previous implementation
@@ -175,6 +185,10 @@ module Genius # :nodoc:
         end
       end
 
+      # +Genius::Errors::DynamicRescue.rescue+        -> value
+      # @param [Object] klass Class name of structure - module/class/etc.
+      # @return [Object]
+      #
       def self.rescue(klass)
         DynamicRescue.rescue_from klass.singleton_methods, klass, GeniusExceptionSuperClass do |e|
           puts "Error description: #{e.msg}"
