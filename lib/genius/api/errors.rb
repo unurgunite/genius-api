@@ -61,7 +61,7 @@ module Genius # :nodoc:
       # @param [String (frozen)] msg Exception message.
       # @param [String (frozen)] exception_type Exception type.
       # @return [String (frozen)]
-      def initialize(msg: "Invalid token. The access token provided is expired, revoked, malformed or invalid for" \
+      def initialize(msg: "Invalid token. The access token provided is expired, revoked, malformed or invalid for " \
                "other reasons.", exception_type: "token_error")
 
         super(message)
@@ -158,6 +158,28 @@ module Genius # :nodoc:
       # PageNotFound.page_not_found? method is used to be a predicate for handling 404 error
       def self.page_not_found?(html)
         !!html.text.match(/Page not found/)
+      end
+    end
+
+    module DynamicRescue # :nodoc:
+      def self.rescue_from(meths, klass, exception, &handler)
+        meths.each do |meth|
+          # store the previous implementation
+          old = klass.singleton_method(meth)
+          # wrap it
+          klass.define_singleton_method(meth) do |*args|
+            old.unbind.bind(klass).call(*args)
+          rescue exception => e
+            handler.call(e)
+          end
+        end
+      end
+
+      def self.rescue(klass)
+        DynamicRescue.rescue_from klass.singleton_methods, klass, GeniusExceptionSuperClass do |e|
+          puts "Error description: #{e.msg}"
+          puts "Exception type: #{e.exception_type}"
+        end
       end
     end
 
