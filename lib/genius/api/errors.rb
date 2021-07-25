@@ -101,9 +101,8 @@ module Genius # :nodoc:
     # <b>EXPERIMENTAL FEATURE</b>
     #
     # A +GeniusDown+ object handles a rare exception which appears when https://api.genius.com or
-    # Genius related services are under maintenance. It uses Nokogiri under the hood. Unlike from other
-    # exceptions, it is inherited from +JSON::ParserError+ class, while others - from GeniusExceptionSuperClass class
-    class GeniusDown < JSON::ParserError
+    # Genius related services are under maintenance. It uses Nokogiri under the hood.
+    class GeniusDown < GeniusExceptionSuperClass
       attr_reader :msg, :exception_type, :response
 
       # @param [String (frozen)] msg Exception message.
