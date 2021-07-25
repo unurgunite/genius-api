@@ -4,8 +4,6 @@ module Genius # :nodoc:
   # An annotation is a piece of content about a part of a document. The document may be a song (hosted on Genius) or a
   # web page (hosted anywhere). The part of a document that an annotation is attached to is called a referent.
   module Annotations
-    include Genius::Errors
-
     class << self
       # Genius::Annotations.annotations               -> true or false
       # @param [Object] id Identification of annotations resource.
@@ -199,10 +197,6 @@ module Genius # :nodoc:
         else
           raise ArgumentError, "Something bad happened..."
         end
-      rescue GeniusDown, TokenError, TokenMissing => e
-        puts "Error description: #{e.msg}"
-        puts "Exception type: #{e.exception_type}"
-        nil
       end
 
       def post_payload(options: {})
@@ -227,6 +221,8 @@ module Genius # :nodoc:
           }
         }.to_json
       end
+
+      Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
     end
   end
 end

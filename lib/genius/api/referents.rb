@@ -7,7 +7,6 @@ module Genius # :nodoc:
   # it or that annotation is attached to an existing referent.
   module Referents
     class << self
-      include Genius::Errors
       ENDPOINT = "#{Api::RESOURCE}/referents"
       # +Genius::Referents.referents+                 -> Hash
       # @param [Hash] options
@@ -35,6 +34,8 @@ module Genius # :nodoc:
         response = HTTParty.get("#{ENDPOINT}?access_token=#{token_ext(token)}#{params}").body
         JSON.parse(response)
       end
+
+      Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
     end
   end
 end

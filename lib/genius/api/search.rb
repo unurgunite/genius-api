@@ -4,8 +4,6 @@ module Genius # :nodoc:
   # +Genius::Search+ module provides methods to work with Genius search database
   module Search
     class << self
-      include Genius::Errors
-
       # +Genius::Search.search+     -> value
       # @param [String] token Token to access https://api.genius.com.
       # @param [String] query Search query.
@@ -35,11 +33,9 @@ module Genius # :nodoc:
         response = HTTParty.get("#{Api::RESOURCE}/search?q=#{query}&access_token=#{token_ext(token)}").body
         search = JSON.parse(response)
         search_by ? search.deep_find(search_by) : search
-      rescue GeniusDown, TokenError, TokenMissing => e
-        puts "Error description: #{e.msg}"
-        puts "Exception type: #{e.exception_type}"
-        nil
       end
+
+      Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
     end
   end
 end
