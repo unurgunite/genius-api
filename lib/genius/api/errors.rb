@@ -86,7 +86,7 @@ module Genius # :nodoc:
       # @param [String (frozen)] exception_type Exception type.
       # @param [nil or String] method_name Optional param to provide method name which can pass token and validate it.
       # @return [String (frozen)]
-      def initialize(msg: "Token is required for this method. Please, add token via `Genius::Auth.login=``token''`" \
+      def initialize(msg: "Token is required for this method. Please, add token via `Genius::Auth.login=``token''` " \
               "method and continue", exception_type: "token_missing", method_name: nil)
         super(message)
         @msg = if method_name.nil?
@@ -109,8 +109,8 @@ module Genius # :nodoc:
       # @param [String (frozen)] exception_type Exception type.
       # @param [nil or String] response Response to parse from request to https://api.genius.com.
       # @return [String (frozen)]
-      def initialize(msg: "Be patient! Genius is down. Try again in several minutes", exception_type: "genius_api_error",
-                     response: nil)
+      def initialize(msg: "Be patient! Genius is down. Try again in several minutes",
+                     exception_type: "genius_api_error", response: nil)
         super(message)
         @msg = if response.nil?
                  msg
