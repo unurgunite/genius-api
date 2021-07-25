@@ -88,7 +88,7 @@ module Genius # :nodoc:
         @msg = if method_name.nil?
                  msg
                else
-                 "#{msg} or type #{method_name}(token)"
+                 "#{msg} or type #{method_name}(token: \"YOUR_TOKEN\")"
                end
         @exception_type = exception_type
       end
