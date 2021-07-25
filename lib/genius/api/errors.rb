@@ -46,12 +46,16 @@ module Genius # :nodoc:
   #     end
   module Errors
     ENDPOINT = "#{Api::RESOURCE}/account/?access_token"
+
+    class GeniusExceptionSuperClass < StandardError
+    end
+
     # A +TokenError+ object provides handling error during token validation
     # It throws error when +token+ is invalid - expired, revoked or something else. To generate new
     # token you should go to https://genius.com/signup_or_login and login, then you need to create new
     # client via the link below: https://genius.com/api-clients and generate new access token. Fields to create
     # new api client can be filled in as you like - there are no restrictions and standards.
-    class TokenError < StandardError
+    class TokenError < GeniusExceptionSuperClass
       attr_reader :msg, :exception_type
 
       # @param [String (frozen)] msg Exception message.
@@ -75,7 +79,7 @@ module Genius # :nodoc:
     # @example
     #
     #     Genius::Auth.login="#{ENV['TOKEN']}"
-    class TokenMissing < StandardError
+    class TokenMissing < GeniusExceptionSuperClass
       attr_reader :msg, :exception_type, :method_name
 
       # @param [String (frozen)] msg Exception message.
@@ -98,7 +102,7 @@ module Genius # :nodoc:
     #
     # A +GeniusDown+ object handles a rare exception which appears when https://api.genius.com or
     # Genius related services are under maintenance. It uses Nokogiri under the hood. Unlike from other
-    # exceptions, it is inherited from +JSON::ParserError+ class, while others - from StandardError class
+    # exceptions, it is inherited from +JSON::ParserError+ class, while others - from GeniusExceptionSuperClass class
     class GeniusDown < JSON::ParserError
       attr_reader :msg, :exception_type, :response
 
@@ -121,7 +125,7 @@ module Genius # :nodoc:
     end
 
     # A +LyricsNotFoundError+ object handles an exception where JSON with lyrics is not found
-    class LyricsNotFoundError < StandardError
+    class LyricsNotFoundError < GeniusExceptionSuperClass
       attr_reader :msg, :exception_type
 
       # @param [String (frozen)] msg Exception message.
@@ -136,7 +140,7 @@ module Genius # :nodoc:
 
     # A +PageNotFound+ object handles an exception where response payload is invalid and Genius itself or its related
     # service returns not found
-    class PageNotFound < StandardError
+    class PageNotFound < GeniusExceptionSuperClass
       attr_reader :msg, :exception_type
 
       # @param [String (frozen)] msg Exception message.
