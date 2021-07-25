@@ -23,9 +23,6 @@ module Genius # :nodoc:
         Errors.error_handle(token)
         puts "Authorized!"
         self.token = token
-      rescue TokenError => e
-        puts "Error description: #{e.msg}"
-        puts "Exception type: #{e.exception_type}"
       end
 
       # +Genius::Auth.authorized?+           -> true or false

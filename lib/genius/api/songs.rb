@@ -49,10 +49,6 @@ module Genius # :nodoc:
           end
         end
         response
-      rescue GeniusDown, TokenError, TokenMissing => e
-        puts "Error description: #{e.msg}"
-        puts "Exception type: #{e.exception_type}"
-        nil
       end
 
       # +Genius::Songs.get_lyrics+      -> hash

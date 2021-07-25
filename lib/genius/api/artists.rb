@@ -17,10 +17,6 @@ module Genius # :nodoc:
 
         response = HTTParty.get("#{Api::RESOURCE}/artists/#{id}?access_token=#{token_ext(:token)}").body
         JSON.parse(response)
-      rescue GeniusDown, TokenError, TokenMissing => e
-        puts "Error description: #{e.msg}"
-        puts "Exception type: #{e.exception_type}"
-        nil
       end
 
       # +Genius::Artists.artists_songs+               -> Hash
@@ -49,11 +45,9 @@ module Genius # :nodoc:
 
         response = HTTParty.get("#{Api::RESOURCE}/artists/#{id}?access_token=#{token_ext(token)}#{params}").body
         JSON.parse(response)
-      rescue GeniusDown, TokenError, TokenMissing => e
-        puts "Error description: #{e.msg}"
-        puts "Exception type: #{e.exception_type}"
-        nil
       end
+
+      Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
     end
   end
 end

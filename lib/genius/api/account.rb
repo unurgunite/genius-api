@@ -4,8 +4,6 @@ module Genius # :nodoc:
   # +Genius::Account+ module provides methods to work with Genius account
   module Account
     class << self
-      include Genius::Errors
-
       # +Genius::Account.account+        -> value
       #
       # An alias to {Genius::Account.account} +me+ method
@@ -55,6 +53,8 @@ module Genius # :nodoc:
       end
 
       alias me account
+
+      Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
     end
   end
 end
