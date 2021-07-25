@@ -6,8 +6,8 @@ module Genius # :nodoc:
   module WebPages
     class << self
       # Information about a web page retrieved by the page's full URL (including protocol). The returned data includes
-      # Genius's ID for the page, which may be used to look up associated referents with the
-      # {/referents}[https://docs.genius.com/#/referents-index] endpoint.
+      # Genius's ID for the page, which may be used to look up associated referents with
+      # the {/referents}[https://docs.genius.com/#/referents-index] endpoint.
       #
       # Data is only available for pages that already have at least one annotation.
       #
