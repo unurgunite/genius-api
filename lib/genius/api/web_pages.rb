@@ -16,20 +16,20 @@ module Genius # :nodoc:
       # @option [String] :raw_annotatable_url The URL as it would appear in a browser.
       # @option [String] :canonical_url The URL as specified by an appropriate <code>&lt;link&gt;</code> tag in a page's
       #     <code>&lt;head&gt;</code>.
-      # @option [string] :og_url The URL as specified by an <code>og:url &lt;meta&gt;</code> tag in a page's
+      # @option [String] :og_url The URL as specified by an <code>og:url &lt;meta&gt;</code> tag in a page's
       #     <code>&lt;head&gt;</code>
+      # @return [Hash]
       def lookup(token: nil, options: {})
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
 
         params = options_helper(options, %i[raw_annotatable_url canonical_url og_url])
 
-        HTTParty.get("#{Api::RESOURCE}/?access_token=#{token_ext(token)}#{params}")
-      rescue GeniusDown, TokenError, TokenMissing => e
-        puts "Error description: #{e.msg}"
-        puts "Exception type: #{e.exception_type}"
-        nil
+        response = HTTParty.get("#{Api::RESOURCE}/?access_token=#{token_ext(token)}#{params}")
+        JSON.parse(response)
       end
+
+      Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
     end
   end
 end
