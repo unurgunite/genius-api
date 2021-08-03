@@ -9,6 +9,7 @@ module Genius # :nodoc:
     class << self
       ENDPOINT = "#{Api::RESOURCE}/referents"
       # +Genius::Referents.referents+                 -> Hash
+      #
       # @param [Hash] options
       # @option [Integer] :created_by_id ID of a user to get referents for.
       # @option [String] :text_format Format for text bodies related to the document. One or more of +dom+, +plain+,

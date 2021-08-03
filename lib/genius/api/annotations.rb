@@ -6,6 +6,7 @@ module Genius # :nodoc:
   module Annotations
     class << self
       # Genius::Annotations.annotations               -> true or false
+      #
       # @param [Object] id Identification of annotations resource.
       # @param [Object] action Action to do during PUT request. Possible actions: nil, upvote, downvote, unvote.
       # @param [String] token Token to access https://api.genius.com.

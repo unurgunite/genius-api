@@ -6,6 +6,7 @@ module Genius # :nodoc:
   module Artists
     class << self
       # +Genius::Artists.artists+                     -> Hash
+      #
       # @param [String] token Token to access https://api.genius.com.
       # @param [String] id ID of the song.
       # @return [Hash]
@@ -20,7 +21,9 @@ module Genius # :nodoc:
       end
 
       # +Genius::Artists.artists_songs+               -> Hash
+      #
       # Documents (songs) for the artist specified. By default, 20 items are returned for each request.
+      #
       # @param [String] token Token to access https://api.genius.com.
       # @param [String] id ID of the song.
       # @param [Hash] options

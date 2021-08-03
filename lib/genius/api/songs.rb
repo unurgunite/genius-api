@@ -9,6 +9,7 @@ module Genius # :nodoc:
       # <b>EXPERIMENTAL FEATURE</b>
       #
       # +Genius::Songs.songs+     -> value
+      #
       # @param [String] token Token to access https://api.genius.com.
       # @param [Integer] song_id Song id.
       # @return [String] the error message if +lyrics+ param is +true+

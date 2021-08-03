@@ -5,6 +5,7 @@ module Genius # :nodoc:
   module Search
     class << self
       # +Genius::Search.search+     -> value
+      #
       # @param [String] token Token to access https://api.genius.com.
       # @param [String] query Search query.
       # @param [Object] search_by Optional parameter to search by key in output +JSON+.

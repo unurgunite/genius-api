@@ -6,7 +6,8 @@ module Genius # :nodoc:
     class << self
       # +Genius::Account.account+        -> value
       #
-      # An alias to {Genius::Account.account} +me+ method
+      # An alias to {Genius::Account.account me} method
+      #
       # @param [String] token Token to access https://api.genius.com.
       # @return [Hash]
       # @return [nil] if GeniusDown, TokenError, TokenMissing exception raised.

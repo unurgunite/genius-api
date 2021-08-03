@@ -11,6 +11,7 @@ module Genius # :nodoc:
       attr_writer :token
 
       # +Genius::Auth.login=(token)+         -> true ot false
+      #
       # @param [String] token Token to access https://api.genius.com.
       # @return [String]
       # +login=+ method is a some kind of an extension for a setter +token=+ and could handle possible
@@ -24,6 +25,7 @@ module Genius # :nodoc:
       end
 
       # +Genius::Auth.authorized?+           -> true or false
+      #
       # @param [nil or String] method_name Optional param to pass method name where exception was raised.
       # @return [Boolean]
       # +authorized?+ method checks if user in current session is authorized
@@ -33,6 +35,7 @@ module Genius # :nodoc:
       end
 
       # +Genius::Auth.logout!+               -> nil
+      #
       # @return [nil]
       # +logout!+ method modifies a +token+ object and revoke session by setting +nil+ to the +token+.
       def logout!
