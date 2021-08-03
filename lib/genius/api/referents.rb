@@ -7,6 +7,7 @@ module Genius # :nodoc:
   # it or that annotation is attached to an existing referent.
   module Referents
     class << self
+      # Endpoint of the resource
       ENDPOINT = "#{Api::RESOURCE}/referents"
       # +Genius::Referents.referents+                 -> Hash
       #
