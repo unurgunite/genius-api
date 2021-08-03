@@ -16,10 +16,10 @@ module Genius
       # Provide as many of the following variants of the URL as possible:
       # @param [Hash] options
       # @option options [String] :raw_annotatable_url The URL as it would appear in a browser.
-      # @option options [String] :canonical_url The URL as specified by an appropriate <code>&lt;link&gt;</code> tag in a page's
-      #     <code>&lt;head&gt;</code>.
-      # @option options [String] :og_url The URL as specified by an <code>og:url &lt;meta&gt;</code> tag in a page's
-      #     <code>&lt;head&gt;</code>
+      # @option options [String] :canonical_url The URL as specified by an appropriate <code><link></code> tag
+      #     in a page's <code><head></code>.
+      # @option options [String] :og_url The URL as specified by an <code>og:url <meta></code> tag in a page's
+      #     <code><head></code>
       # @return [Hash]
       def lookup(token: nil, options: {})
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
