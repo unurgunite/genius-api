@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
-module Genius # :nodoc:
+module Genius
   # +Genius::Account+ module provides methods to work with Genius account
   module Account
     class << self
       # +Genius::Account.account+        -> value
       #
-      # An alias to {Genius::Account.account} +me+ method
+      # An alias to {Genius::Account.account me} method
+      #
       # @param [String] token Token to access https://api.genius.com.
       # @return [Hash]
-      # @return [nil] if GeniusDown, TokenError, TokenMissing exception raised.
+      # @return [nil] if CloudflareError, TokenError, TokenMissing exception raised.
       # This method is a standard Genius API {request}[https://docs.genius.com/#search-h2] to get
       # account info. Output +JSON+ is translated to Hash structure to make it easy to work with account fields.
       # You can also access to some fields of output hash with +field+ param, which is +nil+ by default. For e.g.,
@@ -47,7 +48,7 @@ module Genius # :nodoc:
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
         response = HTTParty.get("https://api.genius.com/account?access_token=#{token_ext(token)}").body
-        raise GeniusDown.new(response: response) unless JSON.parse(response).is_a? Hash
+        raise CloudflareError.new(response: response) unless JSON.parse(response).is_a? Hash
 
         JSON.parse(response)
       end

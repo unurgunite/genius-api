@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Genius # :nodoc:
+module Genius
   # +Genius::Auth+ module is used to authenticate users with their token. It provides initialization
   # of token instance variable
   #
@@ -11,12 +11,13 @@ module Genius # :nodoc:
       attr_writer :token
 
       # +Genius::Auth.login=(token)+         -> true ot false
+      #
       # @param [String] token Token to access https://api.genius.com.
       # @return [String]
       # +login=+ method is a some kind of an extension for a setter +token=+ and could handle possible
       # exceptions during authentication. It means that you should never use +token=+ method unless
       # you actually know that your credentials are valid (not recommended).
-      # See Auth#is_authorized?
+      # @see .authorized?
       def login=(token)
         Genius::Errors.error_handle(token)
         puts "Authorized!"
@@ -24,6 +25,7 @@ module Genius # :nodoc:
       end
 
       # +Genius::Auth.authorized?+           -> true or false
+      #
       # @param [nil or String] method_name Optional param to pass method name where exception was raised.
       # @return [Boolean]
       # +authorized?+ method checks if user in current session is authorized
@@ -33,7 +35,8 @@ module Genius # :nodoc:
       end
 
       # +Genius::Auth.logout!+               -> nil
-      # @return [Object]
+      #
+      # @return [nil]
       # +logout!+ method modifies a +token+ object and revoke session by setting +nil+ to the +token+.
       def logout!
         self.token = nil unless token.nil?
@@ -42,6 +45,8 @@ module Genius # :nodoc:
       private
 
       attr_reader :token
+
+      Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
     end
   end
 end

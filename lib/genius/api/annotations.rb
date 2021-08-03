@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
-module Genius # :nodoc:
+module Genius
   # An annotation is a piece of content about a part of a document. The document may be a song (hosted on Genius) or a
   # web page (hosted anywhere). The part of a document that an annotation is attached to is called a referent.
   module Annotations
     class << self
-      # Genius::Annotations.annotations               -> true or false
+      # +Genius::Annotations.annotations+              -> true or false
+      #
       # @param [Object] id Identification of annotations resource.
       # @param [Object] action Action to do during PUT request. Possible actions: nil, upvote, downvote, unvote.
       # @param [String] token Token to access https://api.genius.com.
@@ -23,7 +24,7 @@ module Genius # :nodoc:
       #     the page. Including it will help make sure newly created annotation appear on the correct page.
       # @option options [String] :title The title of the page.
       # @raise [ArgumentError] if `action` got incorrect value.
-      # @return [nil] if GeniusDown, TokenError, TokenMissing exceptions raised.
+      # @return [nil] if CloudflareError, TokenError, TokenMissing exceptions raised.
       # Genius::Annotations.annotations method
       # GET /annotations/:id
       # Data for a specific annotation.
@@ -199,6 +200,21 @@ module Genius # :nodoc:
         end
       end
 
+      # +Genius::Annotations.post_payload+              -> value
+      #
+      # @param [Hash] options Options for PUT response.
+      # @option options [String] :markdown The text for the note, in
+      #     {markdown}[https://help.github.com/articles/github-flavored-markdown/]
+      # @option options [String] :raw_annotatable_url The original URL of the page.
+      # @option options [String] :fragment The highlighted fragment.
+      # @option options [String] :before_html The HTML before the highlighted fragment (prefer up to 200 characters).
+      # @option options [String] :after_html The HTML after the highlighted fragment (prefer up to 200 characters).
+      # @option options [String] :canonical_url The href property of the <code>&lt;link rel="canonical"&gt;</code> tag
+      #     on the page. Including it will help make sure newly created annotation appear on the correct page.
+      # @option options [String] :og_url The content property of the <code>&lt;meta property="og:url"&gt;</code> tag on
+      #     the page. Including it will help make sure newly created annotation appear on the correct page.
+      # @option options [String] :title The title of the page.
+      # @return [Object]
       def post_payload(options: {})
         {
           annotation: {

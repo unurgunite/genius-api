@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+# Base module which contains all of other methods/classes/etc.
 module Genius
+  # +Genius::Api+ is a base module with different constants.
   module Api
+    # +Genius::Api::RESOURCE+ constant contains reference to {Genius API}[https://api.genius.com] resource.
     RESOURCE = "https://api.genius.com"
   end
 end

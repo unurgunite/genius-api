@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class Hash # :nodoc:
-  # <b>EXPERIMENTAL FEATURE</b>
+  # +Hash#deep_find(key)+        -> value
   #
-  # +hash.deep_find(key)+        -> value
   # @param [Object] key A key, which value should be found
   # @param [FalseClass] uniq A flag to make values unique in an array
   # @return [Object] output depends on key value
