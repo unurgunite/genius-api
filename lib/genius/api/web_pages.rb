@@ -15,10 +15,10 @@ module Genius # :nodoc:
       #
       # Provide as many of the following variants of the URL as possible:
       # @param [Hash] options
-      # @option [String] :raw_annotatable_url The URL as it would appear in a browser.
-      # @option [String] :canonical_url The URL as specified by an appropriate <code>&lt;link&gt;</code> tag in a page's
+      # @option options [String] :raw_annotatable_url The URL as it would appear in a browser.
+      # @option options [String] :canonical_url The URL as specified by an appropriate <code>&lt;link&gt;</code> tag in a page's
       #     <code>&lt;head&gt;</code>.
-      # @option [String] :og_url The URL as specified by an <code>og:url &lt;meta&gt;</code> tag in a page's
+      # @option options [String] :og_url The URL as specified by an <code>og:url &lt;meta&gt;</code> tag in a page's
       #     <code>&lt;head&gt;</code>
       # @return [Hash]
       def lookup(token: nil, options: {})

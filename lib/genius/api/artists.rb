@@ -10,7 +10,7 @@ module Genius # :nodoc:
       # @param [String] token Token to access https://api.genius.com.
       # @param [String] id ID of the song.
       # @return [Hash]
-      # @return [nil] if GeniusDown, TokenError, TokenMissing exception raised.
+      # @return [nil] if CloudflareError, TokenError, TokenMissing exception raised.
       def artists(token: nil, id: nil)
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
@@ -27,11 +27,11 @@ module Genius # :nodoc:
       # @param [String] token Token to access https://api.genius.com.
       # @param [String] id ID of the song.
       # @param [Hash] options
-      # @option [Integer] :per_page Number of results to return per request.
-      # @option [Integer] :page Paginated offset, (e.g., +per_page=5&page=3+ returns songs 11-15).
-      # @option [String] :sort +title+ (default) or +popularity+.
+      # @option options [Integer] :per_page Number of results to return per request.
+      # @option options [Integer] :page Paginated offset, (e.g., +per_page=5&page=3+ returns songs 11-15).
+      # @option options [String] :sort +title+ (default) or +popularity+.
       # @return [Hash]
-      # @return [nil] if GeniusDown, TokenError, TokenMissing exception raised.
+      # @return [nil] if CloudflareError, TokenError, TokenMissing exception raised.
       def artists_songs(token: nil, id: nil, options: {})
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
