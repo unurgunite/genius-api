@@ -98,11 +98,9 @@ module Genius # :nodoc:
       end
     end
 
-    # <b>EXPERIMENTAL FEATURE</b>
-    #
-    # A +GeniusDown+ object handles a rare exception which appears when https://api.genius.com or
-    # Genius related services are under maintenance. It uses Nokogiri under the hood.
-    class GeniusDown < GeniusExceptionSuperClass
+    # A +CloudflareError+ object handles an exception which appears when https://api.genius.com or
+    # Genius related services are under maintenance.
+    class CloudflareError < GeniusExceptionSuperClass
       attr_reader :msg, :exception_type, :response
 
       # @param [String (frozen)] msg Exception message.
@@ -207,7 +205,7 @@ module Genius # :nodoc:
       # This method was made to check token state. Token must be 64-sized string and could be validated only if
       # response status equals 200. More description in {docs}[https://docs.genius.com/]
       # and {api-clients page}[https://genius.com/api-clients] or in {TokenError documentation}[Genius::Auth.TokenError].
-      # See Auth#error_handle
+      # @see #error_handle
       def check_status(token)
         raise TokenError unless token.size == 64
 
