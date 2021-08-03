@@ -14,7 +14,7 @@ module Genius # :nodoc:
       # @param [Integer] song_id Song id.
       # @return [String] the error message if +lyrics+ param is +true+
       # @return [Hash] if +lyrics+ param is +false+
-      # @return [nil] if GeniusDown, TokenError, TokenMissing exception raised
+      # @return [nil] if CloudflareError, TokenError, TokenMissing exception raised
       # This method provides info about song by its id. It is not the same with +Genius::Search.search+ method,
       # because it modify a +JSON+ only for concrete song id, not for whole search database, which is returned
       # in +Genius::Search.search+

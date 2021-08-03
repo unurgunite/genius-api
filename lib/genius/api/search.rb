@@ -11,7 +11,7 @@ module Genius # :nodoc:
       # @param [Object] search_by Optional parameter to search by key in output +JSON+.
       # @return [String] if +search_by+ is +TrueClass+
       # @return [Hash] if +search_by+ is +FalseClass+
-      # @return [nil] if GeniusDown, TokenError, TokenMissing exception raised
+      # @return [nil] if CloudflareError, TokenError, TokenMissing exception raised
       # This method is a standard Genius API {method}[https://docs.genius.com/#search-h2] and it is
       # needed to send a request to the server and get information about artists, tracks and everything
       # else that may be inside the response body. According to https://docs.genius.com/#search-h2, token
@@ -26,7 +26,7 @@ module Genius # :nodoc:
       # *Examples:*
       #     Genius::Search.search(query: "Bones", search_by: "title") #=> ["Dirt", "HDMI", "RestInPeace", "Sodium"]
       #
-      # See Hash#deep_find
+      # @see #deep_find
       def search(token: nil, query: nil, search_by: nil)
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?

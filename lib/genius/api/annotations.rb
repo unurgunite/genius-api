@@ -24,7 +24,7 @@ module Genius # :nodoc:
       #     the page. Including it will help make sure newly created annotation appear on the correct page.
       # @option options [String] :title The title of the page.
       # @raise [ArgumentError] if `action` got incorrect value.
-      # @return [nil] if GeniusDown, TokenError, TokenMissing exceptions raised.
+      # @return [nil] if CloudflareError, TokenError, TokenMissing exceptions raised.
       # Genius::Annotations.annotations method
       # GET /annotations/:id
       # Data for a specific annotation.
