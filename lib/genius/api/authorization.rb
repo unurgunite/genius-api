@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Genius # :nodoc:
+module Genius
   # +Genius::Auth+ module is used to authenticate users with their token. It provides initialization
   # of token instance variable
   #

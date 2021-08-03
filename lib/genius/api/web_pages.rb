@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Genius # :nodoc:
+module Genius
   # A web page is a single, publicly accessible page to which annotations may be attached. Web pages map 1-to-1 with
   # unique, canonical URLs.
   module WebPages

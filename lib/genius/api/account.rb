@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Genius # :nodoc:
+module Genius
   # +Genius::Account+ module provides methods to work with Genius account
   module Account
     class << self

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Genius # :nodoc:
+module Genius
   # +Genius::Songs+ module provides methods to work with songs (lyrics/descriptions/etc.)
   module Songs
     class << self

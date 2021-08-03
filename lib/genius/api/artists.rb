@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Genius # :nodoc:
+module Genius
   # An artist is how Genius represents the creator of one or more songs (or other documents hosted on Genius). It's
   # usually a musician or group of musicians.
   module Artists

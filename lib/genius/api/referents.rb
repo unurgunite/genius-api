@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Genius # :nodoc:
+module Genius
   # Referents are the sections of a piece of content to which annotations are attached. Each referent is associated with
   # a web page or a song and may have one or more annotations. Referents can be searched by the document they are
   # attached to or by the user that created them. When a new annotation is created either a referent is created with

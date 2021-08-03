@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Genius # :nodoc:
+module Genius
   # +Genius::Errors+ module includes custom exception classes and methods to handle all errors during
   # requests to https://api.genius.com or during the work with library methods. All
   # exception classes, but +TokenMissing+ class, requires two fields - +msg+ and +exception_type+

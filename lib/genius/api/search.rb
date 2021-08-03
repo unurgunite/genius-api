@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Genius # :nodoc:
+module Genius
   # +Genius::Search+ module provides methods to work with Genius search database
   module Search
     class << self
