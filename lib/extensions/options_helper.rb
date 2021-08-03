@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # +options_helper+                    -> String
+#
 # @param [Hash] options Hash with params for response.
 # @param [Array] arry Array of possible params for response.
 # @return [String]

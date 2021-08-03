@@ -200,6 +200,7 @@ module Genius # :nodoc:
 
     class << self
       # +Genius::Errors.check_status(token)+          -> true or false
+      #
       # @param [String] token Token to access https://api.genius.com.
       # @return [Boolean]
       # This method was made to check token state. Token must be 64-sized string and could be validated only if

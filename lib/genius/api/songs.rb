@@ -6,8 +6,6 @@ module Genius # :nodoc:
     class << self
       include Genius::Errors
 
-      # <b>EXPERIMENTAL FEATURE</b>
-      #
       # +Genius::Songs.songs+     -> value
       #
       # @param [String] token Token to access https://api.genius.com.
@@ -53,6 +51,7 @@ module Genius # :nodoc:
       end
 
       # +Genius::Songs.get_lyrics+      -> hash
+      #
       # @param [Integer] song_id Song id.
       # @return [Hash]
       # @return [String] if +song_id+ param is +nil+
