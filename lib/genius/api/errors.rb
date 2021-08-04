@@ -2,10 +2,7 @@
 
 module Genius
   # +Genius::Errors+ module includes custom exception classes and methods to handle all errors during
-  # requests to https://api.genius.com or during the work with library methods. All
-  # exception classes, but +TokenMissing+ class, requires two fields - +msg+ and +exception_type+
-  # (not +nil+ by default): +TokenMissing+ requires three fields - +msg+, +exception_type+,
-  # which are not +nil+, and +method_name+, which is +nil+ by default.
+  # requests to https://api.genius.com or during the work with library methods.
   #
   # @example
   #     module Genius
@@ -49,42 +46,19 @@ module Genius
     class GeniusExceptionSuperClass < StandardError
     end
 
-    # A +TokenError+ object provides handling error during token validation
-    # It throws error when +token+ is invalid - expired, revoked or something else. To generate new
-    # token you should go to https://genius.com/signup_or_login and login, then you need to create new
-    # client via the link below: https://genius.com/api-clients and generate new access token. Fields to create
-    # new api client can be filled in as you like - there is no restrictions and standards.
+    # A +TokenError+ object provides handling error during token validation. It throws error when +token+ is
+    # invalid - expired, revoked or something else. To generate new token you should go to
+    # https://genius.com/signup_or_login and login, then you need to create new client via the
+    # link below: https://genius.com/api-clients and generate new access token. Fields to create new api client can
+    # be filled in as you like - there is no restrictions and standards.
     class TokenError < GeniusExceptionSuperClass
-      attr_reader :msg, :exception_type
+      attr_reader :msg, :exception_type, :method_name
 
       # @param [String (frozen)] msg Exception message.
       # @param [String (frozen)] exception_type Exception type.
       # @return [String (frozen)]
       def initialize(msg: "Invalid token. The access token provided is expired, revoked, malformed or invalid for " \
-               "other reasons.", exception_type: "token_error")
-        super(message)
-        @msg = msg
-        @exception_type = exception_type
-      end
-    end
-
-    # A +TokenMissing+ object handles unauthorized access to some requests to https://api.genius.com. There are
-    # <em>voting</em>, <em>account info</em> and <em>managing annotations</em>. For other methods such
-    # as scraping lyrics token is not required - scraping occurs through another api client. It throws error only when
-    # user did not provide token via +Genius::Auth.login="token"+ method to get access to noted methods.
-    # The best practice to store your token is storing within environment variables and access them via +ENV['TOKEN']+:
-    #
-    # @example
-    #     Genius::Auth.login="#{ENV['TOKEN']}"
-    class TokenMissing < GeniusExceptionSuperClass
-      attr_reader :msg, :exception_type, :method_name
-
-      # @param [String (frozen)] msg Exception message.
-      # @param [String (frozen)] exception_type Exception type.
-      # @param [nil or String] method_name Optional param to provide method name which can pass token and validate it.
-      # @return [String (frozen)]
-      def initialize(msg: "Token is required for this method. Please, add token via `Genius::Auth.login=``token''` " \
-              "method and continue", exception_type: "token_missing", method_name: nil)
+               "other reasons.", exception_type: "token_error", method_name: nil)
         super(message)
         @msg = if method_name.nil?
                  msg
@@ -194,24 +168,6 @@ module Genius
     end
 
     class << self
-      # +Genius::Errors.check_status(token)+          -> true or false
-      #
-      # @param [String] token Token to access https://api.genius.com.
-      # @return [Boolean]
-      # This method was made to check token state. Token must be 64-sized string and could be validated only if
-      # response status equals 200. More description in {docs}[https://docs.genius.com/]
-      # and {api-clients page}[https://genius.com/api-clients] or in {TokenError documentation}[Genius::Auth.TokenError].
-      # @see .error_handle
-      def check_status(token)
-        raise TokenError unless token.size == 64
-
-        response = HTTParty.get("#{ENDPOINT}=#{token}").body
-        raise TokenError unless JSON.parse(response).dig("meta", "status")
-
-        status = JSON.parse(response).dig("meta", "status")
-        status == 200
-      end
-
       # +Genius::Errors.error_handle(token)+          -> true or false
       #
       # @param [String] token Token to access https://api.genius.com.
@@ -221,7 +177,7 @@ module Genius
       # @example
       #     begin
       #       Genius::Errors.error_handle(token)
-      #     rescue Genius::Errors.TokenError => e
+      #     rescue Genius::Errors::TokenError => e
       #       puts e.message
       #       puts e.exception_type
       #     end
@@ -232,15 +188,18 @@ module Genius
       #
       # @example
       #     begin
-      #       Genius::Errors.error_handle(token, __method__)
-      #     rescue Genius::Errors.TokenMissing => e
+      #       Genius::Errors.error_handle(token, method_name: __method__)
+      #     rescue Genius::Errors::TokenError => e
       #       puts e.message
       #       puts e.exception_type
       #     end
       def error_handle(token, method_name: nil)
-        raise TokenMissing.new(method_name: method_name) if token.nil?
-        raise TokenError unless token.size == 64
-        raise TokenError unless check_status(token)
+        if token.nil?
+          raise TokenError.new(msg: "Token is required for this method. Please, add token via " \
+                                                     "`Genius::Auth.login=``token''` method and continue")
+        elsif token.size != 64
+          raise TokenError.new(method_name: method_name)
+        end
       end
     end
   end
