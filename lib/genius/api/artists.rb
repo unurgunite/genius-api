@@ -36,11 +36,11 @@ module Genius
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
         sort_values = %w[title popularity]
-        unless sort_values.include?(options[:sort])
-          raise ArgumentError, "`sort` can't be #{sort}. Possible values: #{sort_values.join(", ")}."
-        end
 
-        if (options[:per_page]).negative? || (options[:page]).negative?
+        if options.key?(:sort) && !sort_values.include?(options[:sort])
+          raise ArgumentError, "`sort` can't be #{options[:sort]}. Possible values: #{sort_values.join(", ")}."
+        end
+        if options.key?(:per_page) && options[:per_page].negative? || options.key?(:page) && (options[:page]).negative?
           raise ArgumentError, "`per_page` or `page` can't be negative."
         end
 
