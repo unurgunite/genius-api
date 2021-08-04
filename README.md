@@ -22,7 +22,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+All docs are available at separate page: https://unurgunite.github.io/genius-api_docs/
 
 ## Development
 

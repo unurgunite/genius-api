@@ -18,7 +18,6 @@ module Genius
       # in +Genius::Search.search+
       #
       # @example
-      #
       #     Genius::Songs.songs(song_id: 294649) #=> {"some_kind_of_hash"}
       #
       def songs(token: nil, song_id: nil, combine: false)

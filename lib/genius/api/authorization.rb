@@ -4,7 +4,7 @@ module Genius
   # +Genius::Auth+ module is used to authenticate users with their token. It provides initialization
   # of token instance variable
   #
-  # *Examples:*
+  # @example
   #     Genius::Auth.login="yuiaYqbncErCVwItjQxFspNWUZLhGpXrPbkvgbgHSEKJRAlToamzMfdOeDB"
   module Auth
     class << self

@@ -15,18 +15,18 @@ module Genius
       # account info. Output +JSON+ is translated to Hash structure to make it easy to work with account fields.
       # You can also access to some fields of output hash with +field+ param, which is +nil+ by default. For e.g.,
       #
-      # *Examples:*
+      # @example
       #     Genius::Account.account(field: "name") #=> "Foo Bar"
       #
       # Due to the nesting of a hash there could be multiple keys with the same name, so method will
       # return an array of values, but if multiple values are the same, method will return
       # value only once, without storing it in array. For e.g.,
       #
-      # *Examples:*
+      # @example
       #     Genius::Account.account(field: "id") #=> [100033, 234411]
       #     Genius::Account.account(field: "url") #=> "https://genius.com/"
       #
-      # *Examples:*
+      # @example
       #     Genius::Auth.login="yuiaYqbncErCVwItjQxFspNWUZLhGpXrPbkvgbgHSEKJRAlToamzMfdOeDB"
       #     Genius::Account.account #=> {"meta"=>{"status"=>200}, "response"=>{"user"=>{...}}}
       #

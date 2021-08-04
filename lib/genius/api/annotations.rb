@@ -23,7 +23,10 @@ module Genius
       # @option options [String] :og_url The content property of the <code>&lt;meta property="og:url"&gt;</code> tag on
       #     the page. Including it will help make sure newly created annotation appear on the correct page.
       # @option options [String] :title The title of the page.
-      # @raise [ArgumentError] if `action` got incorrect value.
+      # @raise [ArgumentError] if +action+ got incorrect value.
+      # @raise [CloudflareError] if Cloudflare is not responding.
+      # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
+      # @raise [TokenMissing] if +token+ param is missing.
       # @return [nil] if CloudflareError, TokenError, TokenMissing exceptions raised.
       # Genius::Annotations.annotations method
       # GET /annotations/:id

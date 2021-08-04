@@ -17,13 +17,13 @@ module Genius
       # else that may be inside the response body. According to https://docs.genius.com/#search-h2, token
       # is required to be in response, but you can use this method without use of it! =)
       #
-      # *Examples:*
+      # @example
       #     Genius::Search.search(query: "Ariana Grande") #=> {..., "full_title"=>" thank u, next by Ariana Grande", ...}
       #
       # Also, you can use this method with +search_by+ param, which is needed to search interested
       # data through returned +JSON+. It uses +deep_find+ extension under the hood.
       #
-      # *Examples:*
+      # @example
       #     Genius::Search.search(query: "Bones", search_by: "title") #=> ["Dirt", "HDMI", "RestInPeace", "Sodium"]
       #
       # @see #deep_find
