@@ -10,13 +10,13 @@ module Genius
       # @param [String] token Token to access https://api.genius.com.
       # @param [String] id ID of the song.
       # @return [Hash]
-      # @return [nil] if CloudflareError, TokenError, TokenMissing exception raised.
+      # @return [nil] if CloudflareError, TokenError exception raised.
       def artists(token: nil, id: nil)
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
         raise ArgumentError, "`id` can't be nil!" if id.nil?
 
-        response = HTTParty.get("#{Api::RESOURCE}/artists/#{id}?access_token=#{token_ext(:token)}").body
+        response = HTTParty.get("#{Api::RESOURCE}/artists/#{id}?access_token=#{token_ext(token)}").body
         JSON.parse(response)
       end
 
@@ -31,16 +31,16 @@ module Genius
       # @option options [Integer] :page Paginated offset, (e.g., +per_page=5&page=3+ returns songs 11-15).
       # @option options [String] :sort +title+ (default) or +popularity+.
       # @return [Hash]
-      # @return [nil] if CloudflareError, TokenError, TokenMissing exception raised.
+      # @return [nil] if CloudflareError, TokenError exception raised.
       def artists_songs(token: nil, id: nil, options: {})
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
         sort_values = %w[title popularity]
-        unless sort_values.include?(options[:sort])
-          raise ArgumentError, "`sort` can't be #{sort}. Possible values: #{sort_values.join(", ")}."
-        end
 
-        if (options[:per_page]).negative? || (options[:page]).negative?
+        if options.key?(:sort) && !sort_values.include?(options[:sort])
+          raise ArgumentError, "`sort` can't be #{options[:sort]}. Possible values: #{sort_values.join(", ")}."
+        end
+        if options.key?(:per_page) && options[:per_page].negative? || options.key?(:page) && (options[:page]).negative?
           raise ArgumentError, "`per_page` or `page` can't be negative."
         end
 
