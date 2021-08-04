@@ -9,6 +9,8 @@ module Genius
       # An alias to {Genius::Account.account me} method
       #
       # @param [String] token Token to access https://api.genius.com.
+      # @raise [CloudflareError] if Cloudflare is not responding.
+      # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [Hash]
       # @return [nil] if CloudflareError, TokenError exception raised.
       # This method is a standard Genius API {request}[https://docs.genius.com/#search-h2] to get

@@ -10,6 +10,10 @@ module Genius
       #
       # @param [String] token Token to access https://api.genius.com.
       # @param [Integer] song_id Song id.
+      # @raise [PageNotFound] if page is not found.
+      # @raise [LyricsNotFound] if output JSON is nil.
+      # @raise [CloudflareError] if Cloudflare is not responding.
+      # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [String] the error message if +lyrics+ param is +true+.
       # @return [Hash] if +lyrics+ param is +false+.
       # @return [nil] if CloudflareError, TokenError exception raised.
@@ -51,11 +55,11 @@ module Genius
       # +Genius::Songs.get_lyrics+      -> hash
       #
       # @param [Integer] song_id Song id.
+      # @raise [ArgumentError] if +song_id+ is blank.
       # @return [Hash]
-      # @return [String] if +song_id+ param is +nil+
       # +Genius::Songs.get_lyrics+ method is used for extracting lyrics in plain text format
       def get_lyrics(song_id)
-        return "song_id should be not blank!" if song_id.nil?
+        raise ArgumentError, "`song_id` should be not blank!" if song_id.nil?
 
         response = HTTParty.get("https://genius.com/songs/#{song_id}")
         document = Nokogiri::HTML(response)
