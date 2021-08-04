@@ -7,8 +7,7 @@ module Genius
   # (not +nil+ by default): +TokenMissing+ requires three fields - +msg+, +exception_type+,
   # which are not +nil+, and +method_name+, which is +nil+ by default.
   #
-  # *Examples:*
-  #
+  # @example
   #     module Genius
   #       module Foo
   #         include Genius::Errors
@@ -26,8 +25,7 @@ module Genius
   # Exception classes fields provide custom message and error types (+connection_error+,
   # +token_error+, +auth_required+, etc.)
   #
-  # *Examples:*
-  #
+  # @example
   #     begin
   #       raise TokenError.new(msg: "Message", error_type: "error_type")
   #     rescue TokenError => e
@@ -36,8 +34,7 @@ module Genius
   #     end
   # There will be a standard output of each exception if there will be no params provided
   #
-  # *Examples:*
-  #
+  # @example
   #     begin
   #       raise TokenError
   #     rescue TokenError => e
@@ -56,7 +53,7 @@ module Genius
     # It throws error when +token+ is invalid - expired, revoked or something else. To generate new
     # token you should go to https://genius.com/signup_or_login and login, then you need to create new
     # client via the link below: https://genius.com/api-clients and generate new access token. Fields to create
-    # new api client can be filled in as you like - there are no restrictions and standards.
+    # new api client can be filled in as you like - there is no restrictions and standards.
     class TokenError < GeniusExceptionSuperClass
       attr_reader :msg, :exception_type
 
@@ -78,7 +75,6 @@ module Genius
     # The best practice to store your token is storing within environment variables and access them via +ENV['TOKEN']+:
     #
     # @example
-    #
     #     Genius::Auth.login="#{ENV['TOKEN']}"
     class TokenMissing < GeniusExceptionSuperClass
       attr_reader :msg, :exception_type, :method_name
@@ -222,7 +218,7 @@ module Genius
       # @param [nil or String] method_name Optional param to pass method name where exception was raised.
       # @return [Boolean]
       #
-      # *Examples:*
+      # @example
       #     begin
       #       Genius::Errors.error_handle(token)
       #     rescue Genius::Errors.TokenError => e
@@ -234,7 +230,7 @@ module Genius
       # method name in error exception for dynamical error message, and because of unimportance this method is
       # +nil+ by default. If you are ready to pass method, it will look like this:
       #
-      # *Examples:*
+      # @example
       #     begin
       #       Genius::Errors.error_handle(token, __method__)
       #     rescue Genius::Errors.TokenMissing => e
