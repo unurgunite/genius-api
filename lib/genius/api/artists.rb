@@ -9,6 +9,9 @@ module Genius
       #
       # @param [String] token Token to access https://api.genius.com.
       # @param [String] id ID of the song.
+      # @raise [ArgumentError] if +id+ is +nil+.
+      # @raise [CloudflareError] if Cloudflare is not responding.
+      # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [Hash]
       # @return [nil] if CloudflareError, TokenError exception raised.
       def artists(token: nil, id: nil)
@@ -30,6 +33,10 @@ module Genius
       # @option options [Integer] :per_page Number of results to return per request.
       # @option options [Integer] :page Paginated offset, (e.g., +per_page=5&page=3+ returns songs 11-15).
       # @option options [String] :sort +title+ (default) or +popularity+.
+      # @raise [ArgumentError] if +sort+ got incorrect value.
+      # @raise [ArgumentError] if +per_page+ or +page+ are negative.
+      # @raise [CloudflareError] if Cloudflare is not responding.
+      # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [Hash]
       # @return [nil] if CloudflareError, TokenError exception raised.
       def artists_songs(token: nil, id: nil, options: {})

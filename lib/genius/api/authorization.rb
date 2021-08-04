@@ -13,6 +13,8 @@ module Genius
       # +Genius::Auth.login=(token)+         -> true ot false
       #
       # @param [String] token Token to access https://api.genius.com.
+      # @raise [CloudflareError] if Cloudflare is not responding.
+      # @raise [TokenError] if +token+ is invalid.
       # @return [String]
       # +login=+ method is a some kind of an extension for a setter +token=+ and could handle possible
       # exceptions during authentication. It means that you should never use +token=+ method unless
@@ -27,6 +29,8 @@ module Genius
       # +Genius::Auth.authorized?+           -> true or false
       #
       # @param [nil or String] method_name Optional param to pass method name where exception was raised.
+      # @raise [CloudflareError] if Cloudflare is not responding.
+      # @raise [TokenError] if +token+ is invalid.
       # @return [Boolean]
       # +authorized?+ method checks if user in current session is authorized
       def authorized?(method_name = nil)
