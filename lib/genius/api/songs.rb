@@ -10,16 +10,15 @@ module Genius
       #
       # @param [String] token Token to access https://api.genius.com.
       # @param [Integer] song_id Song id.
-      # @return [String] the error message if +lyrics+ param is +true+
-      # @return [Hash] if +lyrics+ param is +false+
-      # @return [nil] if CloudflareError, TokenError, TokenMissing exception raised
+      # @return [String] the error message if +lyrics+ param is +true+.
+      # @return [Hash] if +lyrics+ param is +false+.
+      # @return [nil] if CloudflareError, TokenError exception raised.
       # This method provides info about song by its id. It is not the same with +Genius::Search.search+ method,
       # because it modify a +JSON+ only for concrete song id, not for whole search database, which is returned
-      # in +Genius::Search.search+
+      # in +Genius::Search.search+.
       #
       # @example
       #     Genius::Songs.songs(song_id: 294649) #=> {"some_kind_of_hash"}
-      #
       def songs(token: nil, song_id: nil, combine: false)
         Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
@@ -65,6 +64,8 @@ module Genius
       rescue NoMethodError
         retry
       end
+
+      Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
     end
   end
 end
