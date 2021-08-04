@@ -26,8 +26,7 @@ module Genius
       # @raise [ArgumentError] if +action+ got incorrect value.
       # @raise [CloudflareError] if Cloudflare is not responding.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
-      # @raise [TokenMissing] if +token+ param is missing.
-      # @return [nil] if CloudflareError, TokenError, TokenMissing exceptions raised.
+      # @return [nil] if CloudflareError, TokenError exceptions raised.
       # Genius::Annotations.annotations method
       # GET /annotations/:id
       # Data for a specific annotation.

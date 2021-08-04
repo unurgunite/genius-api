@@ -11,7 +11,7 @@ module Genius
       # @param [Object] search_by Optional parameter to search by key in output +JSON+.
       # @return [String] if +search_by+ is +TrueClass+
       # @return [Hash] if +search_by+ is +FalseClass+
-      # @return [nil] if CloudflareError, TokenError, TokenMissing exception raised
+      # @return [nil] if CloudflareError, TokenError exception raised.
       # This method is a standard Genius API {method}[https://docs.genius.com/#search-h2] and it is
       # needed to send a request to the server and get information about artists, tracks and everything
       # else that may be inside the response body. According to https://docs.genius.com/#search-h2, token
