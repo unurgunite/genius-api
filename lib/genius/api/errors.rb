@@ -125,7 +125,7 @@ module Genius
       # @param [Object] html
       # @return [TrueClass] if genius page is not found
       # @return [FalseClass] if genius page is found
-      # PageNotFound.page_not_found? method is used to be a predicate for handling 404 error
+      # +PageNotFound.page_not_found?+ method is used to be a predicate for handling 404 error
       def self.page_not_found?(html)
         !!html.text.match(/Page not found/)
       end
@@ -158,7 +158,6 @@ module Genius
       #
       # @param [Object] klass Class name of structure - module/class/etc.
       # @return [Object]
-      #
       def self.rescue(klass)
         DynamicRescue.rescue_from klass.singleton_methods, klass, GeniusExceptionSuperClass do |e|
           puts "Error description: #{e.msg}"
