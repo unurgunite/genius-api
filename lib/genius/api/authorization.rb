@@ -19,6 +19,7 @@ module Genius
       # +login=+ method is a some kind of an extension for a setter +token=+ and could handle possible
       # exceptions during authentication. It means that you should never use +token=+ method unless
       # you actually know that your credentials are valid (not recommended).
+      #
       # @see .authorized?
       def login=(token)
         Genius::Errors.error_handle(token)

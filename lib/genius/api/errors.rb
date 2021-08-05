@@ -167,6 +167,25 @@ module Genius
     end
 
     class << self
+      # +Genius::Errors.check_status(token)+          -> true or false
+      #
+      # @param [String] token Token to access https://api.genius.com.
+      # @return [Boolean]
+      # This method was made to check token state. Token must be 64-sized string and could be validated only if
+      # response status equals 200. More description in {docs}[https://docs.genius.com/]
+      # and {api-clients page}[https://genius.com/api-clients] or in {TokenError documentation}[Genius::Auth.TokenError].
+      #
+      # @see .error_handle
+      def check_status(token)
+        false if token.size == 64 || token.nil?
+
+        response = HTTParty.get("#{ENDPOINT}=#{token}").body
+        raise TokenError unless JSON.parse(response).dig("meta", "status")
+
+        status = JSON.parse(response).dig("meta", "status")
+        status == 200
+      end
+
       # +Genius::Errors.error_handle(token)+          -> true or false
       #
       # @param [String] token Token to access https://api.genius.com.
@@ -195,9 +214,10 @@ module Genius
       def error_handle(token, method_name: nil)
         if token.nil?
           raise TokenError.new(msg: "Token is required for this method. Please, add token via " \
-                                                     "`Genius::Auth.login=``token''` method and continue")
-        elsif token.size != 64
-          raise TokenError.new(method_name: method_name)
+                                                       "`Genius::Auth.login=``token''` method and continue",
+                               method_name: method_name)
+        elsif token.size != 64 || !check_status(token)
+          raise TokenError, method_name: method_name
         end
       end
     end
