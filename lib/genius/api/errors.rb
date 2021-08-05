@@ -177,7 +177,7 @@ module Genius
       #
       # @see .error_handle
       def check_status(token)
-        false if token.size == 64 || token.nil?
+        false if token.size != 64 || token.nil?
 
         response = HTTParty.get("#{ENDPOINT}=#{token}").body
         raise TokenError unless JSON.parse(response).dig("meta", "status")
