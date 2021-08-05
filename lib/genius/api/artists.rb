@@ -7,6 +7,8 @@ module Genius
     class << self
       # +Genius::Artists.artists+                     -> Hash
       #
+      # Data for a specific artist.
+      #
       # @param [String] token Token to access https://api.genius.com.
       # @param [String] id ID of the song.
       # @raise [ArgumentError] if +id+ is +nil+.
