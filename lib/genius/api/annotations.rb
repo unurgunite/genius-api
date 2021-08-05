@@ -184,9 +184,9 @@ module Genius
       # @option options [String] :fragment The highlighted fragment.
       # @option options [String] :before_html The HTML before the highlighted fragment (prefer up to 200 characters).
       # @option options [String] :after_html The HTML after the highlighted fragment (prefer up to 200 characters).
-      # @option options [String] :canonical_url The href property of the <code>&lt;link rel="canonical"&gt;</code> tag
+      # @option options [String] :canonical_url The href property of the <code><link rel="canonical"></code> tag
       #     on the page. Including it will help make sure newly created annotation appear on the correct page.
-      # @option options [String] :og_url The content property of the <code>&lt;meta property="og:url"&gt;</code> tag on
+      # @option options [String] :og_url The content property of the <code><meta property="og:url"></code> tag on
       #     the page. Including it will help make sure newly created annotation appear on the correct page.
       # @option options [String] :title The title of the page.
       # @return [Object]
