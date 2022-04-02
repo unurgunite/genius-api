@@ -180,50 +180,50 @@ name: [copy of the License](https://github.com/unurgunite/genius-api/blob/master
 Everyone interacting in the Genius::Api project's codebases, issue trackers, chat rooms and mailing lists is expected to
 follow the [code of conduct](https://github.com/unurgunite/genius-api/blob/master/CODE_OF_CONDUCT.md).
 
-[1]:[https://github.com/unurgunite/genius-api#overview]
+[1]:https://github.com/unurgunite/genius-api#overview
 
-[2]:[https://github.com/unurgunite/genius-api#installation]
+[2]:https://github.com/unurgunite/genius-api#installation
 
-[2.1]:[https://github.com/unurgunite/genius-api#build-from-source]
+[2.1]:https://github.com/unurgunite/genius-api#build-from-source
 
-[2.1.1]:[https://github.com/unurgunite/genius-api#manual-installation]
+[2.1.1]:https://github.com/unurgunite/genius-api#manual-installation
 
-[2.1.2]:[https://github.com/unurgunite/genius-api#automatic-installation]
+[2.1.2]:https://github.com/unurgunite/genius-api#automatic-installation
 
-[2.2]:[https://github.com/unurgunite/genius-api#build-via-bundler]
+[2.2]:https://github.com/unurgunite/genius-api#build-via-bundler
 
-[3]:[https://github.com/unurgunite/genius-api#usage]
+[3]:https://github.com/unurgunite/genius-api#usage
 
-[4]:[https://github.com/unurgunite/genius-api#todo]
+[4]:https://github.com/unurgunite/genius-api#todo
 
-[5]:[https://github.com/unurgunite/genius-api#development]
+[5]:https://github.com/unurgunite/genius-api#development
 
-[6]:[https://github.com/unurgunite/genius-api#requirements]
+[6]:https://github.com/unurgunite/genius-api#requirements
 
-[6.1]:[https://github.com/unurgunite/genius-api#common-usage]
+[6.1]:https://github.com/unurgunite/genius-api#common-usage
 
-[6.2]:[https://github.com/unurgunite/genius-api#development-purposes]
+[6.2]:https://github.com/unurgunite/genius-api#development-purposes
 
-[7]:[https://github.com/unurgunite/genius-api#project-style-guide]
+[7]:https://github.com/unurgunite/genius-api#project-style-guide
 
-[8]:[https://github.com/unurgunite/genius-api#contributing]
+[8]:https://github.com/unurgunite/genius-api#contributing
 
-[9]:[https://github.com/unurgunite/genius-api#license]
+[9]:https://github.com/unurgunite/genius-api#license
 
-[10]:[https://github.com/unurgunite/genius-api#code-of-conduct]
+[10]:https://github.com/unurgunite/genius-api#code-of-conduct
 
-[101]:[https://rubygems.org/gems/httparty]
+[101]:https://rubygems.org/gems/httparty
 
-[102]:[https://rubygems.org/gems/nokogiri]
+[102]:https://rubygems.org/gems/nokogiri
 
-[201]:[https://rubygems.org/gems/rspec]
+[201]:https://rubygems.org/gems/rspec
 
-[202]:[https://rubygems.org/gems/rubocop]
+[202]:https://rubygems.org/gems/rubocop
 
-[203]:[https://rubygems.org/gems/rake]
+[203]:https://rubygems.org/gems/rake
 
-[204]:[https://rubygems.org/gems/dotenv]
+[204]:https://rubygems.org/gems/dotenv
 
-[205]:[https://rubygems.org/gems/coderay]
+[205]:https://rubygems.org/gems/coderay
 
-[206]:[https://rubygems.org/gems/yard]
+[206]:https://rubygems.org/gems/yard
