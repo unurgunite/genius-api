@@ -5,7 +5,7 @@ require_relative "lib/genius/api/version"
 Gem::Specification.new do |spec|
   spec.name          = "genius-api"
   spec.version       = Genius::Api::VERSION
-  spec.authors       = ["Unurgunite"]
+  spec.authors       = ["unurgunite"]
   spec.email         = ["noreply@example.com"]
 
   spec.summary       = "Library to work with Genius API"
