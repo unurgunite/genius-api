@@ -248,7 +248,7 @@ will be unused to delve into the purpose of the commit most of the time.
 
 ### RuboCop
 
-See: [Rubucop documentation](https://docs.rubocop.org/rubocop/index.html)
+See: [RuboCop documentation](https://docs.rubocop.org/rubocop/index.html)
 Before pushing, you must be sure that the code you write is correct, so it should always be formatted through a static
 analyzer. Look towards the `rubocop -D` and `rubocop -A` commands.
 
