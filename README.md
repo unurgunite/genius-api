@@ -61,9 +61,8 @@ bin/setup
 ```
 
 If you see `irb` interface, then everything works fine. The main goal of automatic installation is that you do not need
-to create your own script to simplify project build and clean up the shell history Add this line to your application's.
-Note: you do not need to require projects file after the automatic installation. See `bin/setup` file for clarity of the
-statement
+to create your own script to simplify project build and clean up the shell history. Note: you do not need to require
+projects file after the automatic installation. See `bin/setup` file for clarity of the statement
 
 ### Build via bundler
 
@@ -141,7 +140,7 @@ Description:
 
 * The RSpec gem is used for test which are located in a separate folder under `spec` name.
 
-* *The RuboCop gem is used for code formatting.
+* The RuboCop gem is used for code formatting.
 
 * The Rake gem is used for building tasks as generating documentation.
 
