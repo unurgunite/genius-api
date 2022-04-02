@@ -120,9 +120,11 @@ The `genius-api` gem is built on top of two other gems:
 1. [HTTParty][101]
 2. [Nokogiri][102]
 
-The HTTParty gem is used to send requests to the REST client of the https://api.genius.com/.
+Description:
 
-The Nokogiri gem is used to represent XML objects as Ruby structures.
+* The HTTParty gem is used to send requests to the REST client of the https://api.genius.com/.
+
+* The Nokogiri gem is used to represent XML objects as Ruby structures.
 
 ### Development purposes
 
@@ -135,17 +137,19 @@ For the development purposes `genius-api` gem uses:
 5. [Coderay][205]
 6. [YARD][206]
 
-The RSpec gem is used for test which are located in a separate folder under `spec` name.
+Description:
 
-The RuboCop gem is used for code formatting.
+* The RSpec gem is used for test which are located in a separate folder under `spec` name.
 
-The Rake gem is used for building tasks as generating documentation.
+* *The RuboCop gem is used for code formatting.
 
-The Dotenv gem is used for setting variables for test environment (`token`, for e.g.).
+* The Rake gem is used for building tasks as generating documentation.
 
-The Coderay gem is used for colorizing Rspec output.
+* The Dotenv gem is used for setting variables for test environment (`token`, for e.g.).
 
-The YARD gem is used for the documentation.
+* The Coderay gem is used for colorizing Rspec output.
+
+* The YARD gem is used for the documentation.
 
 ## Project style guide
 
@@ -169,16 +173,26 @@ git push origin refactor
 And then make new pull request with additional notes of what you have done. The better the changes are scheduled, the
 faster the PR will be checked.
 
+## Code of Conduct
+
+Everyone interacting in the `Genius::Api` project's codebases, issue trackers, chat rooms and mailing lists is expected
+to follow the [code of conduct](https://github.com/unurgunite/genius-api/blob/master/CODE_OF_CONDUCT.md).
+
 ## License
 
 The gem is available as open source under the terms of the [GPLv3 License](https://opensource.org/licenses/GPL-3.0). The
 copy of the license is stored in project under the `LICENSE.txt` file
 name: [copy of the License](https://github.com/unurgunite/genius-api/blob/master/LICENSE.txt)
 
-## Code of Conduct
+The documentation is available as open source under the terms of
+the [CC BY-SA 4.0 License](https://creativecommons.org/licenses/by-sa/4.0/)
 
-Everyone interacting in the Genius::Api project's codebases, issue trackers, chat rooms and mailing lists is expected to
-follow the [code of conduct](https://github.com/unurgunite/genius-api/blob/master/CODE_OF_CONDUCT.md).
+The other libs are available as open source under the terms of
+the [New BSD License](https://opensource.org/licenses/BSD-3-Clause)
+
+![GPLv3 logo](https://www.gnu.org/graphics/gplv3-or-later.png)
+![CC BY-SA 4.0](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc.svg)
+![BSD license logo](https://upload.wikimedia.org/wikipedia/commons/4/42/License_icon-bsd-88x31.png)
 
 [1]:https://github.com/unurgunite/genius-api#overview
 
