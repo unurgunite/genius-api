@@ -33,7 +33,7 @@ Overview
 ## Project structure
 
 The project tree consists of several directories. Some of them are described at
-RubyGems [documentation][https://guides.rubygems.org/make-your-own-gem/]. See it for clearance.
+RubyGems [documentation](https://guides.rubygems.org/make-your-own-gem/). See it for clearance.
 
 Folder structure in the `lib` directory deserves special attention. There are two other folders there — `lib/extensions`
 and `lib/genius`, the last of which is divided into two more layers - outer and inner. The `api.rb` file (referred as
