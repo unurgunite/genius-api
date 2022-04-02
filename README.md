@@ -31,7 +31,8 @@ resources are stored in theirs separate module, so it does code readability much
 
 ## Installation
 
-Genius API gem is quite simple to use and install
+Genius API gem is quite simple to use and install. There are two options to install it — for those who is going to
+contribute into the project and for those who is going to embed gem to theirs project. See below for each step.
 
 ### Build from source
 
