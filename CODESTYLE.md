@@ -28,7 +28,7 @@ This file includes code style references which can help when contributing to pro
 
 ## Overview
 
-Overview
+This project will show patterns and tips to contribute in this project. Feel free to contribute there!
 
 ## Project structure
 
@@ -264,44 +264,44 @@ the [CC BY-SA 4.0 License](https://creativecommons.org/licenses/by-sa/4.0/)
 
 ![CC BY-SA 4.0](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc.svg)
 
-[1]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#overview]
+[1]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#overview]
 
-[2]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#project-structure]
+[2]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#project-structure]
 
-[2.1]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#outer-layer]
+[2.1]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#outer-layer]
 
-[2.2]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#inner-layer]
+[2.2]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#inner-layer]
 
-[2.3]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#extensions]
+[2.3]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#extensions]
 
-[2.4]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#rakelib]
+[2.4]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#rakelib]
 
-[3]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#naming-convention]
+[3]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#naming-convention]
 
-[3.1]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#file-naming]
+[3.1]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#file-naming]
 
-[3.2]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#module-naming]
+[3.2]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#module-naming]
 
-[3.3]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#class-naming]
+[3.3]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#class-naming]
 
-[3.4]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#parameters-naming]
+[3.4]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#parameters-naming]
 
-[3.5]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#variables-naming]
+[3.5]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#variables-naming]
 
-[4]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#code-semantics]
+[4]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#code-semantics]
 
-[4.1]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#define-modules]
+[4.1]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#define-modules]
 
-[4.2]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#define-classes]
+[4.2]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#define-classes]
 
-[4.3]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#define-methods]
+[4.3]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#define-methods]
 
-[5]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#contributing]
+[5]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#contributing]
 
-[5.1]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#git-commits]
+[5.1]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#git-commits]
 
-[5.2]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#rubocop]
+[5.2]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#rubocop]
 
-[6]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#todo]
+[6]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#todo]
 
-[7]:[https://github.com/unurgunite/genius-api/CODESTYLE.md#license]
+[7]:[https://github.com/unurgunite/genius-api/blob/master/CODESTYLE.md#license]
