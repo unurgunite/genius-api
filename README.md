@@ -45,7 +45,7 @@ git clone https://github.com/unurgunite/genius-api.git && \
 cd ~/genius-api && \
 bundle install && \
 gem build genius-api.gemspec && \
-gem install genius-api-0.1.0.gem
+gem install genius-api-0.2.0.gem
 ```
 
 Now everything should work fine. Just type `irb` and `require "genius/api"` to start working with the library
