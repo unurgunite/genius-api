@@ -6,3 +6,11 @@ set -vx
 bundle install
 
 # Do any other automated setup that you need to do here
+
+PROJECT_NAME='genius-api'
+cd ..
+gem build "$PROJECT_NAME".gemspec
+GEM_VERSION=$(bundle info $PROJECT_NAME | head -n 1 | sed 's/.*(\(.*\))/\1/')
+GEM_ARCHIVE="$PROJECT_NAME-$GEM_VERSION.gem"
+gem install "$GEM_ARCHIVE"
+bin/console
