@@ -10,3 +10,4 @@
 *.gem
 *.lock
 rakelib
+.env

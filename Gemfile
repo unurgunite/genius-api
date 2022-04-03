@@ -14,3 +14,8 @@ gem "rubocop", "~> 1.7"
 gem "httparty", "~> 0.13.7"
 
 gem "nokogiri"
+
+group :test do
+  gem "coderay"
+  gem "dotenv", "~> 2.7.6"
+end
