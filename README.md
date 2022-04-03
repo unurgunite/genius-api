@@ -96,6 +96,8 @@ All docs are available at the separate page: https://unurgunite.github.io/genius
 - [x] Update `README.md`
 - [ ] Refactor code base
 - [ ] Add tests with RSpec
+- [ ] 100% code coverage with RuboCop
+- [ ] Refactor code according to the style guides
 
 ## Development
 
@@ -131,6 +133,7 @@ For the development purposes `genius-api` gem uses:
 3. [Rake][203]
 4. [Dotenv][204]
 5. [Coderay][205]
+6. [YARD][206]
 
 The RSpec gem is used for test which are located in a separate folder under `spec` name.
 
@@ -141,6 +144,13 @@ The Rake gem is used for building tasks as generating documentation.
 The Dotenv gem is used for setting variables for test environment (`token`, for e.g.).
 
 The Coderay gem is used for colorizing Rspec output.
+
+The YARD gem is used for the documentation.
+
+## Project style guide
+
+To make the code base much cleaner gem has its own style guides. They are defined in a root folder of the gem in
+a `CODESTYLE.md` file. Check it for more details.
 
 ## Contributing
 
@@ -215,3 +225,5 @@ follow the [code of conduct](https://github.com/unurgunite/genius-api/blob/maste
 [204]:[https://rubygems.org/gems/dotenv]
 
 [205]:[https://rubygems.org/gems/coderay]
+
+[206]:[https://rubygems.org/gems/yard]
