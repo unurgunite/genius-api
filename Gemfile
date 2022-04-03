@@ -15,6 +15,8 @@ gem "httparty", "~> 0.13.7"
 
 gem "nokogiri"
 
+gem "yard"
+
 group :test do
   gem "coderay"
   gem "dotenv", "~> 2.7.6"
