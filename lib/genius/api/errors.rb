@@ -69,29 +69,6 @@ module Genius
       end
     end
 
-    # A +CloudflareError+ object handles an exception which appears when https://api.genius.com or
-    # Genius related services are under maintenance.
-    class CloudflareError < GeniusExceptionSuperClass
-      attr_reader :msg, :exception_type, :response
-
-      # @param [String (frozen)] msg Exception message.
-      # @param [String (frozen)] exception_type Exception type.
-      # @param [nil or String] response Response to parse from request to https://api.genius.com.
-      # @return [String (frozen)]
-      def initialize(msg: "Be patient! Genius is down. Try again in several minutes",
-                     exception_type: "genius_api_error", response: nil)
-        super(message)
-        @msg = if response.nil?
-                 msg
-               else
-                 document = Nokogiri::HTML(response)
-                 data = document.search("li").map(&:text).join("\n")
-                 "#{msg}. Possible info:\n #{data}"
-               end
-        @exception_type = exception_type
-      end
-    end
-
     # A +LyricsNotFoundError+ object handles an exception where JSON with lyrics is not found.
     class LyricsNotFoundError < GeniusExceptionSuperClass
       attr_reader :msg, :exception_type

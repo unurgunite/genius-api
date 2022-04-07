@@ -21,7 +21,6 @@ module Genius
       # @option options [Integer] :per_page Number of results to return per request
       # @option options [Integer] :page Paginated offset, (e.g., <code>per_page=5&page=3</code> returns songs 11-15)
       # @raise [ArgumentError] if +song_id+ and +web_page+ are presented in the same scope.
-      # @raise [CloudflareError] if Cloudflare is not responding.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [Hash]
       # Referents by content item or user responsible for an included annotation.

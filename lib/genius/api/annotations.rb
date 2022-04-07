@@ -24,9 +24,8 @@ module Genius
       #     the page. Including it will help make sure newly created annotation appear on the correct page.
       # @option options [String] :title The title of the page.
       # @raise [ArgumentError] if +action+ got incorrect value.
-      # @raise [CloudflareError] if Cloudflare is not responding.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
-      # @return [nil] if CloudflareError, TokenError exceptions raised.
+      # @return [nil] if TokenError exceptions raised.
       #
       # +GET /annotations/:id+<br>
       # Data for a specific annotation.

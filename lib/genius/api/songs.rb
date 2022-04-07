@@ -12,11 +12,10 @@ module Genius
       # @param [Integer] song_id Song id.
       # @raise [PageNotFound] if page is not found.
       # @raise [LyricsNotFound] if output JSON is nil.
-      # @raise [CloudflareError] if Cloudflare is not responding.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [String] the error message if +lyrics+ param is +true+.
       # @return [Hash] if +lyrics+ param is +false+.
-      # @return [nil] if CloudflareError, TokenError exception raised.
+      # @return [nil] if TokenError exception raised.
       # This method provides info about song by its id. It is not the same with +Genius::Search.search+ method,
       # because it modify a +JSON+ only for concrete song id, not for whole search database, which is returned
       # in +Genius::Search.search+.
