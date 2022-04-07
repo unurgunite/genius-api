@@ -8,46 +8,42 @@ module Genius
   #     Genius::Auth.login="yuiaYqbncErCVwItjQxFspNWUZLhGpXrPbkvgbgHSEKJRAlToamzMfdOeDB"
   module Auth
     class << self
-      attr_writer :token
-
-      # +Genius::Auth.login=(token)+         -> true ot false
+      # +Genius::Auth.token=(token)+                  -> true ot false
       #
       # @param [String] token Token to access https://api.genius.com.
       # @raise [TokenError] if +token+ is invalid.
       # @return [String]
-      # +login=+ method is a some kind of an extension for a setter +token=+ and could handle possible
-      # exceptions during authentication. It means that you should never use +token=+ method unless
-      # you actually know that your credentials are valid (not recommended).
+      # +token=+ is a setter which handles all possible exceptions under the hood during authentication. It means that
+      # you should never use +token=+ method unless you actually know that your credentials are valid (not recommended).
       #
       # @see .authorized?
-      def login=(token)
+      def token=(token)
         Genius::Errors.error_handle(token)
         puts "Authorized!"
-        self.token = token
+        @token = token
       end
 
-      # +Genius::Auth.authorized?+           -> true or false
+      # +Genius::Auth.authorized?+                    -> true or false
       #
-      # @param [nil or String] method_name Optional param to pass method name where exception was raised.
+      # @param [nil|String] method_name Optional param to pass method name where exception was raised.
       # @raise [TokenError] if +token+ is invalid.
       # @return [Boolean]
       # +authorized?+ method checks if user in current session is authorized
-      def authorized?(method_name = nil)
-        false unless Genius::Errors.error_handle(token, method_name: method_name)
-        !!token
+      # @todo somehow detect exceptions as boolean type
+      def authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}")
+        status = Genius::Errors.error_handle(@token, method_name: method_name)
+        status.is_a?(Genius::Errors::GeniusExceptionSuperClass) ? false : true
       end
 
-      # +Genius::Auth.logout!+               -> nil
+      # +Genius::Auth.logout!+                        -> nil
       #
       # @return [nil]
       # +logout!+ method modifies a +token+ object and revoke session by setting +nil+ to the +token+.
       def logout!
-        self.token = nil unless token.nil?
+        @token = nil unless token.nil?
       end
 
-      private
-
-      attr_reader :token
+      alias login= token=
 
       Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
     end
