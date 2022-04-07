@@ -11,3 +11,4 @@
 *.lock
 rakelib
 .env
+Rakefile
