@@ -21,7 +21,6 @@ module Genius
       # @option options [String] :og_url The URL as specified by an <code>og:url <meta></code> tag in a page's
       #     <code><head></code>
       # @raise [ArgumentError] if +song_id+ is blank.
-      # @raise [CloudflareError] if Cloudflare is not responding.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [Hash]
       def lookup(token: nil, options: {})
