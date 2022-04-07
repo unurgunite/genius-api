@@ -24,7 +24,7 @@ module Genius
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [Hash]
       def lookup(token: nil, options: {})
-        Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
+        Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
 
         params = options_helper(options, %i[raw_annotatable_url canonical_url og_url])

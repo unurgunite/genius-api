@@ -145,7 +145,7 @@ module Genius
       # @example Example usage
       #     Genius::Annotations.annotations(id: 10225840, http_verb: "put", action: "vote")
       def annotations(id:, action: nil, token: nil, http_verb: "get", options: {})
-        Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
+        Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
         raise ArgumentError, "only PUT accepts `action` param" if http_verb != "put" && !action.nil?
 

@@ -26,7 +26,7 @@ module Genius
       # Referents by content item or user responsible for an included annotation.
       # You may pass only one of song_id and web_page_id, not both.
       def referents(token: nil, options: {})
-        Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
+        Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
         if options.key?(:web_page) && options.key?(:song_id)
           raise ArgumentError, "You may pass only one of song_id and web_page_id, not both!"
