@@ -6,5 +6,5 @@
 # @param [String] token Token to access https://api.genius.com.
 # @return [String]
 def token_ext(token)
-  token || Genius::Auth.__send__(:token)
+  token || Genius::Auth.instance_variable_get(:@token)
 end
