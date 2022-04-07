@@ -69,29 +69,6 @@ module Genius
       end
     end
 
-    # A +CloudflareError+ object handles an exception which appears when https://api.genius.com or
-    # Genius related services are under maintenance.
-    class CloudflareError < GeniusExceptionSuperClass
-      attr_reader :msg, :exception_type, :response
-
-      # @param [String (frozen)] msg Exception message.
-      # @param [String (frozen)] exception_type Exception type.
-      # @param [nil or String] response Response to parse from request to https://api.genius.com.
-      # @return [String (frozen)]
-      def initialize(msg: "Be patient! Genius is down. Try again in several minutes",
-                     exception_type: "genius_api_error", response: nil)
-        super(message)
-        @msg = if response.nil?
-                 msg
-               else
-                 document = Nokogiri::HTML(response)
-                 data = document.search("li").map(&:text).join("\n")
-                 "#{msg}. Possible info:\n #{data}"
-               end
-        @exception_type = exception_type
-      end
-    end
-
     # A +LyricsNotFoundError+ object handles an exception where JSON with lyrics is not found.
     class LyricsNotFoundError < GeniusExceptionSuperClass
       attr_reader :msg, :exception_type
@@ -133,7 +110,7 @@ module Genius
 
     # +Genius::Errors::DynamicRescue+ module is used to call dynamically exceptions to each method in module or class,
     # defined in +Genius::Errors+ scope.
-    module DynamicRescue # :nodoc:
+    module DynamicRescue
       # @param [Object] meths List of methods to redefine.
       # @param [Object] klass Class name of structure - module/class/etc.
       # @param [Object] exception Exception class.
@@ -160,8 +137,7 @@ module Genius
       # @return [Object]
       def self.rescue(klass)
         DynamicRescue.rescue_from klass.singleton_methods, klass, GeniusExceptionSuperClass do |e|
-          puts "Error description: #{e.msg}"
-          puts "Exception type: #{e.exception_type}"
+          "Error description: #{e.msg}\nException type: #{e.exception_type}"
         end
       end
     end
@@ -177,7 +153,7 @@ module Genius
       #
       # @see .error_handle
       def check_status(token)
-        false if token.size != 64 || token.nil?
+        return false if token.size != 64 || token.nil?
 
         response = HTTParty.get("#{ENDPOINT}=#{token}").body
         raise TokenError unless JSON.parse(response).dig("meta", "status")
@@ -216,9 +192,10 @@ module Genius
           raise TokenError.new(msg: "Token is required for this method. Please, add token via " \
                                                        "`Genius::Auth.login=``token''` method and continue",
                                method_name: method_name)
-        elsif token.size != 64 || !check_status(token)
+        elsif token.size != 64 || check_status(token) == false
           raise TokenError, method_name: method_name
         end
+        true
       end
     end
   end

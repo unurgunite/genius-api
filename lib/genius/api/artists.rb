@@ -12,12 +12,11 @@ module Genius
       # @param [String] token Token to access https://api.genius.com.
       # @param [String] id ID of the song.
       # @raise [ArgumentError] if +id+ is +nil+.
-      # @raise [CloudflareError] if Cloudflare is not responding.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [Hash]
-      # @return [nil] if CloudflareError, TokenError exception raised.
+      # @return [nil] if TokenError exception raised.
       def artists(token: nil, id: nil)
-        Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
+        Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
         raise ArgumentError, "`id` can't be nil!" if id.nil?
 
@@ -37,12 +36,11 @@ module Genius
       # @option options [String] :sort +title+ (default) or +popularity+.
       # @raise [ArgumentError] if +sort+ got incorrect value.
       # @raise [ArgumentError] if +per_page+ or +page+ are negative.
-      # @raise [CloudflareError] if Cloudflare is not responding.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [Hash]
-      # @return [nil] if CloudflareError, TokenError exception raised.
+      # @return [nil] if TokenError exception raised.
       def artists_songs(token: nil, id: nil, options: {})
-        Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
+        Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
         sort_values = %w[title popularity]
 

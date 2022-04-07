@@ -24,9 +24,8 @@ module Genius
       #     the page. Including it will help make sure newly created annotation appear on the correct page.
       # @option options [String] :title The title of the page.
       # @raise [ArgumentError] if +action+ got incorrect value.
-      # @raise [CloudflareError] if Cloudflare is not responding.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
-      # @return [nil] if CloudflareError, TokenError exceptions raised.
+      # @return [nil] if TokenError exceptions raised.
       #
       # +GET /annotations/:id+<br>
       # Data for a specific annotation.
@@ -146,7 +145,7 @@ module Genius
       # @example Example usage
       #     Genius::Annotations.annotations(id: 10225840, http_verb: "put", action: "vote")
       def annotations(id:, action: nil, token: nil, http_verb: "get", options: {})
-        Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
+        Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
         raise ArgumentError, "only PUT accepts `action` param" if http_verb != "put" && !action.nil?
 

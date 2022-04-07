@@ -21,13 +21,12 @@ module Genius
       # @option options [Integer] :per_page Number of results to return per request
       # @option options [Integer] :page Paginated offset, (e.g., <code>per_page=5&page=3</code> returns songs 11-15)
       # @raise [ArgumentError] if +song_id+ and +web_page+ are presented in the same scope.
-      # @raise [CloudflareError] if Cloudflare is not responding.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [Hash]
       # Referents by content item or user responsible for an included annotation.
       # You may pass only one of song_id and web_page_id, not both.
       def referents(token: nil, options: {})
-        Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
+        Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
         if options.key?(:web_page) && options.key?(:song_id)
           raise ArgumentError, "You may pass only one of song_id and web_page_id, not both!"

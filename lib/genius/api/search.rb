@@ -10,11 +10,10 @@ module Genius
       # @param [String] query Search query.
       # @param [Object] search_by Optional parameter to search by key in output +JSON+.
       # @raise [ArgumentError] if +query+ got incorrect value.
-      # @raise [CloudflareError] if Cloudflare is not responding.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [String] if +search_by+ is +TrueClass+.
       # @return [Hash] if +search_by+ is +FalseClass+.
-      # @return [nil] if CloudflareError, TokenError exception raised.
+      # @return [nil] if TokenError exception raised.
       # This method is a standard Genius API {method}[https://docs.genius.com/#search-h2] and it is
       # needed to send a request to the server and get information about artists, tracks and everything
       # else that may be inside the response body. According to https://docs.genius.com/#search-h2, token
@@ -31,7 +30,7 @@ module Genius
       #
       # @see #deep_find
       def search(token: nil, query: nil, search_by: nil)
-        Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
+        Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
 
         response = HTTParty.get("#{Api::RESOURCE}/search?q=#{query}&access_token=#{token_ext(token)}").body

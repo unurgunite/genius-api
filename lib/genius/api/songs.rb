@@ -12,11 +12,10 @@ module Genius
       # @param [Integer] song_id Song id.
       # @raise [PageNotFound] if page is not found.
       # @raise [LyricsNotFound] if output JSON is nil.
-      # @raise [CloudflareError] if Cloudflare is not responding.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [String] the error message if +lyrics+ param is +true+.
       # @return [Hash] if +lyrics+ param is +false+.
-      # @return [nil] if CloudflareError, TokenError exception raised.
+      # @return [nil] if TokenError exception raised.
       # This method provides info about song by its id. It is not the same with +Genius::Search.search+ method,
       # because it modify a +JSON+ only for concrete song id, not for whole search database, which is returned
       # in +Genius::Search.search+.
@@ -24,7 +23,7 @@ module Genius
       # @example
       #     Genius::Songs.songs(song_id: 294649) #=> {"some_kind_of_hash"}
       def songs(token: nil, song_id: nil, combine: false)
-        Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
+        Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
 
         response = HTTParty.get("#{Api::RESOURCE}/songs/#{song_id}?access_token=#{token_ext(token)}").body
@@ -34,7 +33,8 @@ module Genius
             output_html = Nokogiri::HTML(HTTParty.get("https://genius.com/songs/#{song_id}"))
             raise PageNotFound if PageNotFound.page_not_found?(output_html)
 
-            unformed_json = output_html.css("script")[21].text.match(/window\.__PRELOADED_STATE__\s=\sJSON.parse\('(?<json>(.+?))'\);/)
+            unformed_json = output_html.css("script")[21]
+                                       .text.match(/window\.__PRELOADED_STATE__\s=\sJSON.parse\('(?<json>(.+?))'\);/)
             raise LyricsNotFoundError if unformed_json.nil?
 
             formatted_json = unformed_json[:json]
@@ -44,9 +44,7 @@ module Genius
           rescue LyricsNotFoundError
             retry
           rescue PageNotFound => e
-            puts "Error description: #{e.msg}"
-            puts "Exception type: #{e.exception_type}"
-            return
+            "Error description: #{e.msg}\nException type: #{e.exception_type}"
           end
         end
         response
