@@ -110,7 +110,7 @@ module Genius
 
     # +Genius::Errors::DynamicRescue+ module is used to call dynamically exceptions to each method in module or class,
     # defined in +Genius::Errors+ scope.
-    module DynamicRescue # :nodoc:
+    module DynamicRescue
       # @param [Object] meths List of methods to redefine.
       # @param [Object] klass Class name of structure - module/class/etc.
       # @param [Object] exception Exception class.
@@ -137,8 +137,7 @@ module Genius
       # @return [Object]
       def self.rescue(klass)
         DynamicRescue.rescue_from klass.singleton_methods, klass, GeniusExceptionSuperClass do |e|
-          puts "Error description: #{e.msg}"
-          puts "Exception type: #{e.exception_type}"
+          "Error description: #{e.msg}\nException type: #{e.exception_type}"
         end
       end
     end
@@ -154,7 +153,7 @@ module Genius
       #
       # @see .error_handle
       def check_status(token)
-        false if token.size != 64 || token.nil?
+        return false if token.size != 64 || token.nil?
 
         response = HTTParty.get("#{ENDPOINT}=#{token}").body
         raise TokenError unless JSON.parse(response).dig("meta", "status")
@@ -193,9 +192,10 @@ module Genius
           raise TokenError.new(msg: "Token is required for this method. Please, add token via " \
                                                        "`Genius::Auth.login=``token''` method and continue",
                                method_name: method_name)
-        elsif token.size != 64 || !check_status(token)
+        elsif token.size != 64 || check_status(token) == false
           raise TokenError, method_name: method_name
         end
+        true
       end
     end
   end
