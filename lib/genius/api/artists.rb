@@ -16,7 +16,7 @@ module Genius
       # @return [Hash]
       # @return [nil] if TokenError exception raised.
       def artists(token: nil, id: nil)
-        Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
+        Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
         raise ArgumentError, "`id` can't be nil!" if id.nil?
 
@@ -40,7 +40,7 @@ module Genius
       # @return [Hash]
       # @return [nil] if TokenError exception raised.
       def artists_songs(token: nil, id: nil, options: {})
-        Auth.authorized?("#{Module.nesting[1].name}.#{__method__}") if token.nil?
+        Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
         sort_values = %w[title popularity]
 
