@@ -30,7 +30,8 @@ module Genius
       #
       # @see #deep_find
       def search(token: nil, query: nil, search_by: nil)
-        Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
+        return if token.nil? && !Auth.authorized?.nil?
+
         Errors.error_handle(token) unless token.nil?
 
         response = HTTParty.get("#{Api::RESOURCE}/search?q=#{query}&access_token=#{token_ext(token)}").body

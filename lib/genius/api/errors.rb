@@ -59,13 +59,13 @@ module Genius
       # @return [String (frozen)]
       def initialize(msg: "Invalid token. The access token provided is expired, revoked, malformed or invalid for " \
                "other reasons.", exception_type: "token_error", method_name: nil)
-        super(message)
         @msg = if method_name.nil?
                  msg
                else
                  "#{msg} or type #{method_name}(token: \"YOUR_TOKEN\")"
                end
         @exception_type = exception_type
+        super(msg)
       end
     end
 
@@ -77,9 +77,9 @@ module Genius
       # @param [String (frozen)] exception_type Exception type.
       # @return [String (frozen)]
       def initialize(msg: "Lyrics not found in current session. Retrying...", exception_type: "invalid_lyrics")
-        super(message)
         @msg = msg
         @exception_type = exception_type
+        super(msg)
       end
     end
 
@@ -92,9 +92,9 @@ module Genius
       # @param [String (frozen)] exception_type Exception type.
       # @return [String (frozen)]
       def initialize(msg: "Page not found. Try again with another response", exception_type: "page_not_found")
-        super(message)
         @msg = msg
         @exception_type = exception_type
+        super(msg)
       end
 
       # +Genius::Errors::PageNotFound.page_not_found?+  -> true or false
@@ -111,57 +111,40 @@ module Genius
     # +Genius::Errors::DynamicRescue+ module is used to call dynamically exceptions to each method in module or class,
     # defined in +Genius::Errors+ scope.
     module DynamicRescue
-      # @param [Object] meths List of methods to redefine.
-      # @param [Object] klass Class name of structure - module/class/etc.
-      # @param [Object] exception Exception class.
-      # @param [Proc] handler Body of rescue block.
-      # @return [Object]
-      # +Genius::Errors::DynamicRescue.rescue_from+ is a helper method, which, according to reflection, redefine
-      # singleton method for specified module, adding to it exception handler for DRY pattern.
-      def self.rescue_from(meths, klass, exception, &handler)
-        meths.each do |meth|
-          # store the previous implementation
-          old = klass.singleton_method(meth)
-          # wrap it
-          klass.define_singleton_method(meth) do |*args|
-            old.unbind.bind(klass).call(*args)
-          rescue exception => e
-            handler.call(e)
+      class << self
+        # +Genius::Errors::DynamicRescue.rescue+        -> value
+        #
+        # @param [Object] klass Class name of structure - module/class/etc.
+        # @return [Object]
+        def rescue(klass)
+          DynamicRescue.rescue_from klass.singleton_methods, klass, GeniusExceptionSuperClass do |e|
+            "Error description: #{e.msg}\nException type: #{e.exception_type}"
           end
         end
-      end
 
-      # +Genius::Errors::DynamicRescue.rescue+        -> value
-      #
-      # @param [Object] klass Class name of structure - module/class/etc.
-      # @return [Object]
-      def self.rescue(klass)
-        DynamicRescue.rescue_from klass.singleton_methods, klass, GeniusExceptionSuperClass do |e|
-          "Error description: #{e.msg}\nException type: #{e.exception_type}"
+        # @param [Object] meths List of methods to redefine.
+        # @param [Object] klass Class name of structure - module/class/etc.
+        # @param [Object] exception Exception class.
+        # @param [Proc] handler Body of rescue block.
+        # @return [Object]
+        # +Genius::Errors::DynamicRescue.rescue_from+ is a helper method, which, according to reflection, redefine
+        # singleton method for specified module, adding to it exception handler for DRY pattern.
+        def rescue_from(meths, klass, exception, &handler)
+          meths.each do |meth|
+            # store the previous implementation
+            old = klass.singleton_method(meth)
+            # wrap it
+            klass.define_singleton_method(meth) do |*args|
+              old.unbind.bind(klass).call(*args)
+            rescue exception => e
+              handler.call(e)
+            end
+          end
         end
       end
     end
 
     class << self
-      # +Genius::Errors.check_status(token)+          -> true or false
-      #
-      # @param [String] token Token to access https://api.genius.com.
-      # @return [Boolean]
-      # This method was made to check token state. Token must be 64-sized string and could be validated only if
-      # response status equals 200. More description in {docs}[https://docs.genius.com/]
-      # and {api-clients page}[https://genius.com/api-clients] or in {TokenError documentation}[Genius::Auth.TokenError].
-      #
-      # @see .error_handle
-      def check_status(token)
-        return false if token.size != 64 || token.nil?
-
-        response = HTTParty.get("#{ENDPOINT}=#{token}").body
-        raise TokenError unless JSON.parse(response).dig("meta", "status")
-
-        status = JSON.parse(response).dig("meta", "status")
-        status == 200
-      end
-
       # +Genius::Errors.error_handle(token)+          -> true or false
       #
       # @param [String] token Token to access https://api.genius.com.
@@ -196,6 +179,27 @@ module Genius
           raise TokenError, method_name: method_name
         end
         true
+      end
+
+      private
+
+      # +Genius::Errors.check_status(token)+          -> true or false
+      #
+      # @param [String] token Token to access https://api.genius.com.
+      # @return [Boolean]
+      # This method was made to check token state. Token must be 64-sized string and could be validated only if
+      # response status equals 200. More description in {docs}[https://docs.genius.com/]
+      # and {api-clients page}[https://genius.com/api-clients] or in {TokenError documentation}[Genius::Auth.TokenError].
+      #
+      # @see .error_handle
+      def check_status(token)
+        return false if token.size != 64 || token.nil?
+
+        response = HTTParty.get("#{ENDPOINT}=#{token}").body
+        raise TokenError unless JSON.parse(response).dig("meta", "status")
+
+        status = JSON.parse(response).dig("meta", "status")
+        status == 200
       end
     end
   end

@@ -144,13 +144,19 @@ module Genius
       #
       # @example Example usage
       #     Genius::Annotations.annotations(id: 10225840, http_verb: "put", action: "vote")
-      def annotations(id:, action: nil, token: nil, http_verb: "get", options: {})
-        Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
+      def annotations(id:, action:, token:, http_verb: "get", options: {})
+        return if token.nil? && !Auth.authorized?.nil?
+
         Errors.error_handle(token) unless token.nil?
         raise ArgumentError, "only PUT accepts `action` param" if http_verb != "put" && !action.nil?
 
-        actions = %w[upvote downvote unvote]
+        JSON.parse(request(id: id, action: action, token: token, http_verb: http_verb, options: options).body)
+      end
 
+      private
+
+      # @todo: docs
+      def request(id:, action:, token:, http_verb:, options:)
         case http_verb
         when "get"
           HTTParty.get("#{Api::RESOURCE}/annotations/#{id}?access_token=#{token_ext(token)}")
@@ -158,19 +164,26 @@ module Genius
           HTTParty.post("#{Api::RESOURCE}/annotations/#{id}?access_token=#{token_ext(token)}",
                         body: post_payload(options: options))
         when "put"
-          case action
-          when nil
-            HTTParty.put("#{Api::RESOURCE}/annotations/#{id}/#{action}?access_token=#{token_ext(token)}",
-                         body: post_payload(options: options))
-          when "upvote", "downvote", "unvote"
-            HTTParty.put("#{Api::RESOURCE}/annotations/#{id}/#{action}?access_token=#{token_ext(token)}")
-          else
-            raise ArgumentError, "Invalid value for `action` param. Allowed values are: #{actions.join(", ")}"
-          end
+          put_request(id: id, action: action, token: token, options: options)
         when "delete"
           HTTParty.delete("#{Api::RESOURCE}/annotations/#{id}?access_token=#{token_ext(token)}")
         else
           raise ArgumentError, "Something bad happened..."
+        end
+      end
+
+      # @todo: docs
+      def put_request(id:, action:, token:, options:)
+        case action
+        when nil
+          HTTParty.put("#{Api::RESOURCE}/annotations/#{id}/#{action}?access_token=#{token_ext(token)}",
+                       body: post_payload(options: options))
+        when "upvote", "downvote", "unvote"
+          HTTParty.put("#{Api::RESOURCE}/annotations/#{id}/#{action}?access_token=#{token_ext(token)}")
+        else
+          actions = %w[upvote downvote unvote]
+          raise ArgumentError,
+                "Invalid value for `action` param. Allowed values are: #{actions.join(", ")}"
         end
       end
 

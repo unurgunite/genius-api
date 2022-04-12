@@ -23,7 +23,8 @@ module Genius
       # @example
       #     Genius::Songs.songs(song_id: 294649) #=> {"some_kind_of_hash"}
       def songs(token: nil, song_id: nil, combine: false)
-        Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
+        return if token.nil? && !Auth.authorized?.nil?
+
         Errors.error_handle(token) unless token.nil?
 
         response = HTTParty.get("#{Api::RESOURCE}/songs/#{song_id}?access_token=#{token_ext(token)}").body
