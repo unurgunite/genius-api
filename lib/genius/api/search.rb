@@ -4,7 +4,7 @@ module Genius
   # +Genius::Search+ module provides methods to work with Genius search database
   module Search
     class << self
-      # +Genius::Search.search+     -> value
+      # +Genius::Search.search+                       -> value
       #
       # @param [String] token Token to access https://api.genius.com.
       # @param [String] query Search query.

@@ -4,7 +4,7 @@ module Genius
   # +Genius::Account+ module provides methods to work with Genius account
   module Account
     class << self
-      # +Genius::Account.account+        -> value
+      # +Genius::Account.account+                     -> value
       #
       # An alias to {Genius::Account.account me} method
       #

@@ -6,7 +6,7 @@ module Genius
     class << self
       include Genius::Errors
 
-      # +Genius::Songs.songs+     -> value
+      # +Genius::Songs.songs+                         -> value
       #
       # @param [String] token Token to access https://api.genius.com.
       # @param [Integer] song_id Song id.
@@ -51,7 +51,7 @@ module Genius
         response
       end
 
-      # +Genius::Songs.get_lyrics+      -> hash
+      # +Genius::Songs.get_lyrics+                    -> hash
       #
       # @param [Integer] song_id Song id.
       # @raise [ArgumentError] if +song_id+ is blank.

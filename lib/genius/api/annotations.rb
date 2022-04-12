@@ -5,7 +5,7 @@ module Genius
   # web page (hosted anywhere). The part of a document that an annotation is attached to is called a referent.
   module Annotations
     class << self
-      # +Genius::Annotations.annotations+              -> true or false
+      # +Genius::Annotations.annotations+             -> true or false
       #
       # @param [Object] id Identification of annotations resource.
       # @param [Object] action Action to do during PUT request. Possible actions: nil, upvote, downvote, unvote.
@@ -155,6 +155,7 @@ module Genius
 
       private
 
+      # @private
       # @todo: docs
       def request(id:, action:, token:, http_verb:, options:)
         case http_verb
@@ -187,7 +188,7 @@ module Genius
         end
       end
 
-      # +Genius::Annotations.post_payload+              -> value
+      # +Genius::Annotations.post_payload+            -> value
       #
       # @param [Hash] options Options for PUT response.
       # @option options [String] :markdown The text for the note, in

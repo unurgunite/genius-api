@@ -5,7 +5,7 @@ module Genius
   # unique, canonical URLs.
   module WebPages
     class << self
-      # +Genius::WebPages.lookup+         -> value
+      # +Genius::WebPages.lookup+                     -> value
       #
       # Information about a web page retrieved by the page's full URL (including protocol). The returned data includes
       # Genius's ID for the page, which may be used to look up associated referents with
