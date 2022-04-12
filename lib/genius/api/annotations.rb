@@ -155,6 +155,8 @@ module Genius
 
       private
 
+      # +Genius::Annotations.request+                         -> HTTParty::Response
+      #
       # @private
       # @todo: docs
       def request(id:, action:, token:, http_verb:, options:)
@@ -173,6 +175,8 @@ module Genius
         end
       end
 
+      # +Genius::Annotations.put_request+                         -> HTTParty::Response
+      #
       # @todo: docs
       def put_request(id:, action:, token:, options:)
         case action
