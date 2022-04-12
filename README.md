@@ -154,7 +154,8 @@ Description:
 ## Project style guide
 
 To make the code base much cleaner gem has its own style guides. They are defined in a root folder of the gem in
-a `CODESTYLE.md` file. Check it for more details.
+a [CONTRIBUTING.md](https://github.com/unurgunite/genius-api/blob/master/CONTRIBUTING.md) file. Check it for more
+details.
 
 ## Contributing
 
