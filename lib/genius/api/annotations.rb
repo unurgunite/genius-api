@@ -158,7 +158,7 @@ module Genius
       # +Genius::Annotations.request+                         -> HTTParty::Response
       #
       # @private
-      # @todo: docs
+      # @see .annotations
       def request(id:, action:, token:, http_verb:, options:)
         case http_verb
         when "get"
@@ -177,7 +177,8 @@ module Genius
 
       # +Genius::Annotations.put_request+                         -> HTTParty::Response
       #
-      # @todo: docs
+      # @private
+      # @see .annotations
       def put_request(id:, action:, token:, options:)
         case action
         when nil
@@ -194,6 +195,7 @@ module Genius
 
       # +Genius::Annotations.post_payload+            -> value
       #
+      # @private
       # @param [Hash] options Options for PUT response.
       # @option options [String] :markdown The text for the note, in
       #     {markdown}[https://help.github.com/articles/github-flavored-markdown/]
