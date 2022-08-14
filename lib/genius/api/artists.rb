@@ -14,7 +14,7 @@ module Genius
       # @raise [ArgumentError] if +id+ is +nil+.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [Hash]
-      # @return [nil] if TokenError exception raised.
+      # @return [NilClass] if TokenError exception raised.
       def artists(token: nil, id: nil)
         Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
         Errors.error_handle(token) unless token.nil?
@@ -38,7 +38,7 @@ module Genius
       # @raise [ArgumentError] if +per_page+ or +page+ are negative.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [Hash]
-      # @return [nil] if TokenError exception raised.
+      # @return [NilClass] if TokenError exception raised.
       def artists_songs(token: nil, id: nil, options: {})
         return if token.nil? && !Auth.authorized?.nil?
 

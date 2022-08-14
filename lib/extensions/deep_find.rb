@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Hash # :nodoc:
-  # +Hash#deep_find(key)+        -> value
+  # +Hash#deep_find+                                  -> value
   #
   # @param [Object] key A key, which value should be found
   # @param [FalseClass] uniq A flag to make values unique in an array

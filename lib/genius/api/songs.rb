@@ -6,7 +6,12 @@ module Genius
     class << self
       include Genius::Errors
 
-      # +Genius::Songs.songs+                         -> value
+      # +Genius::Songs.songs+                         -> NilClass
+      #
+      # This method provides info about song by its id. It is not the same
+      # with +Genius::Search.search+ method, because it modify a +JSON+ only
+      # for concrete song id, not for whole search database, which is returned
+      # in +Genius::Search.search+.
       #
       # @param [String] token Token to access https://api.genius.com.
       # @param [Integer] song_id Song id.
@@ -15,10 +20,7 @@ module Genius
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [String] the error message if +lyrics+ param is +true+.
       # @return [Hash] if +lyrics+ param is +false+.
-      # @return [nil] if TokenError exception raised.
-      # This method provides info about song by its id. It is not the same with +Genius::Search.search+ method,
-      # because it modify a +JSON+ only for concrete song id, not for whole search database, which is returned
-      # in +Genius::Search.search+.
+      # @return [NilClass] if TokenError exception raised.
       #
       # @example
       #     Genius::Songs.songs(song_id: 294649) #=> {"some_kind_of_hash"}
@@ -51,12 +53,14 @@ module Genius
         response
       end
 
-      # +Genius::Songs.get_lyrics+                    -> hash
+      # +Genius::Songs.get_lyrics+                    -> Hash
+      #
+      # +Genius::Songs.get_lyrics+ method is used for extracting lyrics in
+      # plain text format.
       #
       # @param [Integer] song_id Song id.
       # @raise [ArgumentError] if +song_id+ is blank.
       # @return [Hash]
-      # +Genius::Songs.get_lyrics+ method is used for extracting lyrics in plain text format
       def get_lyrics(song_id)
         raise ArgumentError, "`song_id` should be not blank!" if song_id.nil?
 
