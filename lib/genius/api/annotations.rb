@@ -25,7 +25,7 @@ module Genius
       # @option options [String] :title The title of the page.
       # @raise [ArgumentError] if +action+ got incorrect value.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
-      # @return [nil] if TokenError exceptions raised.
+      # @return [NilClass] if TokenError exceptions raised.
       #
       # +GET /annotations/:id+<br>
       # Data for a specific annotation.
@@ -155,7 +155,7 @@ module Genius
 
       private
 
-      # +Genius::Annotations.request+                         -> HTTParty::Response
+      # +Genius::Annotations.request+                 -> HTTParty::Response
       #
       # @private
       # @see .annotations
@@ -175,7 +175,7 @@ module Genius
         end
       end
 
-      # +Genius::Annotations.put_request+                         -> HTTParty::Response
+      # +Genius::Annotations.put_request+             -> HTTParty::Response
       #
       # @private
       # @see .annotations
@@ -193,12 +193,12 @@ module Genius
         end
       end
 
-      # +Genius::Annotations.post_payload+            -> value
+      # +Genius::Annotations.post_payload+            -> String
       #
       # @private
       # @param [Hash] options Options for PUT response.
       # @option options [String] :markdown The text for the note, in
-      #     {markdown}[https://help.github.com/articles/github-flavored-markdown/]
+      #     {markdown}[https://help.github.com/articles/github-flavored-markdown/].
       # @option options [String] :raw_annotatable_url The original URL of the page.
       # @option options [String] :fragment The highlighted fragment.
       # @option options [String] :before_html The HTML before the highlighted fragment (prefer up to 200 characters).
@@ -208,7 +208,7 @@ module Genius
       # @option options [String] :og_url The content property of the <code><meta property="og:url"></code> tag on
       #     the page. Including it will help make sure newly created annotation appear on the correct page.
       # @option options [String] :title The title of the page.
-      # @return [Object]
+      # @return [String]
       def post_payload(options: {})
         {
           annotation: {

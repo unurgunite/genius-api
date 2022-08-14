@@ -11,7 +11,7 @@ module Genius
       # @param [String] token Token to access https://api.genius.com.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
       # @return [Hash]
-      # @return [nil] if TokenError exception raised.
+      # @return [NilClass] if TokenError exception raised.
       # This method is a standard Genius API {request}[https://docs.genius.com/#search-h2] to get
       # account info. Output +JSON+ is translated to Hash structure to make it easy to work with account fields.
       #
