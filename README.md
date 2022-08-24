@@ -43,7 +43,7 @@ happens during the automatic build of the project:
 
 ```shell
 git clone https://github.com/unurgunite/genius-api.git && \
-cd ~/genius-api && \
+cd genius-api && \
 bundle install && \
 gem build genius-api.gemspec && \
 gem install genius-api-0.2.0.gem
@@ -57,7 +57,7 @@ The automatic installation is simpler but it has at least same steps as manual i
 
 ```shell
 git clone https://github.com/unurgunite/genius-api.git && \
-cd ~/genius-api && \
+cd genius-api && \
 bin/setup
 ```
 
