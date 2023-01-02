@@ -117,39 +117,23 @@ requirements for common use and requirements for the development purposes.
 
 The `genius-api` gem is built on top of two other gems:
 
-1. [HTTParty][101]
-2. [Nokogiri][102]
-
-Description:
-
-* The HTTParty gem is used to send requests to the REST client of the https://api.genius.com/.
-
-* The Nokogiri gem is used to represent XML objects as Ruby structures.
+| Dependencies    | Description                                                                                 |
+|-----------------|---------------------------------------------------------------------------------------------|
+| [HTTParty][101] | The HTTParty gem is used to send requests to the REST client of the https://api.genius.com/ |
+| [Nokogiri][102] | The Nokogiri gem is used to represent XML objects as Ruby structures.                       |
 
 ### Development purposes
 
 For the development purposes `genius-api` gem uses:
 
-1. [RSpec][201]
-2. [RuboCop][202]
-3. [Rake][203]
-4. [Dotenv][204]
-5. [Coderay][205]
-6. [YARD][206]
-
-Description:
-
-* The RSpec gem is used for test which are located in a separate folder under `spec` name.
-
-* The RuboCop gem is used for code formatting.
-
-* The Rake gem is used for building tasks as generating documentation.
-
-* The Dotenv gem is used for setting variables for test environment (`token`, for e.g.).
-
-* The Coderay gem is used for colorizing Rspec output.
-
-* The YARD gem is used for the documentation.
+| Dependencies   | Description                                                                              |
+|----------------|------------------------------------------------------------------------------------------|
+| [RSpec][201]   | The RSpec gem is used for test which are located in a separate folder under `spec` name. |
+| [RuboCop][202] | The RuboCop gem is used for code formatting.                                             |
+| [Rake][203]    | The Rake gem is used for building tasks as generating documentation.                     |
+| [Dotenv][204]  | The Dotenv gem is used for setting variables for test environment (`token`, for e.g.).   |
+| [Coderay][205] | The Coderay gem is used for colorizing Rspec output.                                     |
+| [YARD][206]    | The YARD gem is used for the documentation.                                              |
 
 ## Project style guide
 

@@ -8,7 +8,7 @@ module Genius
   #     Genius::Auth.login="yuiaYqbncErCVwItjQxFspNWUZLhGpXrPbkvgbgHSEKJRAlToamzMfdOeDB"
   module Auth
     class << self
-      # +Genius::Auth.token=+                         -> true ot false
+      # +Genius::Auth.token=+                         -> true or false
       #
       # +Genius::Auth.token=+ is a setter which handles all possible exceptions
       # under the hood during authentication. It means that you should never use
