@@ -20,8 +20,9 @@ module Genius
       # @return [String]
       # @see .authorized?
       def token=(token)
+        p token
+        p 1
         Genius::Errors.validate_token(token)
-        puts "Authorized!"
         @token = token
       end
 
@@ -36,7 +37,7 @@ module Genius
       # @todo somehow detect exceptions as boolean type
       def authorized?(token = @token, method_name: "#{Module.nesting[1].name}.#{__method__}")
         Errors.validate_token(token, method_name: method_name)
-      rescue TokenError
+      rescue Genius::Errors::TokenError
         false
       else
         true
