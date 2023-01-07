@@ -147,7 +147,7 @@ module Genius
       def annotations(id:, action:, token:, http_verb: "get", options: {})
         return if token.nil? && !Auth.authorized?.nil?
 
-        Errors.error_handle(token) unless token.nil?
+        Errors.validate_token(token) unless token.nil?
         raise ArgumentError, "only PUT accepts `action` param" if http_verb != "put" && !action.nil?
 
         JSON.parse(request(id: id, action: action, token: token, http_verb: http_verb, options: options).body)

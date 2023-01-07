@@ -17,7 +17,7 @@ module Genius
       # @return [NilClass] if TokenError exception raised.
       def artists(token: nil, id: nil)
         Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
-        Errors.error_handle(token) unless token.nil?
+        Errors.validate_token(token) unless token.nil?
         raise ArgumentError, "`id` can't be nil!" if id.nil?
 
         response = HTTParty.get("#{Api::RESOURCE}/artists/#{id}?access_token=#{token_ext(token)}").body
@@ -42,7 +42,7 @@ module Genius
       def artists_songs(token: nil, id: nil, options: {})
         return if token.nil? && !Auth.authorized?.nil?
 
-        Errors.error_handle(token) unless token.nil?
+        Errors.validate_token(token) unless token.nil?
         sort_values = %w[title popularity]
 
         if options.key?(:sort) && !sort_values.include?(options[:sort])
