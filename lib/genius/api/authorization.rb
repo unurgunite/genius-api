@@ -20,8 +20,6 @@ module Genius
       # @return [String]
       # @see .authorized?
       def token=(token)
-        p token
-        p 1
         Genius::Errors.validate_token(token)
         @token = token
       end
