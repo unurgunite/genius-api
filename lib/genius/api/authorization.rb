@@ -48,7 +48,7 @@ module Genius
       #
       # @return [NilClass]
       def logout!
-        @token = nil unless token.nil?
+        @token = nil unless @token.nil?
       end
 
       alias login= token=
