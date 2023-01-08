@@ -133,7 +133,8 @@ module Genius
         # @return [Object]
         def rescue(klass)
           DynamicRescue.rescue_from klass.singleton_methods, klass, GeniusExceptionSuperClass do |e|
-            "Error description: #{e.msg}\nException type: #{e.exception_type}"
+            puts "Error description: #{e.msg}\nException type: #{e.exception_type}"
+            # @todo make raise ExceptionKlass
           end
         end
 
