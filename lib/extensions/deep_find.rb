@@ -23,6 +23,7 @@ class Hash # :nodoc:
   # @example
   #     h = {"a" => "b", "c" => {"a" => "b"}}
   #     h.deep_find("a") #=> "b", instead ["b", "b"]
+  # @todo change uniq true to uniq false
   def deep_find(key, uniq: true)
     result = []
     result << self[key]
@@ -35,7 +36,7 @@ class Hash # :nodoc:
     result = result.compact.delete_if do |i|
       i.is_a?(Array) && i.empty?
     end
-    uniq ? result.uniq! : result
+    result.uniq! if uniq
     result.size == 1 ? result.first : result
   end
 end
