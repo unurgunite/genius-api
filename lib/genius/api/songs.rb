@@ -27,7 +27,7 @@ module Genius
       def songs(token: nil, song_id: nil, combine: false)
         return if token.nil? && !Auth.authorized?.nil?
 
-        Errors.error_handle(token) unless token.nil?
+        Errors.validate_token(token) unless token.nil?
 
         response = HTTParty.get("#{Api::RESOURCE}/songs/#{song_id}?access_token=#{token_ext(token)}").body
         response = JSON.parse response
@@ -36,7 +36,8 @@ module Genius
             output_html = Nokogiri::HTML(HTTParty.get("https://genius.com/songs/#{song_id}"))
             raise PageNotFound if PageNotFound.page_not_found?(output_html)
 
-            unformed_json = output_html.css("script")[21]
+            # @todo: maybe need some optimisations
+            unformed_json = output_html.css("script")[17]
                                        .text.match(/window\.__PRELOADED_STATE__\s=\sJSON.parse\('(?<json>(.+?))'\);/)
             raise LyricsNotFoundError if unformed_json.nil?
 
@@ -66,7 +67,8 @@ module Genius
 
         response = HTTParty.get("https://genius.com/songs/#{song_id}")
         document = Nokogiri::HTML(response)
-        lyrics_path = document.xpath("//*[@class='lyrics']")
+        # @todo: something wrong with lyrics attribute value 
+        lyrics_path = document.xpath("//*[@class='Lyrics__Container-sc-1ynbvzw-6 YYrds']")
         lyrics_path.at_css("p").content
       rescue NoMethodError
         retry

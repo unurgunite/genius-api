@@ -20,8 +20,7 @@ module Genius
       # @return [String]
       # @see .authorized?
       def token=(token)
-        Genius::Errors.error_handle(token)
-        puts "Authorized!"
+        Genius::Errors.validate_token(token)
         @token = token
       end
 
@@ -34,9 +33,12 @@ module Genius
       # @raise [TokenError] if +token+ is invalid.
       # @return [Boolean]
       # @todo somehow detect exceptions as boolean type
-      def authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}")
-        status = Genius::Errors.error_handle(@token, method_name: method_name)
-        !status.is_a?(Genius::Errors::GeniusExceptionSuperClass)
+      def authorized?(token = @token, method_name: "#{Module.nesting[1].name}.#{__method__}")
+        Errors.validate_token(token, method_name: method_name)
+      rescue Genius::Errors::TokenError
+        false
+      else
+        true
       end
 
       # +Genius::Auth.logout!+                        -> NilClass
@@ -46,7 +48,7 @@ module Genius
       #
       # @return [NilClass]
       def logout!
-        @token = nil unless token.nil?
+        @token = nil unless @token.nil?
       end
 
       alias login= token=

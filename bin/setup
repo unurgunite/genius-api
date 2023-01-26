@@ -17,4 +17,5 @@ gem build "$PROJECT_NAME".gemspec
 GEM_VERSION=$(bundle info $PROJECT_NAME | head -n 1 | sed 's/.*(\(.*\))/\1/')
 GEM_ARCHIVE="$PROJECT_NAME-$GEM_VERSION.gem"
 gem install "$GEM_ARCHIVE"
+# @todo: add params to `bin/console` script
 bin/console

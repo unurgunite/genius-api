@@ -112,7 +112,7 @@ module Genius
       # @return [TrueClass] if genius page is not found
       # @return [FalseClass] if genius page is found
       def self.page_not_found?(html)
-        !!html.text.match(/Page not found/)
+        html.text.match?(/Page not found/)
       end
     end
 
@@ -133,7 +133,8 @@ module Genius
         # @return [Object]
         def rescue(klass)
           DynamicRescue.rescue_from klass.singleton_methods, klass, GeniusExceptionSuperClass do |e|
-            "Error description: #{e.msg}\nException type: #{e.exception_type}"
+            puts "Error description: #{e.msg}\nException type: #{e.exception_type}"
+            # @todo make raise ExceptionKlass
           end
         end
 
@@ -158,8 +159,17 @@ module Genius
     end
 
     class << self
+      def validate_token(token, method_name: nil)
+        raise TokenError, method_name: method_name if token.nil? || token.size != 64
+
+        response = HTTParty.get("#{ENDPOINT}=#{token}").body
+        status = JSON.parse(response).dig("meta", "status")
+        raise TokenError, method_name: method_name unless status == 200
+      end
+
       # +Genius::Errors.error_handle(token)+              -> true or false
       #
+      # @deprecated Since 0.2.1
       # @param [String] token Token to access https://api.genius.com.
       # @param [NilClass or String] method_name Optional param to pass method
       # name where exception was raised.
@@ -167,7 +177,7 @@ module Genius
       #
       # @example
       #     begin
-      #       Genius::Errors.error_handle(token)
+      #       Genius::Errors.validate_token(token)
       #     rescue Genius::Errors::TokenError => e
       #       puts e.message
       #       puts e.exception_type
@@ -202,6 +212,7 @@ module Genius
 
       # +Genius::Errors.check_status(token)+              -> true or false
       #
+      # @deprecated Since 0.2.1
       # This method was made to check token state. Token must be 64-sized
       # string and could be validated only if response status equals 200.
       # More description in {docs}[https://docs.genius.com/] and

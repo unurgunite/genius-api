@@ -37,7 +37,7 @@ module Genius
       def referents(token: nil, options: {})
         return if token.nil? && !Auth.authorized?.nil?
 
-        Errors.error_handle(token) unless token.nil?
+        Errors.validate_token(token) unless token.nil?
         if options.key?(:web_page) && options.key?(:song_id)
           raise ArgumentError, "You may pass only one of song_id and web_page_id, not both!"
         end

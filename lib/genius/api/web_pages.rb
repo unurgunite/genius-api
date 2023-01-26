@@ -29,7 +29,7 @@ module Genius
       def lookup(token: nil, options: {})
         return if token.nil? && !Auth.authorized?.nil?
 
-        Errors.error_handle(token) unless token.nil?
+        Errors.validate_token(token) unless token.nil?
 
         params = options_helper(options, %i[raw_annotatable_url canonical_url og_url])
         response = HTTParty.get("#{Api::RESOURCE}/?access_token=#{token_ext(token)}#{params}")

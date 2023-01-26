@@ -17,14 +17,14 @@ module Genius
       # @return [NilClass] if TokenError exception raised.
       def artists(token: nil, id: nil)
         Auth.authorized?(method_name: "#{Module.nesting[1].name}.#{__method__}") if token.nil?
-        Errors.error_handle(token) unless token.nil?
+        Errors.validate_token(token) unless token.nil?
         raise ArgumentError, "`id` can't be nil!" if id.nil?
 
         response = HTTParty.get("#{Api::RESOURCE}/artists/#{id}?access_token=#{token_ext(token)}").body
         JSON.parse(response)
       end
 
-      # +Genius::Artists.artists_songs+               -> Hash
+      # +Genius::Artists.artists_songs+               -> Hash | NilClass
       #
       # Documents (songs) for the artist specified. By default, 20 items are returned for each request.
       #
@@ -42,20 +42,56 @@ module Genius
       def artists_songs(token: nil, id: nil, options: {})
         return if token.nil? && !Auth.authorized?.nil?
 
-        Errors.error_handle(token) unless token.nil?
-        sort_values = %w[title popularity]
+        Errors.validate_token(token) unless token.nil?
 
-        if options.key?(:sort) && !sort_values.include?(options[:sort])
-          raise ArgumentError, "`sort` can't be #{options[:sort]}. Possible values: #{sort_values.join(", ")}."
-        end
-        if options.key?(:per_page) && options[:per_page].negative? || options.key?(:page) && (options[:page]).negative?
-          raise ArgumentError, "`per_page` or `page` can't be negative."
-        end
+        sort_values = %w[title popularity]
+        validate(sort_values, sort: options[:sort], per_page: options[:per_page], page: options[:page])
 
         params = options_helper(options, %i[sort per_page page])
-
         response = HTTParty.get("#{Api::RESOURCE}/artists/#{id}?access_token=#{token_ext(token)}#{params}").body
         JSON.parse(response)
+      end
+
+      private
+
+      # +Genius::Artists.validate+                    -> value
+      #
+      # A helper method which validates some options for artists endpoint.
+      #
+      # @param [Array<String>] sort_values
+      # @param [Hash] options
+      # @return [NilClass]
+      def validate(sort_values, **options)
+        validate_sort(options[:sort], sort_values)
+        validate_page_per_page(options[:per_page])
+        validate_page_per_page(options[:page])
+      end
+
+      # +Genius::Artists.validate_sort+               -> value
+      #
+      # A helper method which validates sort options for artists endpoint.
+      #
+      # @see Artists.artists_songs
+      # @param [String] sort
+      # @param [Array<String>] sort_values Possible values for sort.
+      # @raise [ArgumentError] if sort is invalid value.
+      # @return [Object]
+      def validate_sort(sort, sort_values)
+        return unless sort && !sort_values.include?(sort)
+
+        raise ArgumentError, "`sort` can't be #{sort}. Possible values: #{sort_values.join(", ")}."
+      end
+
+      # +Genius::Artists.validate_page_per_page+      -> value
+      #
+      # A helper method which validates per_page or page option for artists endpoint.
+      #
+      # @see Artists.artists_songs
+      # @param [Integer] page_per_page
+      # @raise [ArgumentError] if per_page or page does not exist or negative.
+      # @return [NilClass]
+      def validate_page_per_page(page_per_page)
+        raise ArgumentError, "`per_page` or `page` can't be negative." if page_per_page&.negative?
       end
 
       Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))

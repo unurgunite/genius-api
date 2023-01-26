@@ -8,7 +8,6 @@
 /tmp/
 .idea
 *.gem
-*.lock
 rakelib
 .env
 Rakefile

@@ -37,7 +37,7 @@ module Genius
       def search(token: nil, query: nil, search_by: nil)
         return if token.nil? && !Auth.authorized?.nil?
 
-        Errors.error_handle(token) unless token.nil?
+        Errors.validate_token(token) unless token.nil?
 
         response = HTTParty.get("#{Api::RESOURCE}/search?q=#{query}&access_token=#{token_ext(token)}").body
         search = JSON.parse(response)
