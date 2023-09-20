@@ -187,6 +187,7 @@ Required YARD tags to indicate and theirs abstract syntax:
 
 Required YARD tags to indicate and theirs abstract syntax:
 
+- `@private`
 - `@example Example usage`
 - `@option variable_name [Class] :option documentation.`
 - `@see #method_name`
@@ -199,7 +200,9 @@ module M # :nodoc:
   module A # :nodoc:
     class << self
       # +M::A.foo+                                    -> Integer
-      # 
+      #
+      # Method documenation.
+      #
       # @param [Integer] arg1 First integer argument.
       # @param [Integer] arg2 Second integer argument.
       # @raise [RuntimeError] if one of the argument is not an integer.
