@@ -19,10 +19,11 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
 
-      - name: Update nokogiri for Ruby compatibility
-        run: bundle update nokogiri --conservative
+      - name: Bundle install with compatible nokogiri
+        run: |
+          gem install bundler
+          bundle install || (bundle update nokogiri --conservative && bundle install)
 
       - name: RSpec
         run: bundle exec rspec
