@@ -21,19 +21,17 @@ GEM
     lint_roller (1.1.0)
     mini_mime (1.1.5)
     multi_xml (0.6.0)
-    nokogiri (1.19.3-aarch64-linux-gnu)
+    nokogiri (1.17.2-aarch64-linux)
       racc (~> 1.4)
-    nokogiri (1.19.3-arm-linux-gnu)
+    nokogiri (1.17.2-arm-linux)
       racc (~> 1.4)
-    nokogiri (1.19.3-arm64-darwin)
+    nokogiri (1.17.2-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.19.3-x86-linux-gnu)
+    nokogiri (1.17.2-x86-linux)
       racc (~> 1.4)
-    nokogiri (1.19.3-x86_64-darwin)
+    nokogiri (1.17.2-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.19.3-x86_64-linux-gnu)
-      racc (~> 1.4)
-    nokogiri (1.19.3-x86_64-linux-musl)
+    nokogiri (1.17.2-x86_64-linux)
       racc (~> 1.4)
     parallel (1.28.0)
     parser (3.3.11.1)
@@ -78,13 +76,12 @@ GEM
     yard (0.9.44)
 
 PLATFORMS
-  aarch64-linux-gnu
-  arm-linux-gnu
+  aarch64-linux
+  arm-linux
   arm64-darwin
-  x86-linux-gnu
+  x86-linux
   x86_64-darwin
-  x86_64-linux-gnu
-  x86_64-linux-musl
+  x86_64-linux
 
 DEPENDENCIES
   coderay
