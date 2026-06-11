@@ -95,13 +95,13 @@ All docs are available at the separate page: https://unurgunite.github.io/genius
 
 - [x] Update `README.md`
 - [ ] Refactor code base
-- [ ] Add tests with RSpec
+- [x] Add tests with RSpec (76 examples, 0 failures)
 - [ ] 100% code coverage with RuboCop
 - [ ] Refactor code according to the style guides
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `bundle exec rspec` to run the tests. You can
 also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the

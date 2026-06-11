@@ -9,7 +9,7 @@ class Object # :nodoc:
   def options_helper(options, arry)
     params = ""
     opt = arry
-    options.each_key do |k, v|
+    options.each do |k, v|
       params.insert(params.length, "&#{k}=#{v}") if opt.include? k
     end
     params

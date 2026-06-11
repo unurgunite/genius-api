@@ -145,11 +145,9 @@ module Genius
         # @return [Object]
         def rescue_from(meths, klass, exception, &handler)
           meths.each do |meth|
-            # store the previous implementation
             old = klass.singleton_method(meth)
-            # wrap it
-            klass.define_singleton_method(meth) do |*args|
-              old.unbind.bind(klass).call(*args)
+            klass.define_singleton_method(meth) do |*args, **kwargs|
+              old.unbind.bind(klass).call(*args, **kwargs)
             rescue exception => e
               handler.call(e)
             end
@@ -160,11 +158,11 @@ module Genius
 
     class << self
       def validate_token(token, method_name: nil)
-        raise TokenError, method_name: method_name if token.nil? || token.size != 64
+        raise TokenError.new(method_name: method_name) if token.nil? || token.size != 64
 
         response = HTTParty.get("#{ENDPOINT}=#{token}").body
         status = JSON.parse(response).dig("meta", "status")
-        raise TokenError, method_name: method_name unless status == 200
+        raise TokenError.new(method_name: method_name) unless status == 200
       end
 
       # +Genius::Errors.error_handle(token)+              -> true or false
@@ -203,7 +201,7 @@ module Genius
                                                        "`Genius::Auth.login=``token''` method and continue",
                                method_name: method_name)
         elsif token.size != 64 || check_status(token) == false
-          raise TokenError, method_name: method_name
+          raise TokenError.new(method_name: method_name)
         end
         true
       end
