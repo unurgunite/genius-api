@@ -1,29 +1,36 @@
+---
 name: CI
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
+on: [push, pull_request]
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
     strategy:
-      fail-fast: false
       matrix:
         ruby: [ 3.0, 3.1, 3.2, 3.3, 3.4, 4.0 ]
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Ruby ${{ matrix.ruby }}
+
+      - name: Install Ruby ${{ matrix.ruby }}
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
 
-      - name: Bundle install with compatible nokogiri
-        run: |
-          gem install bundler
-          bundle install || (bundle update nokogiri --conservative && bundle install)
+      - name: Install RBS collection
+        run: bundle exec rbs collection install
+
+      - name: RuboCop
+        run: bundle exec rubocop
 
       - name: RSpec
         run: bundle exec rspec
+
+      - name: RBS validate
+        run: bundle exec rbs validate
+
+      - name: Steep check
+        run: bundle exec steep check
