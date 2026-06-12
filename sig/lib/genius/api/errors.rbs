@@ -1,0 +1,46 @@
+module Genius
+  module Errors
+    ENDPOINT: String
+
+    class GeniusExceptionSuperClass < StandardError
+    end
+
+    class TokenError < GeniusExceptionSuperClass
+      attr_reader msg: String
+      attr_reader exception_type: String
+      attr_reader method_name: String?
+
+      def initialize: (?msg: String, ?exception_type: String, ?method_name: String?) -> void
+    end
+
+    class LyricsNotFoundError < GeniusExceptionSuperClass
+      attr_reader msg: String
+      attr_reader exception_type: String
+
+      def initialize: (?msg: String, ?exception_type: String) -> void
+    end
+
+    class PageNotFound < GeniusExceptionSuperClass
+      attr_reader msg: String
+      attr_reader exception_type: String
+
+      def initialize: (?msg: String, ?exception_type: String) -> void
+
+      def self.page_not_found?: (untyped html) -> bool
+    end
+
+    module DynamicRescue
+      def self.rescue: (Module klass) -> Array[Symbol]
+
+      def self.rescue_from: (Array[Symbol] meths, Module klass, Module exception) { (untyped) -> void } -> Array[Symbol]
+    end
+
+    def self.validate_token: (String? token, ?method_name: String?) -> void
+
+    def self.error_handle?: (String? token, ?method_name: String?) -> bool
+
+    private
+
+    def self.check_status?: (String token) -> bool
+  end
+end

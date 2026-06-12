@@ -10,36 +10,20 @@ module Genius
   module Referents
     class << self
       # Endpoint of the resource
-      ENDPOINT = "#{Api::RESOURCE}/referents"
-      # +Genius::Referents.referents+                 -> Hash
+      ENDPOINT = "#{Api::RESOURCE}/referents".freeze
+      # Referents by content item or user. Pass only one of +:song_id+ and +:web_page+.
       #
-      # Referents by content item or user responsible for an included
-      # annotation. You may pass only one of song_id and web_page_id, not both.
-      #
-      # @param [Hash] options
-      # @option options [Integer] :created_by_id ID of a user to get
-      #     referents for.
-      # @option options [String] :text_format Format for text bodies related
-      #     to the document. One or more of +dom+, +plain+, and +html+,
-      #     separated by commas (defaults to +dom+). See details of each option
-      #     {here}[https://docs.genius.com/#response-format-h1].
-      # @option options [Integer] :web_page_id ID of a web page to get
-      #     referents for.
-      # @option options [Integer] :song_id ID of a song to get referents for.
-      # @option options [Integer] :per_page Number of results to return per
-      #     request.
-      # @option options [Integer] :page Paginated offset,
-      #     (e.g., <code>per_page=5&page=3</code> returns songs 11-15).
-      # @raise [ArgumentError] if +song_id+ and +web_page+ are presented in
-      #     the same scope.
-      # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
-      # @return [Hash]
+      # @param [String?] token Token to access https://api.genius.com.
+      # @param [Hash] options Options: +:created_by_id+, +:text_format+, +:web_page_id+,
+      #   +:song_id+, +:per_page+, +:page+.
+      # @raise [ArgumentError] if both +:song_id+ and +:web_page+ are present.
+      # @return [Hash, nil]
       def referents(token: nil, options: {})
         return if token.nil? && !Auth.authorized?.nil?
 
         Errors.validate_token(token) unless token.nil?
         if options.key?(:web_page) && options.key?(:song_id)
-          raise ArgumentError, "You may pass only one of song_id and web_page_id, not both!"
+          raise ArgumentError, 'You may pass only one of song_id and web_page_id, not both!'
         end
 
         params = options_helper(options, %i[created_by_id text_format per_page page])
@@ -48,7 +32,7 @@ module Genius
         JSON.parse(response)
       end
 
-      Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
+      Genius::Errors::DynamicRescue.rescue(Module.nesting[1])
     end
   end
 end

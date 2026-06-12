@@ -1,0 +1,38 @@
+name: CI
+
+on: [ push, pull_request ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: [ '3.2', '3.3', '3.4', '4.0' ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - name: Install RBS collection
+        run: bundle exec rbs collection install
+
+      - name: RuboCop
+        run: bundle exec rubocop
+
+      - name: RSpec
+        run: bundle exec rspec
+
+      - name: RBS validate
+        run: bundle exec rbs validate
+
+      - name: Docscribe
+        run: bundle exec docscribe lib --rbs-collection
+
+      - name: Steep check
+        run: bundle exec steep check

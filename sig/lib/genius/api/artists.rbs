@@ -1,0 +1,15 @@
+module Genius
+  module Artists
+    def self.artists: (?token: String?, ?id: Integer?) -> (Hash[String, untyped] | nil)
+
+    def self.artists_songs: (?token: String?, ?id: Integer?, ?options: Hash[Symbol, untyped]) -> (Hash[String, untyped] | nil)
+
+    private
+
+    def self.validate: (Array[String] sort_values, **untyped options) -> void
+
+    def self.validate_sort: (String? sort, Array[String] sort_values) -> void
+
+    def self.validate_page_per_page: (Integer? page_per_page) -> void
+  end
+end

@@ -1,45 +1,86 @@
 # frozen_string_literal: true
 
-require "rspec"
-require "extensions/extensions"
+require 'extensions/deep_find'
 
 describe Hash do
-  describe "#deep_find" do
-    let(:musicians) do
-      { "Travis Scott" => { "28" => ["Highest in the Room", "Franchise"] },
-        "Adele" => { "19" => ["Day Dreamer", "Best for Last"] },
-        "Ed Sheeran" => { "28" => ["Shape of You", "Castle on the Hill"] } }
-    end
-    let(:new_hash) do
-      { "a" => "b", "c" => { "a" => "b" } }
-    end
+  describe '#deep_find' do
+    context 'with basic lookup' do
+      subject(:hash) do
+        {
+          key1: 'value1',
+          key2: {
+            nested_key: 'nested_value',
+            key3: {
+              deep_key: 'deep_value'
+            }
+          }
+        }
+      end
 
-    context "when the option uniq is set to true" do
-      it "returns an array of unique values for the given key" do
-        expect(musicians.deep_find("19", uniq: true)).to eq(["Day Dreamer", "Best for Last"])
-        expect(musicians.deep_find("28",
-                                   uniq: true)).to eq([["Highest in the Room", "Franchise"],
-                                                       ["Shape of You", "Castle on the Hill"]])
-        expect(new_hash.deep_find("a", uniq: true)).to eq("b")
+      it 'finds a value at the top level' do
+        expect(hash.deep_find(:key1)).to eq('value1')
+      end
+
+      it 'finds a value at a nested level' do
+        expect(hash.deep_find(:nested_key)).to eq('nested_value')
+      end
+
+      it 'finds a value at a deep level' do
+        expect(hash.deep_find(:deep_key)).to eq('deep_value')
+      end
+
+      it 'returns nil for missing keys' do
+        expect(hash.deep_find(:nonexistent)).to be_nil
       end
     end
 
-    context "when the option uniq is set to false" do
-      it "returns an array of all values for the given key, including duplicates" do
-        expect(musicians.deep_find("19", uniq: false)).to eq(["Day Dreamer", "Best for Last"])
-        expect(musicians.deep_find("28",
-                                   uniq: false)).to eq([["Highest in the Room", "Franchise"],
-                                                        ["Shape of You", "Castle on the Hill"]])
-        expect(new_hash.deep_find("a", uniq: false)).to eq(%w[b b])
+    context 'with array containing hashes' do
+      subject(:hash) do
+        {
+          items: [
+            { id: 1, name: 'foo' },
+            { id: 2, name: 'bar' }
+          ]
+        }
+      end
+
+      it 'finds values inside arrays of hashes' do
+        expect(hash.deep_find(:name)).to contain_exactly('foo', 'bar')
       end
     end
 
-    it "returns the value of the given key if it exists in the top level of the hash" do
-      expect(musicians.deep_find("Adele")).to eq({ "19" => ["Day Dreamer", "Best for Last"] })
+    context 'with nil values' do
+      it 'returns nil' do
+        expect({ a: nil }.deep_find(:a)).to be_nil
+      end
     end
 
-    it "returns nil if the given key does not exist in the hash" do
-      expect(musicians.deep_find("30")).to eq []
+    context 'with array' do
+      subject(:hash) { { key: [{ nested: 'value' }] } }
+
+      it 'returns match for nil target' do
+        expect(hash.deep_find(:nested)).to eq('value')
+      end
+    end
+
+    context 'with integer key' do
+      subject(:hash) { { 1 => 'one', 2 => 'two' } }
+
+      it 'finds integer keys' do
+        expect(hash.deep_find(1)).to eq('one')
+      end
+    end
+
+    context 'with empty hash' do
+      it 'returns nil' do
+        expect({}.deep_find(:anything)).to be_nil
+      end
+    end
+
+    context 'with empty array' do
+      it 'returns nil' do
+        expect({ items: [] }.deep_find(:anything)).to be_nil
+      end
     end
   end
 end

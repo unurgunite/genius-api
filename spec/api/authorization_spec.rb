@@ -1,38 +1,40 @@
 # frozen_string_literal: true
 
-require "rspec"
-require "dotenv/load"
-require "genius/api"
+require 'genius/api'
 
 describe Genius::Auth do
-  let!(:auth) { described_class }
-  # @todo Change .env to .env.local
-  let(:token) { ENV["TOKEN"] }
+  describe '.authorized?' do
+    context 'with valid token' do
+      let(:valid_token) { 'a' * 64 }
 
-  describe ".authorized?" do
-    context "when a valid token is provided" do
       before do
-        auth.login = token
+        described_class.logout!
+        allow(Genius::Errors).to receive(:validate_token)
+        described_class.login = valid_token
       end
 
-      it "returns true" do
-        expect(auth.authorized?).to be true
+      it 'returns true' do
+        expect(described_class.authorized?).to be true
       end
     end
 
-    context "when an invalid token is provided" do
-      it "returns false" do
-        auth.logout!
-        auth.login = "invalid_token"
-        expect(auth.authorized?).to be false
+    context 'with invalid token' do
+      before do
+        described_class.logout!
+        allow(Genius::Errors).to receive(:validate_token).and_raise(Genius::Errors::TokenError.new)
+      end
+
+      it 'returns false' do
+        described_class.login = 'invalid_token'
+        expect(described_class.authorized?).to be false
       end
     end
   end
 
-  describe ".logout!" do
-    it "sets the token to nil" do
-      auth.logout!
-      expect(auth.instance_variable_get(:@token)).to be_nil
+  describe '.logout!' do
+    it 'sets the token to nil' do
+      described_class.logout!
+      expect(described_class.instance_variable_get(:@token)).to be_nil
     end
   end
 end

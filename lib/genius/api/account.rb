@@ -8,10 +8,9 @@ module Genius
       #
       # An alias to {Genius::Account.account me} method
       #
-      # @param [String] token Token to access https://api.genius.com.
+      # @param [String?] token Token to access https://api.genius.com.
       # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
-      # @return [Hash]
-      # @return [NilClass] if TokenError exception raised.
+      # @return [Hash, nil] if TokenError exception raised.
       # This method is a standard Genius API {request}[https://docs.genius.com/#search-h2] to get
       # account info. Output +JSON+ is translated to Hash structure to make it easy to work with account fields.
       #
@@ -30,7 +29,7 @@ module Genius
 
       alias me account
 
-      Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
+      Genius::Errors::DynamicRescue.rescue(Module.nesting[1])
     end
   end
 end

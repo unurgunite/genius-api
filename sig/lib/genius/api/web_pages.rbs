@@ -1,0 +1,5 @@
+module Genius
+  module WebPages
+    def self.lookup: (?token: String?, ?options: Hash[Symbol, untyped]) -> (Hash[String, untyped] | nil)
+  end
+end

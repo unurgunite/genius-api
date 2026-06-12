@@ -8,31 +8,22 @@ module Genius
   #     Genius::Auth.login="yuiaYqbncErCVwItjQxFspNWUZLhGpXrPbkvgbgHSEKJRAlToamzMfdOeDB"
   module Auth
     class << self
-      # +Genius::Auth.token=+                         -> true or false
-      #
-      # +Genius::Auth.token=+ is a setter which handles all possible exceptions
-      # under the hood during authentication. It means that you should never use
-      # +token=+ method unless you actually know that your credentials are
-      # valid (not recommended).
+      # Sets the authentication token after validation.
       #
       # @param [String] token Token to access https://api.genius.com.
-      # @raise [TokenError] if +token+ is invalid.
+      # @raise [Genius::Errors::TokenError] if +token+ is invalid.
       # @return [String]
-      # @see .authorized?
       def token=(token)
         Genius::Errors.validate_token(token)
         @token = token
       end
 
-      # +Genius::Auth.authorized?+                    -> true or false
+      # Checks if the current token is authorized. Returns +false+ on validation failure.
       #
-      # +authorized?+ method checks if user in current session is authorized.
-      #
-      # @param [NilClass|String] method_name Optional param to pass method name
-      #     where exception was raised.
-      # @raise [TokenError] if +token+ is invalid.
+      # @param [String] token Token to validate.
+      # @param [String] method_name Method name for error messages.
+      # @raise [Genius::Errors::TokenError]
       # @return [Boolean]
-      # @todo somehow detect exceptions as boolean type
       def authorized?(token = @token, method_name: "#{Module.nesting[1].name}.#{__method__}")
         Errors.validate_token(token, method_name: method_name)
       rescue Genius::Errors::TokenError
@@ -41,19 +32,16 @@ module Genius
         true
       end
 
-      # +Genius::Auth.logout!+                        -> NilClass
+      # Revokes the current session by setting the token to +nil+.
       #
-      # +logout!+ method modifies a +token+ object and revoke session by
-      # setting +nil+ to the +token+.
-      #
-      # @return [NilClass]
+      # @return [nil]
       def logout!
         @token = nil unless @token.nil?
       end
 
       alias login= token=
 
-      Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
+      Genius::Errors::DynamicRescue.rescue(Module.nesting[1])
     end
   end
 end

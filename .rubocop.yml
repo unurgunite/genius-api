@@ -1,13 +1,20 @@
+plugins:
+  - rubocop-performance
+  - rubocop-rspec
+  - rubocop-sorted_methods_by_call
+  - rubocop-rake
+
 AllCops:
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.2
+  NewCops: enable
 
-Style/StringLiterals:
-  Enabled: true
-  EnforcedStyle: double_quotes
+Performance/BindCall:
+  Enabled: false
 
-Style/StringLiteralsInInterpolation:
-  Enabled: true
-  EnforcedStyle: double_quotes
+Gemspec/DevelopmentDependencies:
+  EnforcedStyle: gemspec
 
-Layout/LineLength:
-  Max: 120
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - spec/api/*
+    - spec/extensions/*

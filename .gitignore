@@ -11,3 +11,5 @@
 rakelib
 .env
 Rakefile
+.gem_rbs_collection/
+/docs/

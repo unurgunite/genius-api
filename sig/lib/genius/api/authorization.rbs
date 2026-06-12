@@ -1,0 +1,11 @@
+module Genius
+  module Auth
+    def self.token=: (String token) -> String
+
+    def self.authorized?: (?String token, ?method_name: String) -> bool
+
+    def self.logout!: -> nil
+
+    # alias login= token=
+  end
+end
