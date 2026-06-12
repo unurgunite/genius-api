@@ -8,6 +8,9 @@ AllCops:
   TargetRubyVersion: 3.0
   NewCops: enable
 
+Performance/BindCall:
+  Enabled: false
+
 Gemspec/DevelopmentDependencies:
   EnforcedStyle: gemspec
 
