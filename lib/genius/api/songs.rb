@@ -31,27 +31,27 @@ module Genius
 
         response = HTTParty.get("#{Api::RESOURCE}/songs/#{song_id}?access_token=#{token_ext(token)}").body
         response = JSON.parse response
-        combine ? merge_lyrics(song_id, response) : response
+        combine && song_id ? merge_lyrics(song_id, response) : response
       end
 
       private
 
       def merge_lyrics(song_id, response)
         output_html = Nokogiri::HTML(HTTParty.get("https://genius.com/songs/#{song_id}"))
-        raise PageNotFound if PageNotFound.page_not_found?(output_html)
+        raise Errors::PageNotFound if Errors::PageNotFound.page_not_found?(output_html)
 
         response['lyrics'] = parse_preloaded_state(output_html)
         response
-      rescue LyricsNotFoundError
+      rescue Errors::LyricsNotFoundError
         retry
-      rescue PageNotFound => e
+      rescue Errors::PageNotFound => e
         "Error description: #{e.msg}\nException type: #{e.exception_type}"
       end
 
       def parse_preloaded_state(output_html)
         unformed_json = output_html.css('script')[17]
                                    .text.match(/window\.__PRELOADED_STATE__\s=\sJSON.parse\('(?<json>(?:.+?))'\);/)
-        raise LyricsNotFoundError if unformed_json.nil?
+        raise Errors::LyricsNotFoundError if unformed_json.nil?
 
         JSON.parse(unformed_json[:json].unescape)
       end
@@ -78,7 +78,7 @@ module Genius
         retry
       end
 
-      Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
+      Genius::Errors::DynamicRescue.rescue(Module.nesting[1])
     end
   end
 end

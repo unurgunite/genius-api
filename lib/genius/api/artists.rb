@@ -94,7 +94,7 @@ module Genius
         raise ArgumentError, "`per_page` or `page` can't be negative." if page_per_page&.negative?
       end
 
-      Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
+      Genius::Errors::DynamicRescue.rescue(Module.nesting[1])
     end
   end
 end

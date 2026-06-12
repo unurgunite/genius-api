@@ -1,6 +1,6 @@
 module Genius
   module Annotations
-    def self.annotations: (id: untyped, action: untyped, token: String?, http_verb: String?, options: Hash[untyped, untyped]) -> (Hash[untyped, untyped] | nil)
+    def self.annotations: (id: untyped, action: untyped, token: String?, http_verb: String, options: Hash[untyped, untyped]) -> (Hash[untyped, untyped] | nil)
 
     private
 

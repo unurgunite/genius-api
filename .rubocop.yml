@@ -10,3 +10,8 @@ AllCops:
 
 Gemspec/DevelopmentDependencies:
   EnforcedStyle: gemspec
+
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - spec/api/*
+    - spec/extensions/*
