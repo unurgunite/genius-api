@@ -9,6 +9,10 @@ gems:
     revision: 3f5e8df1ce89ea06067fa42263012c968b4e583e
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
+- name: bigdecimal
+  version: 4.1.2
+  source:
+    type: rubygems
 - name: concurrent-ruby
   version: '1.1'
   source:
@@ -18,9 +22,13 @@ gems:
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: csv
-  version: '0'
+  version: '3.3'
   source:
-    type: stdlib
+    type: git
+    name: ruby/gem_rbs_collection
+    revision: 3f5e8df1ce89ea06067fa42263012c968b4e583e
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    repo_dir: gems
 - name: diff-lcs
   version: '1.5'
   source:
@@ -70,9 +78,13 @@ gems:
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: logger
-  version: '0'
+  version: '1.7'
   source:
-    type: stdlib
+    type: git
+    name: ruby/gem_rbs_collection
+    revision: 3f5e8df1ce89ea06067fa42263012c968b4e583e
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    repo_dir: gems
 - name: mini_mime
   version: '0.1'
   source:
@@ -85,6 +97,10 @@ gems:
   version: '0'
   source:
     type: stdlib
+- name: multi_xml
+  version: 0.9.1
+  source:
+    type: rubygems
 - name: net-http
   version: '0'
   source:
@@ -121,10 +137,6 @@ gems:
     revision: 3f5e8df1ce89ea06067fa42263012c968b4e583e
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
-- name: pathname
-  version: '0'
-  source:
-    type: stdlib
 - name: prism
   version: 1.9.0
   source:
@@ -145,8 +157,12 @@ gems:
     revision: 3f5e8df1ce89ea06067fa42263012c968b4e583e
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
+- name: random-formatter
+  version: '0'
+  source:
+    type: stdlib
 - name: rbs
-  version: 3.6.1
+  version: 4.0.2
   source:
     type: rubygems
 - name: rdoc
@@ -182,6 +198,10 @@ gems:
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: securerandom
+  version: '0'
+  source:
+    type: stdlib
+- name: stringio
   version: '0'
   source:
     type: stdlib

@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'Library to work with Genius API, written in Ruby'
   spec.homepage      = 'https://github.com/unurgunite/genius-api'
   spec.license       = 'GPL-3.0'
-  spec.required_ruby_version = Gem::Requirement.new('>= 3.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 3.1')
 
   spec.metadata = {
     'allowed_push_host' => 'https://example.com',
