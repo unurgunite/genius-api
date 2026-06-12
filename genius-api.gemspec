@@ -14,7 +14,6 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = Gem::Requirement.new('>= 3.2')
 
   spec.metadata = {
-    'allowed_push_host' => 'https://example.com',
     'homepage_uri' => spec.homepage,
     'source_code_uri' => 'https://github.com/unurgunite/genius-api',
     'changelog_uri' => 'https://github.com/unurgunite/genius-api/blob/master/CHANGELOG.md',
