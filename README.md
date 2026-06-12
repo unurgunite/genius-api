@@ -223,12 +223,6 @@ the [New BSD License](https://opensource.org/licenses/BSD-3-Clause)
 ![CC BY-SA 4.0](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc.svg)
 ![BSD license logo](https://upload.wikimedia.org/wikipedia/commons/4/42/License_icon-bsd-88x31.png)
 
-## TODO
-
-- [ ] Refactor code base
-- [ ] 100% code coverage with RuboCop
-- [ ] Refactor code according to the style guides
-
 [1]:https://github.com/unurgunite/genius-api#overview
 
 [2]:https://github.com/unurgunite/genius-api#installation
