@@ -43,7 +43,7 @@ module Genius
   #     end
   module Errors
     # Endpoint for resource.
-    ENDPOINT = "#{Api::RESOURCE}/account/?access_token"
+    ENDPOINT = "#{Api::RESOURCE}/account/?access_token".freeze
 
     # Abstract class to store all exception classes in a single object.
     class GeniusExceptionSuperClass < StandardError
@@ -62,8 +62,8 @@ module Genius
       # @param [String (frozen)] msg Exception message.
       # @param [String (frozen)] exception_type Exception type.
       # @return [String (frozen)]
-      def initialize(msg: "Invalid token. The access token provided is expired, revoked, malformed or invalid for " \
-               "other reasons.", exception_type: "token_error", method_name: nil)
+      def initialize(msg: 'Invalid token. The access token provided is expired, revoked, malformed or invalid for ' \
+                          'other reasons.', exception_type: 'token_error', method_name: nil)
         @msg = if method_name.nil?
                  msg
                else
@@ -82,7 +82,7 @@ module Genius
       # @param [String (frozen)] msg Exception message.
       # @param [String (frozen)] exception_type Exception type.
       # @return [String (frozen)]
-      def initialize(msg: "Lyrics not found in current session. Retrying...", exception_type: "invalid_lyrics")
+      def initialize(msg: 'Lyrics not found in current session. Retrying...', exception_type: 'invalid_lyrics')
         @msg = msg
         @exception_type = exception_type
         super(msg)
@@ -97,7 +97,7 @@ module Genius
       # @param [String (frozen)] msg Exception message.
       # @param [String (frozen)] exception_type Exception type.
       # @return [String (frozen)]
-      def initialize(msg: "Page not found. Try again with another response", exception_type: "page_not_found")
+      def initialize(msg: 'Page not found. Try again with another response', exception_type: 'page_not_found')
         @msg = msg
         @exception_type = exception_type
         super(msg)
@@ -161,7 +161,7 @@ module Genius
         raise TokenError.new(method_name: method_name) if token.nil? || token.size != 64
 
         response = HTTParty.get("#{ENDPOINT}=#{token}").body
-        status = JSON.parse(response).dig("meta", "status")
+        status = JSON.parse(response).dig('meta', 'status')
         raise TokenError.new(method_name: method_name) unless status == 200
       end
 
@@ -195,12 +195,12 @@ module Genius
       #       puts e.message
       #       puts e.exception_type
       #     end
-      def error_handle(token, method_name: nil)
+      def error_handle?(token, method_name: nil)
         if token.nil?
-          raise TokenError.new(msg: "Token is required for this method. Please, add token via " \
-                                                       "`Genius::Auth.login=``token''` method and continue",
+          raise TokenError.new(msg: 'Token is required for this method. Please, add token via ' \
+                                    "`Genius::Auth.login=``token''` method and continue",
                                method_name: method_name)
-        elsif token.size != 64 || check_status(token) == false
+        elsif token.size != 64 || check_status?(token) == false
           raise TokenError.new(method_name: method_name)
         end
         true
@@ -222,13 +222,13 @@ module Genius
       # @return [Boolean]
       #
       # @see .error_handle
-      def check_status(token)
+      def check_status?(token)
         return false if token.size != 64 || token.nil?
 
         response = HTTParty.get("#{ENDPOINT}=#{token}").body
-        raise TokenError unless JSON.parse(response).dig("meta", "status")
+        raise TokenError unless JSON.parse(response).dig('meta', 'status')
 
-        status = JSON.parse(response).dig("meta", "status")
+        status = JSON.parse(response).dig('meta', 'status')
         status == 200
       end
     end

@@ -7,7 +7,7 @@ class Object # :nodoc:
   # @param [Array] arry Array of possible params for response.
   # @return [String]
   def options_helper(options, arry)
-    params = ""
+    params = ''
     opt = arry
     options.each do |k, v|
       params.insert(params.length, "&#{k}=#{v}") if opt.include? k

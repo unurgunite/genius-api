@@ -10,7 +10,7 @@ module Genius
   module Referents
     class << self
       # Endpoint of the resource
-      ENDPOINT = "#{Api::RESOURCE}/referents"
+      ENDPOINT = "#{Api::RESOURCE}/referents".freeze
       # +Genius::Referents.referents+                 -> Hash
       #
       # Referents by content item or user responsible for an included
@@ -39,7 +39,7 @@ module Genius
 
         Errors.validate_token(token) unless token.nil?
         if options.key?(:web_page) && options.key?(:song_id)
-          raise ArgumentError, "You may pass only one of song_id and web_page_id, not both!"
+          raise ArgumentError, 'You may pass only one of song_id and web_page_id, not both!'
         end
 
         params = options_helper(options, %i[created_by_id text_format per_page page])
