@@ -1,8 +1,8 @@
 module Genius
   module Artists
-    def self.artists: (?token: String?, ?id: Integer?) -> (Hash[untyped, untyped] | nil)
+    def self.artists: (?token: String?, ?id: Integer?) -> (Hash[String, untyped] | nil)
 
-    def self.artists_songs: (?token: String?, ?id: Integer?, ?options: Hash[untyped, untyped]) -> (Hash[untyped, untyped] | nil)
+    def self.artists_songs: (?token: String?, ?id: Integer?, ?options: Hash[Symbol, untyped]) -> (Hash[String, untyped] | nil)
 
     private
 

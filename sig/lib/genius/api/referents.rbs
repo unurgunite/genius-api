@@ -2,6 +2,6 @@ module Genius
   module Referents
     ENDPOINT: String
 
-    def self.referents: (?token: String?, ?options: Hash[untyped, untyped]) -> (Hash[untyped, untyped] | nil)
+    def self.referents: (?token: String?, ?options: Hash[Symbol, untyped]) -> (Hash[String, untyped] | nil)
   end
 end

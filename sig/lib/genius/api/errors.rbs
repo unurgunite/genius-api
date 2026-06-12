@@ -30,9 +30,9 @@ module Genius
     end
 
     module DynamicRescue
-      def self.rescue: (untyped klass) -> untyped
+      def self.rescue: (Module klass) -> Array[Symbol]
 
-      def self.rescue_from: (Array[untyped] meths, untyped klass, untyped exception) { (untyped) -> void } -> untyped
+      def self.rescue_from: (Array[Symbol] meths, Module klass, Module exception) { (untyped) -> void } -> Array[Symbol]
     end
 
     def self.validate_token: (String? token, ?method_name: String?) -> void

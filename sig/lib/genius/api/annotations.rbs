@@ -1,13 +1,13 @@
 module Genius
   module Annotations
-    def self.annotations: (id: untyped, action: untyped, token: String?, http_verb: String, options: Hash[untyped, untyped]) -> (Hash[untyped, untyped] | nil)
+    def self.annotations: (id: Integer, action: String?, token: String?, http_verb: String, ?options: Hash[Symbol, untyped]) -> (Hash[String, untyped] | nil)
 
     private
 
-    def self.request: (id: untyped, action: untyped, token: String?, http_verb: String, options: Hash[untyped, untyped]) -> untyped
+    def self.request: (id: Integer, action: String?, token: String?, http_verb: String, options: Hash[Symbol, untyped]) -> HTTParty::Response
 
-    def self.put_request: (id: untyped, action: untyped, token: String?, options: Hash[untyped, untyped]) -> untyped
+    def self.put_request: (id: Integer, action: String?, token: String?, options: Hash[Symbol, untyped]) -> HTTParty::Response
 
-    def self.post_payload: (?options: Hash[untyped, untyped]) -> String
+    def self.post_payload: (?options: Hash[Symbol, untyped]) -> String
   end
 end

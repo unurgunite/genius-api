@@ -26,5 +26,5 @@ class Hash[unchecked out K, unchecked out V]
 
   private
 
-  def collect_values: (untyped key) -> untyped
+  def collect_values: (untyped key) -> Array[untyped]
 end

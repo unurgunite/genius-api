@@ -16,7 +16,7 @@ module Genius
     #     Genius::Auth.login="yuiaYqbncErCVwItjQxFspNWUZLhGpXrPbkvgbgHSEKJRAlToamzMfdOeDB"
     #     Genius::Account.account #=> {"meta"=>{"status"=>200}, "response"=>{"user"=>{...}}}
     # @todo somehow refactor 50/52 exceptions
-    def self.account: (?token: untyped?) -> (nil | untyped)
+    def self.account: (?token: String?) -> (Hash[String, untyped] | nil)
 
     alias self.me self.account
   end
