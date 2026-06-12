@@ -79,7 +79,7 @@ module Genius
       def validate_sort(sort, sort_values)
         return unless sort && !sort_values.include?(sort)
 
-        raise ArgumentError, "`sort` can't be #{sort}. Possible values: #{sort_values.join(", ")}."
+        raise ArgumentError, "`sort` can't be #{sort}. Possible values: #{sort_values.join(', ')}."
       end
 
       # +Genius::Artists.validate_page_per_page+      -> value

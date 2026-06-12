@@ -7,7 +7,7 @@ class String # :nodoc:
   #
   # @return [String (frozen)]
   def unescape
-    string = gsub(/(?<!\\)(\\\")/, "\"")
-    string.gsub(/(?<!\\)(\\\\\")/, "\\\"")
+    string = gsub(/(?<!\\)(\\")/, '"')
+    string.gsub(/(?<!\\)(\\\\")/, '\"')
   end
 end

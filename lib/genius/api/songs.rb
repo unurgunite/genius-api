@@ -31,28 +31,32 @@ module Genius
 
         response = HTTParty.get("#{Api::RESOURCE}/songs/#{song_id}?access_token=#{token_ext(token)}").body
         response = JSON.parse response
-        if combine
-          begin
-            output_html = Nokogiri::HTML(HTTParty.get("https://genius.com/songs/#{song_id}"))
-            raise PageNotFound if PageNotFound.page_not_found?(output_html)
-
-            # @todo: maybe need some optimisations
-            unformed_json = output_html.css("script")[17]
-                                       .text.match(/window\.__PRELOADED_STATE__\s=\sJSON.parse\('(?<json>(.+?))'\);/)
-            raise LyricsNotFoundError if unformed_json.nil?
-
-            formatted_json = unformed_json[:json]
-            lyrics_json = JSON.parse(formatted_json.unescape)
-            response["lyrics"] = lyrics_json
-            return response
-          rescue LyricsNotFoundError
-            retry
-          rescue PageNotFound => e
-            "Error description: #{e.msg}\nException type: #{e.exception_type}"
-          end
-        end
-        response
+        combine ? merge_lyrics(song_id, response) : response
       end
+
+      private
+
+      def merge_lyrics(song_id, response)
+        output_html = Nokogiri::HTML(HTTParty.get("https://genius.com/songs/#{song_id}"))
+        raise PageNotFound if PageNotFound.page_not_found?(output_html)
+
+        response['lyrics'] = parse_preloaded_state(output_html)
+        response
+      rescue LyricsNotFoundError
+        retry
+      rescue PageNotFound => e
+        "Error description: #{e.msg}\nException type: #{e.exception_type}"
+      end
+
+      def parse_preloaded_state(output_html)
+        unformed_json = output_html.css('script')[17]
+                                   .text.match(/window\.__PRELOADED_STATE__\s=\sJSON.parse\('(?<json>(?:.+?))'\);/)
+        raise LyricsNotFoundError if unformed_json.nil?
+
+        JSON.parse(unformed_json[:json].unescape)
+      end
+
+      public
 
       # +Genius::Songs.get_lyrics+                    -> Hash
       #
@@ -63,13 +67,13 @@ module Genius
       # @raise [ArgumentError] if +song_id+ is blank.
       # @return [Hash]
       def get_lyrics(song_id)
-        raise ArgumentError, "`song_id` should be not blank!" if song_id.nil?
+        raise ArgumentError, '`song_id` should be not blank!' if song_id.nil?
 
         response = HTTParty.get("https://genius.com/songs/#{song_id}")
         document = Nokogiri::HTML(response)
-        # @todo: something wrong with lyrics attribute value 
+        # @todo: something wrong with lyrics attribute value
         lyrics_path = document.xpath("//*[@class='Lyrics__Container-sc-1ynbvzw-6 YYrds']")
-        lyrics_path.at_css("p").content
+        lyrics_path.at_css('p').content
       rescue NoMethodError
         retry
       end

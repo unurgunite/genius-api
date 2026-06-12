@@ -25,18 +25,25 @@ class Hash # :nodoc:
   #     h.deep_find("a") #=> "b", instead ["b", "b"]
   # @todo change uniq true to uniq false
   def deep_find(key, uniq: true)
-    result = []
-    result << self[key]
-    each_value do |hash_value|
-      values = hash_value.is_a?(Array) ? hash_value : [hash_value]
-      values.each do |value|
-        result << value.deep_find(key) if value.is_a? Hash
+    result = collect_values(key)
+    result.compact!
+    result.delete_if { |i| i.is_a?(Array) && i.empty? }
+    result.uniq! if uniq
+    return nil if result.empty?
+
+    result.size == 1 ? result.first : result
+  end
+
+  private
+
+  def collect_values(key)
+    result = [self[key]]
+    each_value do |value|
+      values = value.is_a?(Array) ? value : [value]
+      values.each do |v|
+        result << v.deep_find(key) if v.is_a?(Hash)
       end
     end
-    result = result.compact.delete_if do |i|
-      i.is_a?(Array) && i.empty?
-    end
-    result.uniq! if uniq
-    result.size == 1 ? result.first : result
+    result
   end
 end

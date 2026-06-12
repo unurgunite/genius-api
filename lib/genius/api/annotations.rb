@@ -144,11 +144,11 @@ module Genius
       #
       # @example Example usage
       #     Genius::Annotations.annotations(id: 10225840, http_verb: "put", action: "vote")
-      def annotations(id:, action:, token:, http_verb: "get", options: {})
+      def annotations(id:, action:, token:, http_verb: 'get', options: {})
         return if token.nil? && !Auth.authorized?.nil?
 
         Errors.validate_token(token) unless token.nil?
-        raise ArgumentError, "only PUT accepts `action` param" if http_verb != "put" && !action.nil?
+        raise ArgumentError, 'only PUT accepts `action` param' if http_verb != 'put' && !action.nil?
 
         JSON.parse(request(id: id, action: action, token: token, http_verb: http_verb, options: options).body)
       end
@@ -161,17 +161,12 @@ module Genius
       # @see .annotations
       def request(id:, action:, token:, http_verb:, options:)
         case http_verb
-        when "get"
-          HTTParty.get("#{Api::RESOURCE}/annotations/#{id}?access_token=#{token_ext(token)}")
-        when "post"
-          HTTParty.post("#{Api::RESOURCE}/annotations/#{id}?access_token=#{token_ext(token)}",
-                        body: post_payload(options: options))
-        when "put"
-          put_request(id: id, action: action, token: token, options: options)
-        when "delete"
-          HTTParty.delete("#{Api::RESOURCE}/annotations/#{id}?access_token=#{token_ext(token)}")
-        else
-          raise ArgumentError, "Something bad happened..."
+        when 'get' then HTTParty.get("#{Api::RESOURCE}/annotations/#{id}?access_token=#{token_ext(token)}")
+        when 'post' then HTTParty.post("#{Api::RESOURCE}/annotations/#{id}?access_token=#{token_ext(token)}",
+                                       body: post_payload(options: options))
+        when 'put' then put_request(id: id, action: action, token: token, options: options)
+        when 'delete' then HTTParty.delete("#{Api::RESOURCE}/annotations/#{id}?access_token=#{token_ext(token)}")
+        else raise ArgumentError, 'Something bad happened...'
         end
       end
 
@@ -181,15 +176,13 @@ module Genius
       # @see .annotations
       def put_request(id:, action:, token:, options:)
         case action
-        when nil
-          HTTParty.put("#{Api::RESOURCE}/annotations/#{id}/#{action}?access_token=#{token_ext(token)}",
-                       body: post_payload(options: options))
-        when "upvote", "downvote", "unvote"
-          HTTParty.put("#{Api::RESOURCE}/annotations/#{id}/#{action}?access_token=#{token_ext(token)}")
+        when nil then HTTParty.put("#{Api::RESOURCE}/annotations/#{id}/#{action}?access_token=#{token_ext(token)}",
+                                   body: post_payload(options: options))
+        when 'upvote', 'downvote', 'unvote' then HTTParty.put("#{Api::RESOURCE}/annotations/#{id}/#{action}?access_token=#{token_ext(token)}")
         else
           actions = %w[upvote downvote unvote]
           raise ArgumentError,
-                "Invalid value for `action` param. Allowed values are: #{actions.join(", ")}"
+                "Invalid value for `action` param. Allowed values are: #{actions.join(', ')}"
         end
       end
 
@@ -211,24 +204,13 @@ module Genius
       # @return [String]
       def post_payload(options: {})
         {
-          annotation: {
-            body: {
-              markdown: options[:markdown]
-            }
-          },
+          annotation: { body: { markdown: options[:markdown] } },
           referent: {
             raw_annotatable_url: options[:raw_annotatable_url],
             fragment: options[:fragment],
-            context_for_display: {
-              before_html: options[:before_html],
-              after_html: options[:after_html]
-            }
+            context_for_display: { before_html: options[:before_html], after_html: options[:after_html] }
           },
-          web_page: {
-            canonical_url: options[:canonical_url],
-            og_url: options[:og_url],
-            title: options[:title]
-          }
+          web_page: { canonical_url: options[:canonical_url], og_url: options[:og_url], title: options[:title] }
         }.to_json
       end
 
