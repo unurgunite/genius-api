@@ -1,0 +1,5 @@
+module Genius
+  module Api
+    VERSION: String
+  end
+end

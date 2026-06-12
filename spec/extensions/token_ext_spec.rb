@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
-require 'rspec'
 require 'extensions/extensions'
 
 describe Object do
   describe '#token_ext' do
+    subject(:helper) { described_class.new }
+
     let(:token) { 'a' * 64 }
 
     context 'when a token is provided' do
       it 'returns the token' do
-        expect(subject.token_ext(token)).to eq(token)
+        expect(helper.token_ext(token)).to eq(token)
       end
     end
 
@@ -23,7 +24,7 @@ describe Object do
       end
 
       it 'returns the stored token' do
-        expect(subject.token_ext(nil)).to eq(token)
+        expect(helper.token_ext(nil)).to eq(token)
       end
     end
   end

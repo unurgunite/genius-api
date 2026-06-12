@@ -1,6 +1,20 @@
+plugins:
+  - rubocop-performance
+  - rubocop-rspec
+  - rubocop-sorted_methods_by_call
+  - rubocop-rake
+
 AllCops:
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.2
   NewCops: enable
+
+Performance/BindCall:
+  Enabled: false
 
 Gemspec/DevelopmentDependencies:
   EnforcedStyle: gemspec
+
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - spec/api/*
+    - spec/extensions/*

@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'Library to work with Genius API, written in Ruby'
   spec.homepage      = 'https://github.com/unurgunite/genius-api'
   spec.license       = 'GPL-3.0'
-  spec.required_ruby_version = Gem::Requirement.new('>= 3.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 3.2')
 
   spec.metadata = {
     'allowed_push_host' => 'https://example.com',
@@ -35,7 +35,13 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'coderay'
   spec.add_development_dependency 'dotenv', '~> 2.7.6'
   spec.add_development_dependency 'rake', '~> 13.0'
+  spec.add_development_dependency 'rbs'
   spec.add_development_dependency 'rspec', '~> 3.4'
-  spec.add_development_dependency 'rubocop', '~> 1.7'
+  spec.add_development_dependency 'rubocop'
+  spec.add_development_dependency 'rubocop-performance'
+  spec.add_development_dependency 'rubocop-rake'
+  spec.add_development_dependency 'rubocop-rspec'
+  spec.add_development_dependency 'rubocop-sorted_methods_by_call'
+  spec.add_development_dependency 'steep'
   spec.add_development_dependency 'yard'
 end

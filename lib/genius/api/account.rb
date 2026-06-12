@@ -30,7 +30,7 @@ module Genius
 
       alias me account
 
-      Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
+      Genius::Errors::DynamicRescue.rescue(Module.nesting[1])
     end
   end
 end

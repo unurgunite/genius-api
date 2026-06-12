@@ -32,11 +32,11 @@ module Genius
         Errors.validate_token(token) unless token.nil?
 
         params = options_helper(options, %i[raw_annotatable_url canonical_url og_url])
-        response = HTTParty.get("#{Api::RESOURCE}/?access_token=#{token_ext(token)}#{params}")
+        response = HTTParty.get("#{Api::RESOURCE}/?access_token=#{token_ext(token)}#{params}").body
         JSON.parse(response)
       end
 
-      Genius::Errors::DynamicRescue.rescue(const_get(Module.nesting[1].name))
+      Genius::Errors::DynamicRescue.rescue(Module.nesting[1])
     end
   end
 end
