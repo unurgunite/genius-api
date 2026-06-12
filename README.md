@@ -14,15 +14,21 @@ API and much more!
         2. [Automatic installation][2.1.2]
     2. [Build via bundler][2.2]
 3. [Usage][3]
-4. [Todo][4]
+4. [Requirements][4]
+    1. [Common usage][4.1]
+    2. [Development purposes][4.2]
 5. [Development][5]
-6. [Requirements][6]
-    1. [Common usage][6.1]
-    2. [Development purposes][6.2]
-7. [Project style guide][7]
-8. [Contributing][8]
-9. [License][9]
-10. [Code of Conduct][10]
+6. [Type checking][6]
+    1. [RBS][6.1]
+    2. [Steep][6.2]
+7. [Documentation][7]
+    1. [YARD][7.1]
+    2. [Docscribe][7.2]
+8. [Project style guide][8]
+9. [Contributing][9]
+10. [License][10]
+11. [Code of Conduct][11]
+12. [TODO][12]
 
 ## Overview
 
@@ -91,23 +97,6 @@ gem install genius-api
 
 All docs are available at the separate page: https://unurgunite.github.io/genius-api_docs/
 
-## TODO
-
-- [x] Update `README.md`
-- [ ] Refactor code base
-- [x] Add tests with RSpec (76 examples, 0 failures)
-- [ ] 100% code coverage with RuboCop
-- [ ] Refactor code according to the style guides
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bundle exec rspec` to run the tests. You can
-also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the
-version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version,
-push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
 ## Requirements
 
 This section will show dependencies which are used in the project. This section splits in two other sections —
@@ -115,7 +104,7 @@ requirements for common use and requirements for the development purposes.
 
 ### Common use
 
-The `genius-api` gem is built on top of two other gems:
+The `genius-api` gem requires Ruby >= 3.2 and is built on top of two other gems:
 
 | Dependencies    | Description                                                                                 |
 |-----------------|---------------------------------------------------------------------------------------------|
@@ -126,14 +115,74 @@ The `genius-api` gem is built on top of two other gems:
 
 For the development purposes `genius-api` gem uses:
 
-| Dependencies   | Description                                                                              |
-|----------------|------------------------------------------------------------------------------------------|
-| [RSpec][201]   | The RSpec gem is used for test which are located in a separate folder under `spec` name. |
-| [RuboCop][202] | The RuboCop gem is used for code formatting.                                             |
-| [Rake][203]    | The Rake gem is used for building tasks as generating documentation.                     |
-| [Dotenv][204]  | The Dotenv gem is used for setting variables for test environment (`token`, for e.g.).   |
-| [Coderay][205] | The Coderay gem is used for colorizing Rspec output.                                     |
-| [YARD][206]    | The YARD gem is used for the documentation.                                              |
+| Dependencies    | Description                                                                              |
+|-----------------|------------------------------------------------------------------------------------------|
+| [RSpec][201]    | The RSpec gem is used for test which are located in a separate folder under `spec` name. |
+| [RuboCop][202]  | The RuboCop gem is used for code formatting.                                             |
+| [Rake][203]     | The Rake gem is used for building tasks as generating documentation.                     |
+| [Dotenv][204]   | The Dotenv gem is used for setting variables for test environment (`token`, for e.g.).   |
+| [Coderay][205]  | The Coderay gem is used for colorizing Rspec output.                                     |
+| [YARD][206]     | The YARD gem is used for the documentation.                                              |
+| [RBS][207]      | The RBS gem is used for Ruby type signatures.                                            |
+| [Steep][208]    | The Steep gem is used for static type checking.                                          |
+| [Docscribe][209]| The Docscribe gem is used for automated YARD documentation generation.                   |
+
+## Development
+
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `bundle exec rspec` to run the tests. You can
+also run `bin/console` for an interactive prompt that will allow you to experiment.
+
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the
+version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version,
+push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+## Type checking
+
+This project uses RBS for type signatures and Steep for static type checking.
+
+### RBS
+
+RBS type signatures are located in `sig/` directory. To validate them:
+
+```shell
+bundle exec rbs validate
+```
+
+### Steep
+
+To run the Steep type checker:
+
+```shell
+bundle exec steep check
+```
+
+## Documentation
+
+This project uses YARD for documentation with Docscribe for automated annotation generation.
+
+### YARD
+
+To generate YARD documentation:
+
+```shell
+bundle exec yard doc -o docs
+```
+
+Generated docs will be placed in `docs/` (gitignored).
+
+### Docscribe
+
+Docscribe keeps YARD annotations in sync with the codebase. To check for missing or outdated docs:
+
+```shell
+bundle exec docscribe lib
+```
+
+To regenerate annotations using RBS type information:
+
+```shell
+bundle exec docscribe -A --rbs-collection lib
+```
 
 ## Project style guide
 
@@ -158,11 +207,6 @@ git push origin refactor
 And then make new pull request with additional notes of what you have done. The better the changes are scheduled, the
 faster the PR will be checked.
 
-## Code of Conduct
-
-Everyone interacting in the `Genius::Api` project's codebases, issue trackers, chat rooms and mailing lists is expected
-to follow the [code of conduct](https://github.com/unurgunite/genius-api/blob/master/CODE_OF_CONDUCT.md).
-
 ## License
 
 The gem is available as open source under the terms of the [GPLv3 License](https://opensource.org/licenses/GPL-3.0). The
@@ -179,6 +223,12 @@ the [New BSD License](https://opensource.org/licenses/BSD-3-Clause)
 ![CC BY-SA 4.0](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc.svg)
 ![BSD license logo](https://upload.wikimedia.org/wikipedia/commons/4/42/License_icon-bsd-88x31.png)
 
+## TODO
+
+- [ ] Refactor code base
+- [ ] 100% code coverage with RuboCop
+- [ ] Refactor code according to the style guides
+
 [1]:https://github.com/unurgunite/genius-api#overview
 
 [2]:https://github.com/unurgunite/genius-api#installation
@@ -193,23 +243,35 @@ the [New BSD License](https://opensource.org/licenses/BSD-3-Clause)
 
 [3]:https://github.com/unurgunite/genius-api#usage
 
-[4]:https://github.com/unurgunite/genius-api#todo
+[4]:https://github.com/unurgunite/genius-api#requirements
+
+[4.1]:https://github.com/unurgunite/genius-api#common-usage
+
+[4.2]:https://github.com/unurgunite/genius-api#development-purposes
 
 [5]:https://github.com/unurgunite/genius-api#development
 
-[6]:https://github.com/unurgunite/genius-api#requirements
+[6]:https://github.com/unurgunite/genius-api#type-checking
 
-[6.1]:https://github.com/unurgunite/genius-api#common-usage
+[6.1]:https://github.com/unurgunite/genius-api#rbs
 
-[6.2]:https://github.com/unurgunite/genius-api#development-purposes
+[6.2]:https://github.com/unurgunite/genius-api#steep
 
-[7]:https://github.com/unurgunite/genius-api#project-style-guide
+[7]:https://github.com/unurgunite/genius-api#documentation
 
-[8]:https://github.com/unurgunite/genius-api#contributing
+[7.1]:https://github.com/unurgunite/genius-api#yard
 
-[9]:https://github.com/unurgunite/genius-api#license
+[7.2]:https://github.com/unurgunite/genius-api#docscribe
 
-[10]:https://github.com/unurgunite/genius-api#code-of-conduct
+[8]:https://github.com/unurgunite/genius-api#project-style-guide
+
+[9]:https://github.com/unurgunite/genius-api#contributing
+
+[10]:https://github.com/unurgunite/genius-api#license
+
+[11]:https://github.com/unurgunite/genius-api#code-of-conduct
+
+[12]:https://github.com/unurgunite/genius-api#todo
 
 [101]:https://rubygems.org/gems/httparty
 
@@ -226,3 +288,9 @@ the [New BSD License](https://opensource.org/licenses/BSD-3-Clause)
 [205]:https://rubygems.org/gems/coderay
 
 [206]:https://rubygems.org/gems/yard
+
+[207]:https://rubygems.org/gems/rbs
+
+[208]:https://rubygems.org/gems/steep
+
+[209]:https://rubygems.org/gems/docscribe
