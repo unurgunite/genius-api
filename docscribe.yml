@@ -1,0 +1,9 @@
+---
+rbs:
+  enabled: true
+  collection: true
+  collapse_generics: true
+
+filter:
+  exclude:
+    - Genius::Errors::DynamicRescue.rescue_from

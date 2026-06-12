@@ -5,7 +5,7 @@ class String # :nodoc:
   #
   # String#unescape method unescapes input JSON strings.
   #
-  # @return [String (frozen)]
+  # @return [String]
   def unescape
     string = gsub(/(?<!\\)(\\")/, '"')
     string.gsub(/(?<!\\)(\\\\")/, '\"')

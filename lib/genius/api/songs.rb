@@ -6,24 +6,12 @@ module Genius
     class << self
       include Genius::Errors
 
-      # +Genius::Songs.songs+                         -> NilClass
+      # Returns song data by ID. Optionally merges lyrics from the Genius page when +combine+ is +true+.
       #
-      # This method provides info about song by its id. It is not the same
-      # with +Genius::Search.search+ method, because it modify a +JSON+ only
-      # for concrete song id, not for whole search database, which is returned
-      # in +Genius::Search.search+.
-      #
-      # @param [String] token Token to access https://api.genius.com.
-      # @param [Integer] song_id Song id.
-      # @raise [PageNotFound] if page is not found.
-      # @raise [LyricsNotFound] if output JSON is nil.
-      # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
-      # @return [String] the error message if +lyrics+ param is +true+.
-      # @return [Hash] if +lyrics+ param is +false+.
-      # @return [NilClass] if TokenError exception raised.
-      #
-      # @example
-      #     Genius::Songs.songs(song_id: 294649) #=> {"some_kind_of_hash"}
+      # @param [String?] token Token to access https://api.genius.com.
+      # @param [Integer?] song_id ID of the song.
+      # @param [Boolean] combine If +true+, fetches and merges lyrics into the response.
+      # @return [Hash, String, nil]
       def songs(token: nil, song_id: nil, combine: false)
         return if token.nil? && !Auth.authorized?.nil?
 
@@ -36,6 +24,14 @@ module Genius
 
       private
 
+      # Fetches the Genius HTML page for a song and merges lyrics into the API response.
+      #
+      # @private
+      # @param [Integer] song_id ID of the song.
+      # @param [Hash] response Original API response hash.
+      # @raise [Errors::PageNotFound] if the song page is not found.
+      # @raise [Errors::LyricsNotFoundError] if lyrics cannot be parsed.
+      # @return [Hash, String]
       def merge_lyrics(song_id, response)
         output_html = Nokogiri::HTML(HTTParty.get("https://genius.com/songs/#{song_id}"))
         raise Errors::PageNotFound if Errors::PageNotFound.page_not_found?(output_html)
@@ -48,6 +44,12 @@ module Genius
         "Error description: #{e.msg}\nException type: #{e.exception_type}"
       end
 
+      # Extracts the preloaded state JSON from the Genius page HTML.
+      #
+      # @private
+      # @param [Object] output_html Parsed Nokogiri HTML document.
+      # @raise [Errors::LyricsNotFoundError] if the preloaded state script is not found.
+      # @return [Hash]
       def parse_preloaded_state(output_html)
         unformed_json = output_html.css('script')[17]
                                    .text.match(/window\.__PRELOADED_STATE__\s=\sJSON.parse\('(?<json>(?:.+?))'\);/)
@@ -58,14 +60,12 @@ module Genius
 
       public
 
-      # +Genius::Songs.get_lyrics+                    -> Hash
+      # Extracts lyrics as plain text from the Genius song page.
       #
-      # +Genius::Songs.get_lyrics+ method is used for extracting lyrics in
-      # plain text format.
-      #
-      # @param [Integer] song_id Song id.
-      # @raise [ArgumentError] if +song_id+ is blank.
-      # @return [Hash]
+      # @param [Integer] song_id ID of the song.
+      # @raise [ArgumentError] if +song_id+ is nil.
+      # @raise [NoMethodError]
+      # @return [String]
       def get_lyrics(song_id)
         raise ArgumentError, '`song_id` should be not blank!' if song_id.nil?
 
