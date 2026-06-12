@@ -22,7 +22,11 @@ This file includes code style references which can help when contributing to pro
     3. [Define methods][4.3]
 5. [Contributing][5]
     1. [Git commits][5.1]
-    2. [Rubocop][5.2]
+    2. [RuboCop][5.2]
+    3. [RSpec][5.3]
+    4. [Docscribe][5.4]
+    5. [RBS][5.5]
+    6. [Steep][5.6]
 6. [TODO][6]
 7. [License][7]
 
@@ -256,6 +260,51 @@ See: [RuboCop documentation](https://docs.rubocop.org/rubocop/index.html)
 Before pushing, you must be sure that the code you write is correct, so it should always be formatted through a static
 analyzer. Look towards the `rubocop -D` and `rubocop -A` commands.
 
+### RSpec
+
+Before pushing, run the test suite to ensure nothing is broken:
+
+```shell
+bundle exec rspec
+```
+
+The test suite currently has 84 examples with 0 failures.
+
+### Docscribe
+
+Docscribe keeps YARD annotations in sync with the codebase. After making changes to method signatures, run:
+
+```shell
+bundle exec docscribe lib
+```
+
+This will check for missing or outdated documentation. To regenerate annotations automatically:
+
+```shell
+bundle exec docscribe -A --rbs-collection lib
+```
+
+The project's docscribe configuration is in `docscribe.yml` at the project root.
+
+### RBS
+
+RBS type signatures are located in `sig/` directory. After adding or changing methods, update the corresponding `.rbs`
+files. Validate signatures with:
+
+```shell
+bundle exec rbs validate
+```
+
+### Steep
+
+Steep performs static type checking using RBS signatures. Run the type checker:
+
+```shell
+bundle exec steep check
+```
+
+All type errors must be resolved before committing.
+
 ## TODO
 
 - [ ] Look at the documentation with fresh eyes
@@ -305,6 +354,14 @@ the [CC BY-SA 4.0 License](https://creativecommons.org/licenses/by-sa/4.0/)
 [5.1]:https://github.com/unurgunite/genius-api/blob/master/CONTRIBUTING.md#git-commits
 
 [5.2]:https://github.com/unurgunite/genius-api/blob/master/CONTRIBUTING.md#rubocop
+
+[5.3]:https://github.com/unurgunite/genius-api/blob/master/CONTRIBUTING.md#rspec
+
+[5.4]:https://github.com/unurgunite/genius-api/blob/master/CONTRIBUTING.md#docscribe
+
+[5.5]:https://github.com/unurgunite/genius-api/blob/master/CONTRIBUTING.md#rbs
+
+[5.6]:https://github.com/unurgunite/genius-api/blob/master/CONTRIBUTING.md#steep
 
 [6]:https://github.com/unurgunite/genius-api/blob/master/CONTRIBUTING.md#todo
 
