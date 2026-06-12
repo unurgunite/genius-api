@@ -10,9 +10,13 @@ gems:
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: bigdecimal
-  version: 4.1.2
+  version: '3.1'
   source:
-    type: rubygems
+    type: git
+    name: ruby/gem_rbs_collection
+    revision: 3f5e8df1ce89ea06067fa42263012c968b4e583e
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    repo_dir: gems
 - name: concurrent-ruby
   version: '1.1'
   source:
@@ -97,10 +101,6 @@ gems:
   version: '0'
   source:
     type: stdlib
-- name: multi_xml
-  version: 0.9.1
-  source:
-    type: rubygems
 - name: net-http
   version: '0'
   source:
