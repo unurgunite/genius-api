@@ -59,12 +59,9 @@ module Genius
     class TokenError < GeniusExceptionSuperClass
       attr_reader :msg, :exception_type, :method_name
 
-      # Initializes a token validation error with optional method name hint.
-      #
-      # @param [String] msg Error message.
-      # @param [String] exception_type Error type identifier.
-      # @param [String?] method_name Optional method name for user hint.
-      # @return [void]
+      # @param [String (frozen)] msg Exception message.
+      # @param [String (frozen)] exception_type Exception type.
+      # @return [String (frozen)]
       def initialize(msg: 'Invalid token. The access token provided is expired, revoked, malformed or invalid for ' \
                           'other reasons.', exception_type: 'token_error', method_name: nil)
         @msg = if method_name.nil?
@@ -82,11 +79,9 @@ module Genius
     class LyricsNotFoundError < GeniusExceptionSuperClass
       attr_reader :msg, :exception_type
 
-      # Initializes a lyrics-not-found error.
-      #
-      # @param [String] msg Error message.
-      # @param [String] exception_type Error type identifier.
-      # @return [void]
+      # @param [String (frozen)] msg Exception message.
+      # @param [String (frozen)] exception_type Exception type.
+      # @return [String (frozen)]
       def initialize(msg: 'Lyrics not found in current session. Retrying...', exception_type: 'invalid_lyrics')
         @msg = msg
         @exception_type = exception_type
@@ -99,21 +94,23 @@ module Genius
     class PageNotFound < GeniusExceptionSuperClass
       attr_reader :msg, :exception_type
 
-      # Initializes a page-not-found error.
-      #
-      # @param [String] msg Error message.
-      # @param [String] exception_type Error type identifier.
-      # @return [void]
+      # @param [String (frozen)] msg Exception message.
+      # @param [String (frozen)] exception_type Exception type.
+      # @return [String (frozen)]
       def initialize(msg: 'Page not found. Try again with another response', exception_type: 'page_not_found')
         @msg = msg
         @exception_type = exception_type
         super(msg)
       end
 
-      # Checks if the HTML response indicates a page-not-found error.
+      # +Genius::Errors::PageNotFound.page_not_found?+    -> true or false
       #
-      # @param [Object] html Parsed HTML document.
-      # @return [Boolean]
+      # +PageNotFound.page_not_found?+ method is used to be a predicate for
+      # handling 404 error.
+      #
+      # @param [Object] html
+      # @return [TrueClass] if genius page is not found
+      # @return [FalseClass] if genius page is found
       def self.page_not_found?(html)
         html.text.include?('Page not found')
       end
@@ -124,10 +121,16 @@ module Genius
     # +Genius::Errors+ scope.
     module DynamicRescue
       class << self
-        # Wraps singleton methods of +klass+ with exception handling via {DynamicRescue.rescue_from}.
+        # +Genius::Errors::DynamicRescue.rescue+          -> value
         #
-        # @param [Module] klass Module whose singleton methods to wrap.
-        # @return [Array]
+        # +Genius::Errors::DynamicRescue.rescue_from+ is a helper method,
+        # which, according to reflection, redefine singleton method for
+        # specified module, adding to it exception handler for DRY pattern.
+        #
+        # @todo: add docs
+        #
+        # @param [Object] klass Class name of structure - module/class/etc.
+        # @return [Object]
         def rescue(klass)
           DynamicRescue.rescue_from klass.singleton_methods, klass, GeniusExceptionSuperClass do |e|
             puts "Error description: #{e.msg}\nException type: #{e.exception_type}"
@@ -135,14 +138,11 @@ module Genius
           end
         end
 
-        # Redefines each method in +meths+ on +klass+ to rescue +exception+ and yield to the block.
-        #
-        # @param [Array] meths Method names to wrap.
-        # @param [Module] klass Module to redefine methods on.
-        # @param [Module] exception Exception class to rescue.
-        # @param [Proc] block Handler for rescued exceptions.
-        # @raise [StandardError]
-        # @return [Array]
+        # @param [Object] meths List of methods to redefine.
+        # @param [Object] klass Class name of structure - module/class/etc.
+        # @param [Object] exception Exception class.
+        # @param [Proc] handler Body of rescue block.
+        # @return [Object]
         def rescue_from(meths, klass, exception, &)
           meths.each do |meth|
             old = klass.singleton_method(meth)
@@ -157,12 +157,6 @@ module Genius
     end
 
     class << self
-      # Validates the access token by checking length and making a test request to the API.
-      #
-      # @param [String?] token Token to validate.
-      # @param [String?] method_name Optional method name for error hints.
-      # @raise [StandardError] if +token+ is nil, wrong length, or invalid.
-      # @return [void]
       def validate_token(token, method_name: nil)
         raise TokenError.new(method_name: method_name) if token.nil? || token.size != 64
 
@@ -171,13 +165,36 @@ module Genius
         raise TokenError.new(method_name: method_name) unless status == 200
       end
 
-      # Validates token and raises on failure. Returns +true+ if valid.
+      # +Genius::Errors.error_handle(token)+              -> true or false
       #
-      # @deprecated Use {.validate_token} instead.
-      # @param [String?] token Token to validate.
-      # @param [String?] method_name Optional method name for error hints.
-      # @raise [StandardError] if token is invalid.
+      # @deprecated Since 0.2.1
+      # @param [String] token Token to access https://api.genius.com.
+      # @param [NilClass or String] method_name Optional param to pass method
+      # name where exception was raised.
       # @return [Boolean]
+      #
+      # @example
+      #     begin
+      #       Genius::Errors.validate_token(token)
+      #     rescue Genius::Errors::TokenError => e
+      #       puts e.message
+      #       puts e.exception_type
+      #     end
+      # This method is necessary to handle all errors during validation.
+      # +token+ param is not optional and it is needed to validate token
+      # itself. +method_name+ param optional and it to passes
+      # method name in error exception for dynamical error message, and
+      # because of unimportance this method is
+      # +nil+ by default. If you are ready to pass method, it will look like
+      # this:
+      #
+      # @example
+      #     begin
+      #       Genius::Errors.error_handle(token, method_name: __method__)
+      #     rescue Genius::Errors::TokenError => e
+      #       puts e.message
+      #       puts e.exception_type
+      #     end
       def error_handle?(token, method_name: nil)
         if token.nil?
           raise TokenError.new(msg: 'Token is required for this method. Please, add token via ' \
@@ -191,13 +208,20 @@ module Genius
 
       private
 
-      # Checks if the token returns a 200 status from the API.
+      # +Genius::Errors.check_status(token)+              -> true or false
       #
-      # @deprecated Use {.validate_token} instead.
+      # @deprecated Since 0.2.1
+      # This method was made to check token state. Token must be 64-sized
+      # string and could be validated only if response status equals 200.
+      # More description in {docs}[https://docs.genius.com/] and
+      # {api-clients page}[https://genius.com/api-clients] or in
+      # {TokenError documentation}[Genius::Auth.TokenError].
+      #
       # @private
-      # @param [String] token Token to check.
-      # @raise [TokenError] if the response status is not 200.
+      # @param [String] token Token to access https://api.genius.com.
       # @return [Boolean]
+      #
+      # @see .error_handle
       def check_status?(token)
         return false if token.size != 64 || token.nil?
 

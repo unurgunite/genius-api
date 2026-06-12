@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class String # :nodoc:
-  # Unescapes JSON-escaped double quotes in a string.
+  # +String#unescape+                                 -> String
   #
-  # @return [String]
+  # String#unescape method unescapes input JSON strings.
+  #
+  # @return [String (frozen)]
   def unescape
     string = gsub(/(?<!\\)(\\")/, '"')
     string.gsub(/(?<!\\)(\\\\")/, '\"')

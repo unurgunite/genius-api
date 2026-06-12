@@ -8,22 +8,31 @@ module Genius
   #     Genius::Auth.login="yuiaYqbncErCVwItjQxFspNWUZLhGpXrPbkvgbgHSEKJRAlToamzMfdOeDB"
   module Auth
     class << self
-      # Sets the authentication token after validation.
+      # +Genius::Auth.token=+                         -> true or false
+      #
+      # +Genius::Auth.token=+ is a setter which handles all possible exceptions
+      # under the hood during authentication. It means that you should never use
+      # +token=+ method unless you actually know that your credentials are
+      # valid (not recommended).
       #
       # @param [String] token Token to access https://api.genius.com.
-      # @raise [Genius::Errors::TokenError] if +token+ is invalid.
+      # @raise [TokenError] if +token+ is invalid.
       # @return [String]
+      # @see .authorized?
       def token=(token)
         Genius::Errors.validate_token(token)
         @token = token
       end
 
-      # Checks if the current token is authorized. Returns +false+ on validation failure.
+      # +Genius::Auth.authorized?+                    -> true or false
       #
-      # @param [String] token Token to validate.
-      # @param [String] method_name Method name for error messages.
-      # @raise [Genius::Errors::TokenError]
+      # +authorized?+ method checks if user in current session is authorized.
+      #
+      # @param [NilClass|String] method_name Optional param to pass method name
+      #     where exception was raised.
+      # @raise [TokenError] if +token+ is invalid.
       # @return [Boolean]
+      # @todo somehow detect exceptions as boolean type
       def authorized?(token = @token, method_name: "#{Module.nesting[1].name}.#{__method__}")
         Errors.validate_token(token, method_name: method_name)
       rescue Genius::Errors::TokenError
@@ -32,9 +41,12 @@ module Genius
         true
       end
 
-      # Revokes the current session by setting the token to +nil+.
+      # +Genius::Auth.logout!+                        -> NilClass
       #
-      # @return [nil]
+      # +logout!+ method modifies a +token+ object and revoke session by
+      # setting +nil+ to the +token+.
+      #
+      # @return [NilClass]
       def logout!
         @token = nil unless @token.nil?
       end

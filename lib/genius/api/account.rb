@@ -4,10 +4,21 @@ module Genius
   # +Genius::Account+ module provides methods to work with Genius account
   module Account
     class << self
-      # Returns account info for the authenticated user.
+      # +Genius::Account.account+                     -> value
       #
-      # @param [String?] token Token to access https://api.genius.com.
-      # @return [Hash, nil]
+      # An alias to {Genius::Account.account me} method
+      #
+      # @param [String] token Token to access https://api.genius.com.
+      # @raise [TokenError] if +token+ or +Genius::Auth.token+ are invalid.
+      # @return [Hash]
+      # @return [NilClass] if TokenError exception raised.
+      # This method is a standard Genius API {request}[https://docs.genius.com/#search-h2] to get
+      # account info. Output +JSON+ is translated to Hash structure to make it easy to work with account fields.
+      #
+      # @example
+      #     Genius::Auth.login="yuiaYqbncErCVwItjQxFspNWUZLhGpXrPbkvgbgHSEKJRAlToamzMfdOeDB"
+      #     Genius::Account.account #=> {"meta"=>{"status"=>200}, "response"=>{"user"=>{...}}}
+      # @todo somehow refactor 50/52 exceptions
       def account(token: nil)
         return if token.nil? && !Auth.authorized?.nil?
 
