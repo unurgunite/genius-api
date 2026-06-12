@@ -35,7 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'coderay'
   spec.add_development_dependency 'dotenv', '~> 2.7.6'
   spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'docscribe'
   spec.add_development_dependency 'rbs'
   spec.add_development_dependency 'rspec', '~> 3.4'
   spec.add_development_dependency 'rubocop'
