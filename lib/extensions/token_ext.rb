@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 class Object # :nodoc:
-  # +Object#token_ext+                                -> String
+  # Returns the provided token or falls back to +Genius::Auth+ stored token.
   #
-  # Helper method to check if token is correct
-  # @param [String] token Token to access https://api.genius.com.
+  # @param [String?] token Token or nil to use stored token.
   # @return [String]
   def token_ext(token)
     token || Genius::Auth.instance_variable_get(:@token)

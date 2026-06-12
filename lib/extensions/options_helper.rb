@@ -1,10 +1,10 @@
 # frozen_string_literal: false
 
 class Object # :nodoc:
-  # +Object#options_helper+                           -> String
+  # Builds a query string from allowed options keys.
   #
-  # @param [Hash] options Hash with params for response.
-  # @param [Array] arry Array of possible params for response.
+  # @param [Hash] options Options hash with symbol keys.
+  # @param [Array] arry Allowed keys to include in the query string.
   # @return [String]
   def options_helper(options, arry)
     params = ''
