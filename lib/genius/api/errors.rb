@@ -147,7 +147,7 @@ module Genius
           meths.each do |meth|
             old = klass.singleton_method(meth)
             klass.define_singleton_method(meth) do |*args, **kwargs|
-              old.unbind.bind_call(klass, *args, **kwargs)
+              old.unbind.bind(klass).call(*args, **kwargs)
             rescue exception => e
               yield(e)
             end
