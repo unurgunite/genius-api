@@ -1,0 +1,15 @@
+module Genius
+  module Songs
+    def self.songs: (?token: String?, ?song_id: Integer?, ?combine: bool) -> (Hash[untyped, untyped] | String | nil)
+
+    private
+
+    def self.merge_lyrics: (Integer song_id, Hash[untyped, untyped] response) -> (Hash[untyped, untyped] | String)
+
+    def self.parse_preloaded_state: (untyped output_html) -> Hash[untyped, untyped]
+
+    public
+
+    def self.get_lyrics: (Integer song_id) -> String
+  end
+end

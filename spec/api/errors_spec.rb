@@ -67,7 +67,7 @@ end
 
 describe Genius::Errors, ' .validate_token with nil token' do
   it 'raises TokenError' do
-    expect { Genius::Errors.validate_token(nil) }.to raise_error(Genius::Errors::TokenError)
+    expect { described_class.validate_token(nil) }.to raise_error(Genius::Errors::TokenError)
   end
 end
 
@@ -75,7 +75,7 @@ describe Genius::Errors, ' .validate_token with short token' do
   let(:short_token) { 'short_token' }
 
   it 'raises TokenError' do
-    expect { Genius::Errors.validate_token(short_token) }.to raise_error(Genius::Errors::TokenError)
+    expect { described_class.validate_token(short_token) }.to raise_error(Genius::Errors::TokenError)
   end
 end
 
@@ -87,7 +87,7 @@ describe Genius::Errors, ' .validate_token with valid token and 200 response' do
   before { allow(HTTParty).to receive(:get).and_return(mock_response) }
 
   it 'does not raise an error' do
-    expect { Genius::Errors.validate_token(valid_token) }.not_to raise_error
+    expect { described_class.validate_token(valid_token) }.not_to raise_error
   end
 end
 
@@ -99,13 +99,13 @@ describe Genius::Errors, ' .validate_token with valid token and non-200 response
   before { allow(HTTParty).to receive(:get).and_return(mock_response) }
 
   it 'raises TokenError' do
-    expect { Genius::Errors.validate_token(valid_token) }.to raise_error(Genius::Errors::TokenError)
+    expect { described_class.validate_token(valid_token) }.to raise_error(Genius::Errors::TokenError)
   end
 end
 
 describe Genius::Errors, ' .error_handle? with nil token' do
   it 'raises TokenError with a specific message' do
-    expect { Genius::Errors.error_handle?(nil) }.to raise_error(Genius::Errors::TokenError)
+    expect { described_class.error_handle?(nil) }.to raise_error(Genius::Errors::TokenError)
   end
 end
 
@@ -113,7 +113,7 @@ describe Genius::Errors, ' .error_handle? with short token' do
   let(:short_token) { 'short_token' }
 
   it 'raises TokenError' do
-    expect { Genius::Errors.error_handle?(short_token) }.to raise_error(Genius::Errors::TokenError)
+    expect { described_class.error_handle?(short_token) }.to raise_error(Genius::Errors::TokenError)
   end
 end
 
@@ -125,6 +125,6 @@ describe Genius::Errors, ' .error_handle? with valid token' do
   before { allow(HTTParty).to receive(:get).and_return(mock_response) }
 
   it 'returns true' do
-    expect(Genius::Errors.error_handle?(valid_token)).to be true
+    expect(described_class.error_handle?(valid_token)).to be true
   end
 end

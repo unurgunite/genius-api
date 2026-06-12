@@ -34,10 +34,12 @@ end
 describe Genius::WebPages, ' .lookup with URL variants' do
   let(:token) { 'a' * 64 }
   let(:response_body) { { 'meta' => { 'status' => 200 }, 'response' => { 'web_page' => { 'id' => 1, 'url' => 'https://example.com' } } }.to_json }
+
   before do
     allow(Genius::Errors).to receive(:validate_token)
     allow(HTTParty).to receive(:get).and_return(response_body)
   end
+
   it 'includes query parameters' do
     described_class.lookup(
       token: token,

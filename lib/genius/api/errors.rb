@@ -112,7 +112,7 @@ module Genius
       # @return [TrueClass] if genius page is not found
       # @return [FalseClass] if genius page is found
       def self.page_not_found?(html)
-        html.text.match?(/Page not found/)
+        html.text.include?('Page not found')
       end
     end
 
@@ -147,9 +147,9 @@ module Genius
           meths.each do |meth|
             old = klass.singleton_method(meth)
             klass.define_singleton_method(meth) do |*args, **kwargs|
-              old.unbind.bind(klass).call(*args, **kwargs)
+              old.unbind.bind_call(klass, *args, **kwargs)
             rescue exception => e
-              handler.call(e)
+              yield(e)
             end
           end
         end

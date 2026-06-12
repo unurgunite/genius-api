@@ -39,6 +39,7 @@ describe Genius::Songs, ' .songs with combine true' do
       ["<script>window.__PRELOADED_STATE__ = JSON.parse('{\\\"lyrics\\\":\\\"test lyrics\\\"}');</script>"]
   end
   let(:html_body) { "<html><head></head><body>#{scripts.join}</body></html>" }
+
   before do
     allow(Genius::Errors).to receive(:validate_token)
     allow(HTTParty).to receive(:get).with("https://api.genius.com/songs/#{song_id}?access_token=#{token}")
@@ -46,6 +47,7 @@ describe Genius::Songs, ' .songs with combine true' do
     allow(HTTParty).to receive(:get).with("https://genius.com/songs/#{song_id}")
                                     .and_return(html_body)
   end
+
   it 'fetches lyrics page and includes lyrics in the response' do
     result = described_class.songs(token: token, song_id: song_id, combine: true)
     expect(result).to be_a(Hash)

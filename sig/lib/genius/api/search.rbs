@@ -1,0 +1,5 @@
+module Genius
+  module Search
+    def self.search: (?token: String?, ?query: String?, ?search_by: untyped) -> (Hash[untyped, untyped] | String | nil)
+  end
+end

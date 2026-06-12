@@ -1,0 +1,3 @@
+class Object
+  def options_helper: (Hash[untyped, untyped] options, Array[untyped] arry) -> String
+end
