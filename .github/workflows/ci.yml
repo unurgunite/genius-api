@@ -1,4 +1,3 @@
----
 name: CI
 
 on:
@@ -17,11 +16,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      # Remove pre-installed Ruby 4.0 (broken on ubuntu-latest)
-      - name: Remove pre-installed Ruby ${{ matrix.ruby }}
-        if: matrix.ruby == '4.0'
-        run: rm -rf /opt/hostedtoolcache/Ruby/4.0*
 
       - name: Install Ruby ${{ matrix.ruby }}
         uses: ruby/setup-ruby@v1
