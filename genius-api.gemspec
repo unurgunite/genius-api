@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'httparty', '~> 0.21'
   spec.add_dependency 'nokogiri'
   spec.add_development_dependency 'coderay'
+  spec.add_development_dependency 'docscribe'
   spec.add_development_dependency 'dotenv', '~> 2.7.6'
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rbs'
